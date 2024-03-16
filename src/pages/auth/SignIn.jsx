@@ -1,11 +1,14 @@
 import { Flex, Input, Form, Button, Card, Space } from 'antd'
 import React from 'react'
+import handleSignIn from '../../Utils/Auth/SignIn';
 
 const SignIn = () => {
 
   const handleOnSubmt = async (values) => {
-    console.log('Received values of form: ', values)
+    console.log('Received values of form: ', values);
+    await handleSignIn(values);
   }
+  
   return (
     <>
 

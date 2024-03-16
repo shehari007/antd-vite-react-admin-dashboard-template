@@ -4,8 +4,8 @@ import MainLayout from "./layout/MainLayout";
 
 export const ProtectedRoute = () => {
 
-    const isAuthenticated = true
-    if (isAuthenticated === true) {
+    const isAuthenticated = localStorage.getItem('Auth')
+    if (!isAuthenticated) {
         return <Navigate to='/signin' replace />
     }
     return (

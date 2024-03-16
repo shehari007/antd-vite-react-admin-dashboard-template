@@ -1,7 +1,11 @@
 import React from 'react';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
-const { Header, Content, Footer, Sider } = Layout;
+import { Image, Layout, Menu, Space, theme, Typography } from 'antd';
+import LayoutFooter from './LayoutFooter';
+import LayoutHeader from './LayoutHeader';
+
+const { Link } = Typography;
+const { Header, Content, Sider } = Layout;
 const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
   (icon, index) => ({
     key: String(index + 1),
@@ -9,10 +13,12 @@ const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].
     label: `nav ${index + 1}`,
   }),
 );
+
 const MainLayout = ({children}) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
   return (
     <Layout style={{height:'100vh'}}>
       <Sider
@@ -25,18 +31,13 @@ const MainLayout = ({children}) => {
           console.log(collapsed, type);
         }}
       >
-        <div className="demo-logo-vertical" style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'5px'}}>
-          <img src='/vite.svg' alt='logo'/>
+        <div className="demo-logo-vertical" style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'1rem', marginBottom:'2rem'}}>
+          <Image src='/vite.svg' alt='logo' height={80} width={80} preview={false}/>
         </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
       </Sider>
       <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
+        <LayoutHeader/>
         <Content
           style={{
             margin: '24px 16px 0',
@@ -53,13 +54,7 @@ const MainLayout = ({children}) => {
             {children}
           </div>
         </Content>
-        <Footer
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
+       <LayoutFooter/>
       </Layout>
     </Layout>
   );

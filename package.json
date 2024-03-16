@@ -5,7 +5,7 @@
     "email": "shehariyar@gmail.com",
     "url": "https://github.com/shehari007"
   },
-  "homepage": "/home",
+  "homepage": "/dashboard/home",
   "private": true,
   "version": "1.0.0",
   "type": "module",
