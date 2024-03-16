@@ -1,4 +1,4 @@
-import { Flex, Input, Form, Button, Card, Space } from 'antd'
+import { Flex, Input, Form, Button, Card, Space, Image } from 'antd'
 import React from 'react'
 import handleSignIn from '../../Utils/Auth/SignIn';
 
@@ -12,10 +12,13 @@ const SignIn = () => {
   return (
     <>
 
-      <Flex align='center' justify='centrer' vertical style={{ marginTop: '30vh' }}>
+      <Flex align='center' justify='centrer' vertical style={{ marginTop: '10vh' }}>
         <Card
+        style={{
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+        }}
         >
-          <Flex align='center' justify='center'><img src='/vite.svg' alt='signin' /></Flex>
+          <Flex align='center' justify='center'><Image src='/vite.svg' height={150} width={150} preview={false} alt='signin' /></Flex>
           <br />
           <Form
             onFinish={handleOnSubmt}
