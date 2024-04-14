@@ -15,11 +15,16 @@ const MainLayout = ({ children }) => {
   return (
     <Layout style={{ height: '100vh' }}>
       <LayoutSidebar />
-      <Layout>
+      <Layout
+      style={{
+        overflow: 'auto',
+
+      }}>
         <LayoutHeader />
         <Content
           style={{
             margin: '24px 16px 0',
+            flex: '1 0 auto',
           }}
         >
           <div
