@@ -1,70 +1,170 @@
-import { Flex, Input, Form, Button, Card, Space, Image } from 'antd'
-import React from 'react'
+import React from 'react';
+import {
+  Flex,
+  Input,
+  Form,
+  Button,
+  Card,
+  Space,
+  Image,
+  Typography,
+  Divider,
+  Checkbox,
+  Grid,
+} from 'antd';
+import {
+  MailOutlined,
+  LockOutlined,
+  GoogleOutlined,
+  GithubOutlined,
+} from '@ant-design/icons';
 import handleSignIn from '../../Utils/Auth/SignIn';
 
-const SignIn = () => {
+const { Title, Text, Link } = Typography;
+const { useBreakpoint } = Grid;
 
-  const handleOnSubmt = async (values) => {
+const SignIn = () => {
+  const screens = useBreakpoint();
+  const isMobile = !screens.sm;
+
+  const handleOnSubmit = async (values) => {
     console.log('Received values of form: ', values);
     await handleSignIn(values);
-  }
-  
+  };
+
   return (
-    <>
-
-      <Flex align='center' justify='centrer' vertical style={{ marginTop: '10vh' }}>
-        <Card
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: isMobile ? 16 : 24,
+      }}
+    >
+      <Card
         style={{
-          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+          width: '100%',
+          maxWidth: 420,
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+          borderRadius: 12,
         }}
+      >
+        <Space
+          direction="vertical"
+          size="middle"
+          style={{ width: '100%', textAlign: 'center' }}
         >
-          <Flex align='center' justify='center'><Image src='/vite.svg' height={150} width={150} preview={false} alt='signin' /></Flex>
-          <br />
-          <Form
-            onFinish={handleOnSubmt}
-            layout='vertical'
-            style={{ width: '250px' }}
-          >
+          <div>
+            <Image
+              src="/vite.svg"
+              height={60}
+              width={60}
+              preview={false}
+              alt="logo"
+            />
+            <Title level={3} style={{ marginTop: 16, marginBottom: 4 }}>
+              Welcome Back
+            </Title>
+            <Text type="secondary">Sign in to continue to your dashboard</Text>
+          </div>
 
-            <Form.Item label="Email" name="email"
+          <Form
+            onFinish={handleOnSubmit}
+            layout="vertical"
+            style={{ width: '100%', marginTop: 8 }}
+            initialValues={{ remember: true }}
+          >
+            <Form.Item
+              name="email"
               rules={[
                 {
                   required: true,
-                  type: 'email'
+                  message: 'Please enter your email!',
+                },
+                {
+                  type: 'email',
+                  message: 'Please enter a valid email!',
                 },
               ]}
             >
-              <Input placeholder='email' size='large' />
+              <Input
+                prefix={<MailOutlined style={{ color: '#bfbfbf' }} />}
+                placeholder="Email address"
+                size="large"
+              />
             </Form.Item>
 
-            <Form.Item label="Password" name="password"
+            <Form.Item
+              name="password"
               rules={[
                 {
                   required: true,
-                  message: 'Please input your password!'
+                  message: 'Please enter your password!',
                 },
               ]}
             >
-              <Input.Password placeholder='password' size='large' />
+              <Input.Password
+                prefix={<LockOutlined style={{ color: '#bfbfbf' }} />}
+                placeholder="Password"
+                size="large"
+              />
             </Form.Item>
 
             <Form.Item>
-              <Space direction='vertical' style={{ width: '100%' }}>
-                <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                  Sign In
-                </Button>
-                <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                  Forgot Password?
-                </Button>
-              </Space>
+              <Flex justify="space-between" align="center">
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                  <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+                <Link>Forgot password?</Link>
+              </Flex>
             </Form.Item>
 
+            <Form.Item style={{ marginBottom: 12 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                block
+                style={{ height: 45, fontWeight: 500 }}
+              >
+                Sign In
+              </Button>
+            </Form.Item>
           </Form>
-        </Card>
-      </Flex>
 
-    </>
-  )
-}
+          <Divider plain>
+            <Text type="secondary">or continue with</Text>
+          </Divider>
 
-export default SignIn
+          <Space size="middle">
+            <Button
+              icon={<GoogleOutlined />}
+              size="large"
+              style={{ width: 100 }}
+            >
+              Google
+            </Button>
+            <Button
+              icon={<GithubOutlined />}
+              size="large"
+              style={{ width: 100 }}
+            >
+              GitHub
+            </Button>
+          </Space>
+
+          <div style={{ marginTop: 16 }}>
+            <Text type="secondary">
+              Don't have an account?{' '}
+              <Link strong>Sign up now</Link>
+            </Text>
+          </div>
+        </Space>
+      </Card>
+    </div>
+  );
+};
+
+export default SignIn;
