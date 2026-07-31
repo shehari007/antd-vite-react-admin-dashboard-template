@@ -1,67 +1,87 @@
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Space, Tooltip, Typography } from 'antd';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Dropdown, Tooltip } from 'antd';
+import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import handleLogOut from '../Utils/Auth/Logout';
-import { APP_VERSION } from '../config/appInfo';
 
-const { Text } = Typography;
-
+/* Fixed 64px in both states, matching the brand block, so the rail has
+ * symmetric caps and nothing snaps mid-collapse. Collapsed, logout *moves*
+ * into a dropdown rather than disappearing — it used to be unreachable.
+ *
+ * antd's Space is deliberately not used here: it wraps every child in a
+ * .ant-space-item div that keeps min-width:auto, which is why the name never
+ * ellipsised and a long one pushed the logout button past the rail edge into
+ * overflow:hidden, silently making it unclickable. */
 const LayoutUserCard = ({ collapsed }) => {
   const navigate = useNavigate();
 
-  return (
-    <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-      <div
-        style={{
-          padding: collapsed ? '12px 0' : '12px 16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: collapsed ? 'center' : 'space-between',
-          gap: 8,
-        }}
-      >
-        <Space
-          size={8}
-          style={{ cursor: 'pointer', minWidth: 0 }}
-          onClick={() => navigate('/dashboard/profile')}
-        >
-          <Avatar size={32} style={{ backgroundColor: '#1677ff', flexShrink: 0 }} icon={<UserOutlined />} />
-          {!collapsed && (
-            <Space direction="vertical" size={0} style={{ minWidth: 0 }}>
-              <Text
-                style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: 13, lineHeight: 1.3 }}
-                ellipsis
-              >
-                Admin User
-              </Text>
-              <Text style={{ color: 'rgba(255, 255, 255, 0.45)', fontSize: 12, lineHeight: 1.3 }}>
-                Administrator
-              </Text>
-            </Space>
-          )}
-        </Space>
-        {!collapsed && (
-          <Tooltip title="Logout">
-            <LogoutOutlined
-              style={{ color: 'rgba(255, 255, 255, 0.45)', cursor: 'pointer' }}
-              onClick={() => handleLogOut()}
-            />
-          </Tooltip>
-        )}
-      </div>
-      {!collapsed && (
-        <Text
-          style={{
-            display: 'block',
-            color: 'rgba(255, 255, 255, 0.35)',
-            fontSize: 11,
-            textAlign: 'center',
-            padding: '0 16px 12px',
+  const avatar = (
+    <Avatar size={32} style={{ backgroundColor: '#1677ff', flexShrink: 0 }} icon={<UserOutlined />} />
+  );
+
+  if (collapsed) {
+    return (
+      <div className="app-sider__footer">
+        <Dropdown
+          placement="topLeft"
+          trigger={['click']}
+          menu={{
+            items: [
+              {
+                key: 'profile',
+                icon: <UserOutlined />,
+                label: 'Profile',
+                onClick: () => navigate('/dashboard/profile'),
+              },
+              {
+                key: 'settings',
+                icon: <SettingOutlined />,
+                label: 'Settings',
+                onClick: () => navigate('/dashboard/settings'),
+              },
+              { type: 'divider' },
+              {
+                key: 'logout',
+                icon: <LogoutOutlined />,
+                label: 'Log out',
+                danger: true,
+                onClick: () => handleLogOut(),
+              },
+            ],
           }}
         >
-          ViteDash v{APP_VERSION}
-        </Text>
-      )}
+          <Tooltip title="Admin User" placement="right">
+            <Button type="text" className="app-sider__identity" aria-label="Account menu">
+              {avatar}
+            </Button>
+          </Tooltip>
+        </Dropdown>
+      </div>
+    );
+  }
+
+  return (
+    <div className="app-sider__footer">
+      <Button
+        type="text"
+        className="app-sider__identity"
+        onClick={() => navigate('/dashboard/profile')}
+      >
+        {avatar}
+        <span className="app-sider__identity-text">
+          <span className="app-sider__identity-name">Admin User</span>
+          <span className="app-sider__identity-role">Administrator</span>
+        </span>
+      </Button>
+      <Tooltip title="Log out">
+        <Button
+          type="text"
+          shape="circle"
+          className="app-sider__logout"
+          aria-label="Log out"
+          icon={<LogoutOutlined />}
+          onClick={() => handleLogOut()}
+        />
+      </Tooltip>
     </div>
   );
 };

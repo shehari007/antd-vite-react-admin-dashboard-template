@@ -28,6 +28,7 @@ const App = () => (
       <Route path="/signup" element={<SignUp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/dashboard" element={<ProtectedRoute />}>
+        <Route index element={<Navigate to="home" replace />} />
         <Route path="home" element={<Home />} />
         <Route path="blank" element={<Blank />} />
         <Route path="tables" element={<Tables />} />
@@ -61,6 +62,12 @@ const App = () => (
         <Route
           path="errors/500"
           element={<ErrorPage status="500" title="500" subTitle="Sorry, something went wrong on our server." />}
+        />
+        {/* Unknown /dashboard paths keep the shell rather than dropping the
+            user onto a bare full-page 404. */}
+        <Route
+          path="*"
+          element={<ErrorPage status="404" title="404" subTitle="Sorry, the page you visited does not exist." />}
         />
       </Route>
       <Route path="*" element={<NotFound />} />

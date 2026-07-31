@@ -44,7 +44,7 @@ const notifications = [
 
 const iconButtonStyle = { fontSize: 16, width: 36, height: 36 };
 
-const LayoutHeader = ({ collapsed, toggleSidebar, isMobile }) => {
+const LayoutHeader = ({ navExpanded, toggleSidebar, isMobile }) => {
   const navigate = useNavigate();
   const { isDark, toggleMode } = useThemeMode();
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -134,11 +134,17 @@ const LayoutHeader = ({ collapsed, toggleSidebar, isMobile }) => {
       }}
     >
       <Space size={isMobile ? 4 : 12} style={{ minWidth: 0 }}>
+        {/* Driven by the real nav state. The old `collapsed || isMobile`
+            expression always rendered the unfold glyph on mobile, even with the
+            drawer wide open. */}
         <Button
           type="text"
           shape="circle"
-          icon={collapsed || isMobile ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          icon={navExpanded ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
           onClick={toggleSidebar}
+          aria-label={navExpanded ? 'Close navigation' : 'Open navigation'}
+          aria-expanded={navExpanded}
+          aria-controls="app-sidebar"
           style={iconButtonStyle}
         />
         {!isMobile && (
@@ -170,6 +176,7 @@ const LayoutHeader = ({ collapsed, toggleSidebar, isMobile }) => {
                 shape="circle"
                 icon={isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
                 onClick={toggleFullscreen}
+                aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
                 style={iconButtonStyle}
               />
             </Tooltip>
@@ -191,7 +198,13 @@ const LayoutHeader = ({ collapsed, toggleSidebar, isMobile }) => {
           trigger={['click']}
         >
           <Badge count={notifications.length} size="small">
-            <Button type="text" shape="circle" icon={<BellOutlined />} style={iconButtonStyle} />
+            <Button
+              type="text"
+              shape="circle"
+              icon={<BellOutlined />}
+              aria-label={`Notifications, ${notifications.length} unread`}
+              style={iconButtonStyle}
+            />
           </Badge>
         </Dropdown>
 

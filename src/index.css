@@ -20,60 +20,459 @@ html,
 body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
 }
 
 #root {
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
-/* Smooth transitions for layout changes */
-.ant-layout {
-  transition: all 0.2s ease;
+/* ===========================================================================
+   SIDEBAR
+   Everything hangs off --rail-axis: the x-coordinate of every icon centre,
+   identical whether the rail is 248px or 80px wide. Collapsing is clipping,
+   not re-layout.
+   =========================================================================== */
+
+/* On :root because .app-flyout is portaled into document.body. Not
+   theme-dependent — the rail is dark in both app themes. */
+:root {
+  --rail-axis: 40px;
+  --rail-inset: 24px; /* left inset for 32px chrome: 24 + 32/2 = 40 */
+  --rail-bg: #101b34;
+  --rail-bg-elevated: #1b2a49;
+  --rail-line: rgba(255, 255, 255, 0.07);
+  --rail-line-strong: rgba(255, 255, 255, 0.1);
+  --rail-accent: #1677ff;
+  --rail-focus: #8cc2ff;
+  --rail-ease: cubic-bezier(0.2, 0, 0, 1);
+  --rail-dur: 0.2s;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* The inner Layout owns overflow:auto, so the body never scrolls and the
+   mobile URL bar never retracts — 100vh would leave the footer permanently
+   under browser chrome. */
+.app-shell {
+  height: 100vh;
+  height: 100dvh;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.app-sider {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: 100;
+  overflow: hidden;
+  box-shadow: 4px 0 24px -16px rgba(0, 0, 0, 0.45);
+  --rail-w: 248px;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+.ant-layout-sider-collapsed.app-sider {
+  --rail-w: 80px;
+}
+
+.app-sider__inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Tablet overlay: above the header (99), below the rail (100). */
+.app-sider__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.45);
+  animation: app-scrim-in 0.2s var(--rail-ease);
+}
+
+@keyframes app-scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* --- Brand block. Padding and justification never change between states, so
+   the mark is immobile; only the wordmark fades. --------------------------- */
+.app-sider__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 64px;
+  flex-shrink: 0;
+  padding-inline: var(--rail-inset) 16px;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.app-sider__mark {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-sider__mark img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.app-sider__wordmark {
+  font-size: 17px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: opacity 0.16s var(--rail-ease);
+}
+
+.app-sider__wordmark b { font-weight: 700; color: #fff; }
+.app-sider__wordmark i { font-style: normal; font-weight: 400; color: rgba(255, 255, 255, 0.7); }
+.ant-layout-sider-collapsed .app-sider__wordmark { opacity: 0; }
+
+.app-sider__brand:focus-visible {
+  outline: 2px solid var(--rail-focus);
+  outline-offset: -3px;
+  border-radius: 10px;
+}
+
+/* --- Scroll region ------------------------------------------------------- */
+.app-sider__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding-block: 8px 12px;
+}
+
+/* Pin the <ul> to the rail width. antd derives the collapsed icon centre from
+   the ul's OWN width — calc(50% - iconSize/2 - itemMarginInline) — so letting a
+   scrollbar shrink it from 80px to 74px would drag every icon 3px off-axis the
+   moment the nav overflowed. Pinned, the scrollbar overlays the right gutter
+   instead, which is pure margin: the pill only ever spans x=8..72. */
+.app-sider__scroll > .app-nav {
+  width: var(--rail-w, 248px);
+}
+
+.app-sider__scroll::-webkit-scrollbar { width: 6px; }
+.app-sider__scroll::-webkit-scrollbar-track { background: transparent; }
+.app-sider__scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 3px;
+}
+.app-sider__scroll::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+.app-sider__scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+/* --- Menu chrome --------------------------------------------------------- */
+.app-nav.ant-menu {
+  background: transparent;
+  border-inline-end: 0;
+}
+
+.app-nav .ant-menu-title-content { font-size: 13px; }
+.app-nav .ant-menu-submenu-title { font-weight: 500; }
+.app-nav .ant-menu-sub .ant-menu-title-content { font-weight: 400; }
+
+/* --- Section labels. Left edge 32px == the group icons' left edge, so they
+   head the icon column rather than introducing another axis. ---------------- */
+.app-nav .ant-menu-item-group-title {
+  height: 16px;
+  line-height: 16px;
+  padding: 0 16px 0 32px;
+  margin: 12px 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.app-nav > .ant-menu-item-group:first-of-type > .ant-menu-item-group-title {
+  margin-top: 4px;
+}
+
+/* antd does NOT hide group titles when collapsed — it only clips them — so the
+   word would sit truncated in the 80px rail. Become a hairline on the axis. */
+.app-nav.ant-menu-inline-collapsed .ant-menu-item-group-title {
+  height: 1px;
+  line-height: 0;
+  padding: 0;
+  margin: 12px 20px 11px;
+  text-indent: -999px;
+  overflow: hidden;
+  background: var(--rail-line-strong);
+}
+
+.app-nav.ant-menu-inline-collapsed > .ant-menu-item-group:first-of-type > .ant-menu-item-group-title {
+  display: none; /* no rule immediately under the brand block */
+}
+
+/* --- Icons. Colour arrives as a custom property set per group in JSX, so
+   hover and selected states can act on it. An inline `color` could not be
+   overridden, which is why the selected glyph used to stay pastel. ---------- */
+.app-nav .ant-menu-item-icon,
+.app-nav .anticon,
+.app-flyout .ant-menu-item-icon,
+.app-flyout .anticon {
+  color: var(--nav-accent, currentColor);
+  transition: filter 0.15s ease, color 0.18s ease;
+}
+
+.app-nav .ant-menu-submenu-title:hover .anticon,
+.app-nav .ant-menu-item:hover .anticon {
+  filter: brightness(1.15);
+}
+
+/* --- Active indicator: 3px bar + tinted pill.
+   A ::before, not the activeBarWidth token — any non-zero activeBarWidth flips
+   antd's internal itemWidth to calc(100% + 1px), the item outgrows the rail and
+   the collapsed centring breaks. antd already sets position:relative on these. */
+.app-nav .ant-menu-item::before,
+.app-nav .ant-menu-submenu > .ant-menu-submenu-title::before,
+.app-flyout .ant-menu-item::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  width: 3px;
+  height: 0;
+  transform: translateY(-50%);
+  border-radius: 0 3px 3px 0;
+  background: var(--rail-accent);
+  transition: height 0.18s var(--rail-ease);
+  pointer-events: none;
+}
+
+.app-nav .ant-menu-item-selected::before,
+.app-flyout .ant-menu-item-selected::before {
+  height: 20px;
+}
+
+/* Expanded, the pill belongs to the leaf; the group is signalled on its title. */
+.app-nav:not(.ant-menu-inline-collapsed) .app-nav__group--active > .ant-menu-submenu-title,
+.app-nav:not(.ant-menu-inline-collapsed) .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Collapsed, the leaf is invisible, so the group takes the pill and the bar.
+   antd ships nothing for .ant-menu-submenu-selected here beyond a text colour,
+   so without this a collapsed rail on an active route shows only a white icon.
+
+   The --active class is derived in navConfig rather than relying on antd's
+   own ant-menu-submenu-selected: collapsed, a group's children are portaled
+   into a flyout, so nothing in the rail's subtree can see the selected leaf.
+   Both selectors are listed so the state also holds if antd's class is present. */
+.app-nav.ant-menu-inline-collapsed .app-nav__group--active > .ant-menu-submenu-title,
+.app-nav.ant-menu-inline-collapsed .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  background: rgba(22, 119, 255, 0.16);
+  color: #fff;
+}
+
+.app-nav.ant-menu-inline-collapsed .app-nav__group--active > .ant-menu-submenu-title::before,
+.app-nav.ant-menu-inline-collapsed .ant-menu-submenu-selected > .ant-menu-submenu-title::before {
+  height: 20px;
+}
+
+/* --- Tree rail for open groups, sitting on the axis: it lines up with the
+   parent icon's centre. Replaces the old darkSubMenuItemBg panel, which
+   measured 1.05:1 against the rail and was effectively invisible. ----------- */
+.app-nav .ant-menu-sub.ant-menu-inline {
+  position: relative;
+  background: transparent;
+}
+
+.app-nav .ant-menu-sub.ant-menu-inline::before {
+  content: '';
+  position: absolute;
+  inset-block: 2px;
+  inset-inline-start: var(--rail-axis);
+  width: 1px;
+  background: var(--rail-line-strong);
+  pointer-events: none;
+}
+
+.app-nav .ant-menu-sub.ant-menu-inline .ant-menu-item { color: rgba(255, 255, 255, 0.66); }
+.app-nav .ant-menu-sub.ant-menu-inline .ant-menu-item:hover,
+.app-nav .ant-menu-sub.ant-menu-inline .ant-menu-item-selected { color: #fff; }
+
+/* --- External-link marker. antd's `extra` slot is flush-right via
+   margin-inline-start:auto, so it sits outside the label's ellipsis box. ---- */
+.app-nav .ant-menu-item-extra { opacity: 0.6; }
+.app-nav .ant-menu-item:hover .ant-menu-item-extra { opacity: 1; }
+
+/* --- Collapsed flyout. popupRender inserts a wrapper div, which defeats
+   antd's `.ant-menu-submenu-popup > .ant-menu` background (a direct-child
+   selector), so the panel paints its own surface. darkPopupBg is still set for
+   the unwrapped case. ------------------------------------------------------ */
+.app-flyout .app-flyout__panel {
+  background: var(--rail-bg-elevated);
+  border: 1px solid var(--rail-line-strong);
+  border-radius: 10px;
+  padding: 6px;
+  min-width: 216px;
+  max-width: 320px;
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.55);
+}
+
+.app-flyout .app-flyout__title {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.48);
+  padding: 6px 10px 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.app-flyout .ant-menu.ant-menu-sub {
+  background: transparent;
+  box-shadow: none;
+  border-inline-end: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+.app-flyout .ant-menu-item { font-size: 13px; }
+
+/* --- Footer. Fixed 64px in both states, matching the brand block, so nothing
+   snaps mid-collapse. Avatar centre lands on the axis either way. ----------- */
+.app-sider__footer {
+  flex-shrink: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-inline: var(--rail-inset) 16px;
+  border-top: 1px solid var(--rail-line);
+  overflow: hidden;
+}
+
+.app-sider__footer .ant-btn { border-radius: 8px; }
+
+.app-sider__identity {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.app-sider__identity-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.app-sider__identity-name,
+.app-sider__identity-role {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-sider__identity-name { font-size: 13px; line-height: 1.35; color: rgba(255, 255, 255, 0.88); }
+.app-sider__identity-role { font-size: 11px; line-height: 1.35; color: rgba(255, 255, 255, 0.45); }
+.app-sider__logout { flex-shrink: 0; color: rgba(255, 255, 255, 0.55); }
+.app-sider__logout:hover { color: #fff; }
+
+/* Collapsed, the avatar must sit on the axis like everything else: the footer's
+   24px inset already places a 32px avatar there, so the button must not add
+   any of its own box. */
+.ant-layout-sider-collapsed .app-sider__identity {
+  flex: 0 0 auto;
+  width: 32px;
+}
+
+/* --- Focus. antd's ring targets .ant-menu-item:focus-visible — the <li> — but
+   every row wraps its label in an <a>, so focus actually lands on the anchor
+   and that selector never matches. Inset box-shadow rather than outline so it
+   follows the 8px radius and survives the item's overflow:hidden. ---------- */
+.app-nav .ant-menu-item:has(:focus-visible),
+.app-nav .ant-menu-item:focus-visible,
+.app-nav .ant-menu-submenu-title:focus-visible,
+.app-flyout .ant-menu-item:has(:focus-visible),
+.app-flyout .ant-menu-item:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--rail-focus);
+}
+
+/* Fallback for engines without :has() — traces the text box instead of the row. */
+.app-nav a:focus-visible,
+.app-flyout a:focus-visible {
+  outline: 2px solid var(--rail-focus);
+  outline-offset: 2px;
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+/* --- Timing. One curve, one duration across the whole gesture. !important is
+   required: antd's own item-padding transition is injected at runtime, i.e.
+   after this file, and runs 0.1s expanded / 0.4s collapsed against the Sider's
+   0.2s — which is what made the icons lag and overshoot the rail edge. ------ */
+.app-sider .ant-menu-item,
+.app-sider .ant-menu-submenu-title {
+  transition: background-color 0.18s ease, color 0.18s ease,
+    padding var(--rail-dur) var(--rail-ease) !important;
 }
 
-/* Responsive improvements */
+.app-content-shell { transition: margin-left var(--rail-dur) var(--rail-ease); }
+
+/* --- Mobile drawer ------------------------------------------------------- */
+.app-drawer .ant-drawer-body { padding: 0; background: var(--rail-bg); }
+.app-drawer .ant-drawer-header { background: var(--rail-bg); border-bottom: 0; padding: 8px 12px; }
+.app-drawer .ant-drawer-close { color: rgba(255, 255, 255, 0.65); }
+.app-drawer .ant-drawer-close:hover { color: #fff; }
+
+/* ===========================================================================
+   APP
+   =========================================================================== */
+
+/* Was `transition: all` — it animated height on every resize, cross-faded the
+   background on the theme toggle, and fought the explicit margin-left
+   transition on the very same element. */
+.ant-layout { transition: background-color 0.2s ease; }
+
+/* Keyed off data-theme (set by ThemeModeContext) rather than a media query:
+   the dashboard's dark mode is explicit state, not an OS preference. The rail
+   is excluded — it styles its own scrollbar above. */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+
+:root[data-theme='dark'] ::-webkit-scrollbar-track { background: #1f1f1f; }
+:root[data-theme='dark'] ::-webkit-scrollbar-thumb { background: #434343; }
+:root[data-theme='dark'] ::-webkit-scrollbar-thumb:hover { background: #5a5a5a; }
+
 @media (max-width: 576px) {
-  .ant-card {
-    border-radius: 8px !important;
+  .ant-card { border-radius: 8px !important; }
+  .ant-table-wrapper { overflow-x: auto; }
+}
+
+/* Must stay last: the timing rule above uses !important, and equal-specificity
+   !important declarations resolve by source order. Pairs with token.motion in
+   ThemeModeContext, which stops antd's JS-driven animations. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-
-  .ant-table-wrapper {
-    overflow-x: auto;
-  }
-}
-
-/* Fix for drawer on mobile */
-.ant-drawer-body {
-  padding: 0 !important;
-}
-
-/* Menu item hover effect */
-.ant-menu-item {
-  transition: all 0.2s ease;
-}
-
-/* Better button transitions */
-.ant-btn {
-  transition: all 0.2s ease;
 }

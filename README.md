@@ -17,23 +17,52 @@
 
 ## Features
 
-- **Fully Responsive** - Works seamlessly on desktop, tablet, and mobile devices
+- **Fully Responsive** - Three distinct navigation states: a full sidebar on desktop, a persistent icon rail on tablet, and a drawer on mobile
 - **Modern UI** - Clean, professional design using Ant Design 6 with the Inter typeface
 - **Lightning Fast** - Powered by Vite 8 for instant HMR and optimized builds
 - **Authentication Ready** - Sign in, sign up, forgot password, protected routes, and a split-screen `AuthLayout`
 - **System-Wide Light/Dark Mode** - Powered entirely by Ant Design's `ConfigProvider` theme algorithm, not CSS overrides. Persisted to `localStorage` and defaults to the OS preference
 - **Header Quick Actions** - Global search, quick-create dropdown, fullscreen toggle, notifications, and theme switch
-- **Professional Sidebar** - Collapsible, accordion-style navigation groups with colorful icons, an "Error Pages" and "Auth Pages" section, and a pinned account card
+- **Precision Sidebar** - Icons sit on a single 40px axis in both the expanded and collapsed state, so collapsing is pure clipping with no horizontal drift. Accordion groups under uppercase section labels, titled hover flyouts on the collapsed rail, a persisted collapse state, and an account card that keeps logout reachable at 80px
 - **20+ Starter Pages** - Dashboard, Analytics, Calendar, Users, Projects, Kanban, Invoices, Forms, Pricing, Chat, Help Center, Profile, Settings, and more, all built purely with Ant Design components
 - **Live Messaging UI** - A Chat page with resizable panels, contacts, requests, a new-chat flow, and confirmation prompts
 - **Error Pages** - Ready-made 400, 403, 404, and 500 pages using Ant Design's `Result` component
-- **App Version Display** - Shown in the sidebar and footer, driven by a single env variable
+- **App Version Display** - Shown in the footer, driven by a single env variable
 - **Branded** - Ships with the ViteDash logo (icon, horizontal lockup, favicon) in light and dark variants
+- **Accessible by Default** - Visible keyboard focus rings, labelled icon buttons, `aria-expanded` navigation state, and full `prefers-reduced-motion` support
 - **Minimal Dependencies** - Only essential packages included
 
 ## Live Demo
 
 [https://vitedash.msyb.dev](https://vitedash.msyb.dev)
+
+## What's New in 2.1.0
+
+A focused rebuild of the sidebar around a single geometric constraint, plus the correctness and accessibility fixes that surfaced along the way.
+
+### Layout & collapse
+
+- Icons now sit on one 40px axis in both states, so collapsing no longer shifts them 13px sideways. See [The 40px axis](#the-40px-axis)
+- The logo and account avatar are geometrically immobile during collapse instead of sliding right, then left
+- The whole collapse gesture runs on one curve and one duration; menu padding previously animated over 0.4s against the rail's 0.2s, which read as overshoot
+- Collapsed hover flyouts are titled panels painted with `Menu.darkPopupBg`, so they match the rail instead of Ant Design's stock navy
+- Logout stays reachable on the 80px rail, and section labels become hairline rules rather than clipped words
+- Sidebar widths are defined once in `theme-mode-context.js` instead of as three unsynchronised numbers
+
+### Responsive
+
+- Tablets (768–991px) get a persistent icon rail that overlays on demand, rather than dropping straight to a modal drawer
+- The mobile drawer no longer re-opens by itself after crossing a breakpoint
+- Viewport heights use `dvh`, so the footer is no longer trapped under mobile browser chrome
+- The collapse state persists across reloads, and the scroll position resets on navigation
+
+### Fixes
+
+- Collapsing and re-expanding no longer wipes the open group
+- `.ant-drawer-body { padding: 0 !important }` was global and stripped padding from the Invoices and Chat drawers; it is now scoped to the sidebar
+- Route matching uses full-path prefixes, so `/dashboard`, trailing slashes, and nested error routes all resolve correctly
+- The selected menu item met contrast at only 1.8:1; the pill is now tinted rather than solid
+- Keyboard focus is visible throughout, icon-only buttons are labelled, and `prefers-reduced-motion` is honoured in both CSS and Ant Design's motion token
 
 ## Tech Stack
 
@@ -76,17 +105,18 @@ src/
 ├── config/
 │   └── appInfo.js         # App version, sourced from VITE_APP_VERSION
 ├── context/                # App-wide context (theme mode / ConfigProvider)
-│   ├── ThemeModeContext.jsx   # Light/dark ConfigProvider setup
-│   ├── theme-mode-context.js  # Context object + shared font/sidebar color tokens
+│   ├── ThemeModeContext.jsx   # Light/dark ConfigProvider setup + sidebar design tokens
+│   ├── theme-mode-context.js  # Context object, font, and the sidebar geometry constants
 │   └── useThemeMode.js        # Hook to read/toggle theme mode
 ├── layout/                # Layout components
-│   ├── MainLayout.jsx      # Main dashboard layout
+│   ├── MainLayout.jsx      # Shell: responsive state, collapse persistence, open-key ownership
 │   ├── AuthLayout.jsx      # Split-screen layout for sign in / sign up / forgot password
 │   ├── LayoutHeader.jsx    # Top navigation header + quick actions
-│   ├── LayoutSidebar.jsx   # Side navigation (responsive drawer on mobile)
-│   ├── LayoutMenu.jsx      # Collapsible, accordion-style navigation menu
-│   ├── LayoutLogo.jsx      # ViteDash logo + wordmark
-│   ├── LayoutUserCard.jsx  # Account card + app version pinned to the sidebar
+│   ├── LayoutSidebar.jsx   # Sider on desktop/tablet, Drawer on mobile
+│   ├── navConfig.jsx       # Navigation tree, route matching, active-group derivation
+│   ├── LayoutMenu.jsx      # Renders the nav tree, incl. collapsed flyout panels
+│   ├── LayoutLogo.jsx      # ViteDash mark + wordmark, immobile during collapse
+│   ├── LayoutUserCard.jsx  # Account card; logout stays reachable when collapsed
 │   └── LayoutFooter.jsx    # Footer component
 ├── pages/                 # Page components
 │   ├── auth/               # SignIn, SignUp, ForgotPassword
@@ -114,7 +144,7 @@ src/
 ├── ProtectedRoute.jsx      # Route protection HOC
 ├── main.jsx                # Application entry point
 ├── App.css                 # Global app styles
-└── index.css                # Base styles
+└── index.css                # Base styles + the sidebar design system
 ```
 
 ## Quick Start
@@ -199,20 +229,55 @@ Theming is handled entirely through Ant Design's `ConfigProvider`. There are no 
 
   const { mode, isDark, toggleMode, setMode } = useThemeMode();
   ```
-- Card elevation (`boxShadowTertiary`), the global font (`Inter`), the sidebar color (`siderBg` / `darkItemBg` / `darkSubMenuItemBg`), and other design tokens are also configured here. Extend the `token` / `components` objects to customize further.
+- Card elevation (`boxShadowTertiary`), the global font (`Inter`), the sidebar geometry and colors (`siderBg`, `darkItemBg`, `darkPopupBg`, `itemMarginInline`, `iconSize`), and other design tokens are also configured here. Extend the `token` / `components` objects to customize further.
+- `token.motion` is bound to the user's `prefers-reduced-motion` setting, which disables Ant Design's JavaScript-driven animations. CSS alone cannot stop those.
+
+The sidebar deliberately stays dark in both light and dark mode. Its colors come from `Menu.dark*` tokens rather than the active algorithm, so re-theming the app does not re-theme the rail. Note that `darkItemBg`, `darkSubMenuItemBg`, and `darkPopupBg` are three independent tokens: the last one paints the collapsed hover flyouts, and leaving it unset is what makes flyouts render in Ant Design's stock navy instead of your rail color.
 
 ## Sidebar Navigation
 
-`src/layout/LayoutMenu.jsx` groups every page into collapsible sections (Overview, Management, Templates, Account, Auth Pages, Error Pages). Only one section stays open at a time, similar to an accordion, so the menu stays compact no matter how many pages you add. The open section automatically syncs to whichever page is active.
+The navigation tree lives in `src/layout/navConfig.jsx`, separately from the `LayoutMenu.jsx` component that renders it. Six groups (Overview, Management, Templates, Auth Pages, Error Pages, Account) sit under three uppercase section labels. Only one group stays open at a time, accordion-style, and the open group syncs to whichever page is active.
 
-To add a page to the sidebar, add an entry to the relevant section's `children` array in `LayoutMenu.jsx`, or add a new top-level section by following the existing pattern.
+**To add a page**, add an entry to the relevant group's `children` array in `navConfig.jsx`. Keys are full pathnames, which is what drives selection:
+
+```jsx
+nav('/dashboard/reports', 'Reports')
+```
+
+### The 40px axis
+
+The rail's geometry is built on one number: the horizontal centre of every icon, identical whether the sidebar is 248px or 80px wide. Collapsing therefore clips the labels away instead of re-laying out the menu.
+
+Ant Design positions menu icons by two unrelated formulas:
+
+```text
+expanded  = itemMarginInline + inlineIndent + iconSize / 2
+collapsed = collapsedWidth / 2
+```
+
+The constants in `src/context/theme-mode-context.js` are solved so both equal 40:
+
+```text
+8 + 24 + 8  ===  80 / 2  ===  40
+```
+
+Change any one of them and the icons will jump on collapse unless you re-solve the identity. Two things to know if you do:
+
+- `inlineIndent` is a Menu **prop**, not a theme token. rc-menu writes `padding-left` as an inline style attribute, which beats every class rule, so `itemPaddingInline` cannot move the expanded icon.
+- Keep `collapsedIconSize >= iconSize`. Ant Design's collapsed rule overrides the icon's `font-size` but not its `min-width`, so a larger `iconSize` would widen the glyph box past what the centring calculation assumes.
+
+### Collapsed behaviour
+
+Groups become titled hover flyouts, styled through `Menu.darkPopupBg` — a separate token from `darkItemBg`, and the reason an unstyled flyout renders in Ant Design's stock navy rather than your rail colour. The group owning the current route keeps its accent bar and tinted pill, marked by a class derived in `navConfig.jsx` rather than Ant Design's `ant-menu-submenu-selected`, since a collapsed group's children are portaled out of the rail entirely.
+
+The collapse state persists to `localStorage` under `dashboard-sider-collapsed`, and the expanded tree's open group is remembered independently of the collapsed rail's hover state.
 
 ## App Version
 
-The version shown in the sidebar and footer comes from the `VITE_APP_VERSION` variable in `.env`:
+The version shown in the footer comes from the `VITE_APP_VERSION` variable in `.env`:
 
 ```bash
-VITE_APP_VERSION=2.0.0
+VITE_APP_VERSION=2.1.0
 ```
 
 Update that single value to bump the displayed version, no code changes required. If the variable is missing, `src/config/appInfo.js` falls back to the version in `package.json`.
@@ -254,7 +319,7 @@ The color, radius, font, and shadow tokens live in `src/context/ThemeModeContext
 
 1. Create a new component in `src/pages/`
 2. Add the route in `src/App.jsx`
-3. Add a menu item in `src/layout/LayoutMenu.jsx`
+3. Add a menu item in `src/layout/navConfig.jsx`
 
 ## Contributing
 
