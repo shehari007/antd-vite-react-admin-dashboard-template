@@ -1,0 +1,78 @@
+name: Bug report
+description: Something in the template does not work the way it should
+title: '[Bug]: '
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this. The more of the boxes below you can fill in,
+        the faster it can be fixed.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you see, and what did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run npm run dev
+        2. Open /dashboard/products
+        3. Type into the search box
+        4. See the error
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: ViteDash version
+      description: The version field in package.json, or the tag in the footer.
+      placeholder: 2.2.0
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Node version
+      description: Output of `node -v`
+      placeholder: v22.11.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Does it happen in both themes?
+      options:
+        - Both light and dark
+        - Light only
+        - Dark only
+        - Not related to the theme
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output
+      description: Any errors from the browser console or the terminal.
+      render: shell

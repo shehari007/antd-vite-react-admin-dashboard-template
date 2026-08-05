@@ -1,8 +1,10 @@
 import { Layout, Drawer } from 'antd';
+import { useTranslation } from 'react-i18next';
 import LayoutLogo from './LayoutLogo';
 import LayoutMenu from './LayoutMenu';
 import LayoutUserCard from './LayoutUserCard';
-import { SIDER_BG, SIDER_COLLAPSED_WIDTH, SIDER_WIDTH } from '../context/theme-mode-context';
+import { SIDER_BG, SIDER_COLLAPSED_WIDTH, SIDER_WIDTH } from '@/context/theme-mode-context';
+import { useThemeMode } from '@/context/useThemeMode';
 
 const { Sider } = Layout;
 
@@ -17,8 +19,11 @@ const LayoutSidebar = ({
   openKeys,
   onOpenChange,
 }) => {
+  const { t } = useTranslation();
+  const { direction } = useThemeMode();
+
   const nav = (
-    <nav className="app-sider__inner" aria-label="Main">
+    <nav className="app-sider__inner" aria-label={t('nav.mainNav')}>
       <LayoutLogo />
       <div className="app-sider__scroll">
         <LayoutMenu
@@ -36,14 +41,16 @@ const LayoutSidebar = ({
   if (isMobile) {
     return (
       <Drawer
-        placement="left"
+        // Drawer placement is physical, not logical, so it has to be flipped
+        // by hand for a right to left language.
+        placement={direction === 'rtl' ? 'right' : 'left'}
         // `isMobile &&` is the belt to MainLayout's braces: a stale navOpen can
         // never render an open drawer for even one frame after a resize.
         open={isMobile && navOpen}
         onClose={onClose}
-        width={SIDER_WIDTH}
+        size={SIDER_WIDTH}
         rootClassName="app-drawer"
-        aria-label="Main navigation"
+        aria-label={t('nav.mainNav')}
         closable
         closeIcon={<span aria-hidden="true">&times;</span>}
         styles={{
@@ -69,13 +76,9 @@ const LayoutSidebar = ({
         {nav}
       </Sider>
       {/* Tablet expands as an overlay rather than reflowing the content column,
-          which keeps a mid-rotation device from a reflow storm. */}
+          which keeps a mid rotation device from a reflow storm. */}
       {isTablet && navOpen && (
-        <div
-          className="app-sider__scrim"
-          onClick={onClose}
-          role="presentation"
-        />
+        <div className="app-sider__scrim" onClick={onClose} role="presentation" />
       )}
     </>
   );

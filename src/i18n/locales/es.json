@@ -1,0 +1,175 @@
+{
+  "common": {
+    "search": "Buscar",
+    "cancel": "Cancelar",
+    "save": "Guardar cambios",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "close": "Cerrar",
+    "retry": "Reintentar",
+    "loading": "Cargando",
+    "loadFailed": "No pudimos cargar estos datos.",
+    "noData": "Aún no hay nada aquí",
+    "noDataHint": "Los elementos aparecerán aquí en cuanto existan.",
+    "all": "Todos",
+    "actions": "Acciones",
+    "status": "Estado",
+    "refresh": "Actualizar",
+    "markAllRead": "Marcar todo como leído",
+    "seeAll": "Ver todo"
+  },
+  "nav": {
+    "mainNav": "Navegación principal",
+    "openNav": "Abrir navegación",
+    "closeNav": "Cerrar navegación",
+    "newTab": "{{label}} (se abre en una pestaña nueva)",
+    "sections": {
+      "workspace": "Espacio de trabajo",
+      "library": "Biblioteca de páginas",
+      "account": "Cuenta"
+    },
+    "groups": {
+      "overview": "Resumen",
+      "management": "Gestión",
+      "communication": "Comunicación",
+      "templates": "Plantillas",
+      "authPages": "Páginas de acceso",
+      "errorPages": "Páginas de error",
+      "account": "Cuenta"
+    },
+    "items": {
+      "dashboard": "Panel",
+      "analytics": "Analítica",
+      "charts": "Gráficos",
+      "calendar": "Calendario",
+      "users": "Usuarios",
+      "roles": "Roles y permisos",
+      "projects": "Proyectos",
+      "products": "Productos",
+      "kanban": "Tablero Kanban",
+      "invoices": "Facturas",
+      "chat": "Chat",
+      "notifications": "Notificaciones",
+      "activity": "Registro de actividad",
+      "forms": "Formularios",
+      "pricing": "Precios",
+      "faq": "Centro de ayuda",
+      "blank": "Página en blanco",
+      "signIn": "Iniciar sesión",
+      "signUp": "Crear cuenta",
+      "forgotPassword": "Recuperar contraseña",
+      "lock": "Pantalla bloqueada",
+      "error400": "400 Solicitud incorrecta",
+      "error403": "403 Prohibido",
+      "error404": "404 No encontrado",
+      "error500": "500 Error del servidor",
+      "maintenance": "Mantenimiento",
+      "profile": "Perfil",
+      "settings": "Ajustes"
+    }
+  },
+  "header": {
+    "searchPlaceholder": "Buscar páginas y acciones",
+    "commandHint": "Ctrl K",
+    "quickActions": "Acciones rápidas",
+    "newPage": "Nueva página",
+    "inviteUser": "Invitar usuario",
+    "viewRecords": "Ver registros",
+    "fullscreen": "Pantalla completa",
+    "exitFullscreen": "Salir de pantalla completa",
+    "notifications": "Notificaciones",
+    "notificationsUnread": "Notificaciones, {{count}} sin leer",
+    "lightMode": "Cambiar a modo claro",
+    "darkMode": "Cambiar a modo oscuro",
+    "language": "Idioma",
+    "customize": "Personalizar tema",
+    "accountMenu": "Menú de cuenta",
+    "profile": "Perfil",
+    "settings": "Ajustes",
+    "logout": "Cerrar sesión"
+  },
+  "footer": {
+    "builtBy": "© {{year}} {{app}}. Creado por Muhammad Sheharyar Butt.",
+    "email": "Correo",
+    "docs": "Documentación de Ant Design",
+    "github": "GitHub"
+  },
+  "command": {
+    "title": "Paleta de comandos",
+    "placeholder": "Ir a una página o ejecutar una acción",
+    "pages": "Páginas",
+    "actions": "Acciones",
+    "empty": "Sin resultados",
+    "hint": "Enter para abrir, Esc para cerrar",
+    "toggleTheme": "Alternar modo claro y oscuro",
+    "openCustomizer": "Abrir personalización del tema",
+    "signOut": "Cerrar sesión"
+  },
+  "customizer": {
+    "title": "Tema",
+    "subtitle": "Los cambios se aplican al instante y se recuerdan en este dispositivo.",
+    "mode": "Apariencia",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "primary": "Color principal",
+    "radius": "Radio de esquinas",
+    "density": "Densidad",
+    "comfortable": "Cómoda",
+    "compact": "Compacta",
+    "language": "Idioma",
+    "reset": "Restablecer valores"
+  },
+  "auth": {
+    "welcomeBack": "Hola de nuevo",
+    "signInTitle": "Inicia sesión en tu cuenta",
+    "signInSubtitle": "Introduce tus credenciales para abrir el panel.",
+    "email": "Correo electrónico",
+    "emailRequired": "Introduce tu correo electrónico.",
+    "emailInvalid": "Introduce un correo electrónico válido.",
+    "password": "Contraseña",
+    "passwordRequired": "Introduce tu contraseña.",
+    "remember": "Recordarme",
+    "forgot": "¿Olvidaste tu contraseña?",
+    "signIn": "Iniciar sesión",
+    "noAccount": "¿No tienes cuenta?",
+    "signUpNow": "Crea una ahora",
+    "demoHint": "Cuentas de prueba: admin@vitedash.dev o editor@vitedash.dev, cualquier contraseña.",
+    "lockTitle": "Pantalla bloqueada",
+    "lockSubtitle": "Introduce tu contraseña para continuar donde lo dejaste.",
+    "unlock": "Desbloquear",
+    "notYou": "¿No eres tú? Inicia sesión con otra cuenta",
+    "signedInAs": "Sesión iniciada como"
+  },
+  "page": {
+    "charts": {
+      "title": "Gráficos",
+      "subtitle": "Ejemplos de Recharts que siguen el tema activo de Ant Design."
+    },
+    "products": {
+      "title": "Productos",
+      "subtitle": "Un catálogo cargado desde la capa de servicios, con estados reales de carga y error."
+    },
+    "roles": {
+      "title": "Roles y permisos",
+      "subtitle": "Quién puede ver qué. Esta página está restringida al rol de administrador."
+    },
+    "notifications": {
+      "title": "Notificaciones",
+      "subtitle": "Todo lo que la aplicación quería contarte, en un solo lugar."
+    },
+    "activity": {
+      "title": "Registro de actividad",
+      "subtitle": "Historial de auditoría de la actividad reciente de la cuenta."
+    },
+    "maintenance": {
+      "title": "En mantenimiento",
+      "subtitle": "Estamos mejorando algunas cosas y volveremos enseguida.",
+      "back": "Volver al panel"
+    },
+    "forbidden": {
+      "title": "No tienes acceso a esta página",
+      "subtitle": "Tu rol no incluye permiso para esta área. Habla con un administrador si crees que es un error."
+    }
+  }
+}

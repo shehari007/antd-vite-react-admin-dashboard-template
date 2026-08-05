@@ -1,82 +1,100 @@
-import { Flex, Input, Form, Button, Space, Typography, Checkbox, theme } from 'antd';
+import { Alert, App, Button, Checkbox, Flex, Form, Input, Space, Typography, theme } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
-import { Link as RouterLink } from 'react-router-dom';
-import AuthLayout from '../../layout/AuthLayout';
-import handleSignIn from '../../Utils/Auth/SignIn';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import AuthLayout from '@/layout/AuthLayout';
+import { useAuth } from '@/context/useAuth';
 
 const { Text } = Typography;
 
 const SignIn = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { signIn, isPending } = useAuth();
+  const { message } = App.useApp();
   const {
     token: { colorPrimary },
   } = theme.useToken();
 
   const handleOnSubmit = async (values) => {
-    await handleSignIn(values);
+    try {
+      const user = await signIn(values);
+      message.success(`Welcome back, ${user.name}`);
+      // DashboardLayout puts the page the visitor originally wanted into
+      // location.state, so a deep link survives the detour through sign in.
+      navigate(location.state?.from || '/dashboard/home', { replace: true });
+    } catch (error) {
+      message.error(error.message || 'Sign in failed. Please try again.');
+    }
   };
 
   return (
     <AuthLayout
-      eyebrow="Welcome back"
-      title="Sign in to your account"
-      subtitle="Enter your credentials to access the dashboard."
+      eyebrow={t('auth.welcomeBack')}
+      title={t('auth.signInTitle')}
+      subtitle={t('auth.signInSubtitle')}
     >
-      <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+        <Alert type="info" showIcon message={t('auth.demoHint')} />
+
         <Form
           onFinish={handleOnSubmit}
           layout="vertical"
           style={{ width: '100%' }}
-          initialValues={{ remember: true }}
+          initialValues={{ remember: true, email: 'admin@vitedash.dev' }}
         >
           <Form.Item
-            label="Email"
+            label={t('auth.email')}
             name="email"
             rules={[
-              { required: true, message: 'Please enter your email!' },
-              { type: 'email', message: 'Please enter a valid email!' },
+              { required: true, message: t('auth.emailRequired') },
+              { type: 'email', message: t('auth.emailInvalid') },
             ]}
           >
             <Input
               prefix={<MailOutlined style={{ color: '#bfbfbf' }} />}
               placeholder="you@example.com"
               size="large"
+              autoComplete="email"
             />
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label={t('auth.password')}
             name="password"
-            rules={[{ required: true, message: 'Please enter your password!' }]}
+            rules={[{ required: true, message: t('auth.passwordRequired') }]}
           >
             <Input.Password
               prefix={<LockOutlined style={{ color: '#bfbfbf' }} />}
-              placeholder="Enter your password"
+              placeholder={t('auth.password')}
               size="large"
+              autoComplete="current-password"
             />
           </Form.Item>
 
           <Form.Item>
             <Flex justify="space-between" align="center">
               <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox>{t('auth.remember')}</Checkbox>
               </Form.Item>
               <RouterLink to="/forgot-password" style={{ color: colorPrimary }}>
-                Forgot password?
+                {t('auth.forgot')}
               </RouterLink>
             </Flex>
           </Form.Item>
 
           <Form.Item style={{ marginBottom: 0 }}>
-            <Button type="primary" htmlType="submit" size="large" block>
-              Sign In
+            <Button type="primary" htmlType="submit" size="large" block loading={isPending}>
+              {t('auth.signIn')}
             </Button>
           </Form.Item>
         </Form>
 
         <Text type="secondary" style={{ textAlign: 'center', display: 'block' }}>
-          {"Don't have an account? "}
+          {t('auth.noAccount')}{' '}
           <RouterLink to="/signup" style={{ color: colorPrimary, fontWeight: 600 }}>
-            Sign up now
+            {t('auth.signUpNow')}
           </RouterLink>
         </Text>
       </Space>

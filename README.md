@@ -5,7 +5,8 @@
 <h1 align="center">ViteDash</h1>
 
 <p align="center">
-  A modern, responsive, and production-ready admin dashboard template built with <b>React 19</b>, <b>Vite 8</b>, and <b>Ant Design 6</b>.
+  A modern, responsive, production ready admin dashboard template built with
+  <b>React 19</b>, <b>Vite 8</b>, and <b>Ant Design 6</b>.
 </p>
 
 <p align="center">
@@ -13,240 +14,504 @@
   <img src="https://img.shields.io/badge/React-19.2-61DAFB?logo=react" alt="React" />
   <img src="https://img.shields.io/badge/Vite-8.1-646CFF?logo=vite" alt="Vite" />
   <img src="https://img.shields.io/badge/Ant%20Design-6.5-0170FE?logo=antdesign" alt="Ant Design" />
+  <img src="https://img.shields.io/badge/tests-48%20passing-brightgreen" alt="Tests" />
+  <img src="https://img.shields.io/badge/first%20load-324%20kB%20gzip-brightgreen" alt="Bundle size" />
 </p>
+
+<p align="center">
+  <a href="https://vitedash.msyb.dev"><b>Live demo</b></a>
+  &nbsp;·&nbsp;
+  <a href="#quick-start">Quick start</a>
+  &nbsp;·&nbsp;
+  <a href="#guides">Guides</a>
+  &nbsp;·&nbsp;
+  <a href="CHANGELOG.md">Changelog</a>
+</p>
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/dashboard-light.png" alt="The dashboard in light mode" width="49%" />
+  <img src="docs/screenshots/dashboard-dark.png" alt="The same dashboard in dark mode" width="49%" />
+</p>
+
+<p align="center">
+  <em>Light and dark are the same components, re-themed by Ant Design's algorithm rather than by a second stylesheet.</em>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/charts.png" alt="The Charts page, with Recharts following the dark theme" width="49%" />
+  <img src="docs/screenshots/command-palette.png" alt="The command palette, opened with Ctrl+K" width="49%" />
+</p>
+
+<p align="center">
+  <em>Charts that follow the active theme, including the tooltip. Ctrl+K searches every page you have access to.</em>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/products.png" alt="The Products page, showing the service layer with filters and paging" width="49%" />
+  <img src="docs/screenshots/customizer.png" alt="The theme customizer drawer" width="49%" />
+</p>
+
+<p align="center">
+  <em>A list screen wired through the service layer, and live theme controls that persist across reloads.</em>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/rtl.png" alt="The dashboard in Arabic, with the whole layout mirrored right to left" width="65%" />
+  <img src="docs/screenshots/mobile.png" alt="The navigation drawer on a mobile viewport" width="19%" />
+</p>
+
+<p align="center">
+  <em>Arabic mirrors the entire layout, sidebar included. On mobile the rail becomes a drawer.</em>
+</p>
+
+## Why this template
+
+Most free dashboard templates give you pages. This one also gives you the
+plumbing every admin app needs on day two:
+
+- **It loads fast.** Every route is code split. First load is 324 kB gzipped,
+  and the chart library only downloads when you open a chart page.
+- **It has roles.** Route guards, a sidebar that hides what the current user
+  cannot open, and a permission matrix page to show how it fits together.
+- **It has a data layer.** Mock services shaped exactly like a real API, so
+  swapping in `fetch` changes one file and no components.
+- **It speaks three languages,** including a right to left one, and the whole
+  layout mirrors properly.
+- **It is tested.** 48 tests, and `npm run check` runs lint, format, and tests
+  in one command.
+- **It stays readable.** Plain JavaScript and JSX, no TypeScript, no state
+  management library, no build magic. If this is your first React project you
+  can read every file in it.
 
 ## Features
 
-- **Fully Responsive** - Three distinct navigation states: a full sidebar on desktop, a persistent icon rail on tablet, and a drawer on mobile
-- **Modern UI** - Clean, professional design using Ant Design 6 with the Inter typeface
-- **Lightning Fast** - Powered by Vite 8 for instant HMR and optimized builds
-- **Authentication Ready** - Sign in, sign up, forgot password, protected routes, and a split-screen `AuthLayout`
-- **System-Wide Light/Dark Mode** - Powered entirely by Ant Design's `ConfigProvider` theme algorithm, not CSS overrides. Persisted to `localStorage` and defaults to the OS preference
-- **Header Quick Actions** - Global search, quick-create dropdown, fullscreen toggle, notifications, and theme switch
-- **Precision Sidebar** - Icons sit on a single 40px axis in both the expanded and collapsed state, so collapsing is pure clipping with no horizontal drift. Accordion groups under uppercase section labels, titled hover flyouts on the collapsed rail, a persisted collapse state, and an account card that keeps logout reachable at 80px
-- **20+ Starter Pages** - Dashboard, Analytics, Calendar, Users, Projects, Kanban, Invoices, Forms, Pricing, Chat, Help Center, Profile, Settings, and more, all built purely with Ant Design components
-- **Live Messaging UI** - A Chat page with resizable panels, contacts, requests, a new-chat flow, and confirmation prompts
-- **Error Pages** - Ready-made 400, 403, 404, and 500 pages using Ant Design's `Result` component
-- **App Version Display** - Shown in the footer, driven by a single env variable
-- **Branded** - Ships with the ViteDash logo (icon, horizontal lockup, favicon) in light and dark variants
-- **Accessible by Default** - Visible keyboard focus rings, labelled icon buttons, `aria-expanded` navigation state, and full `prefers-reduced-motion` support
-- **Minimal Dependencies** - Only essential packages included
+**Layout and navigation**
 
-## Live Demo
+- Three navigation states: a full sidebar on desktop, a persistent icon rail on
+  tablet, and a drawer on mobile
+- A sidebar built on one geometric rule so collapsing is pure clipping with no
+  icon drift. See [The 40px axis](#the-40px-axis)
+- Automatic breadcrumbs derived from the navigation tree
+- Command palette on Ctrl+K or Cmd+K, searching every page you are allowed to see
 
-[https://vitedash.msyb.dev](https://vitedash.msyb.dev)
+**Theming**
 
-## What's New in 2.1.0
+- Light and dark mode through Ant Design's `ConfigProvider` algorithm, not CSS
+  overrides, so every component re-themes itself
+- A customizer drawer for the primary colour, corner radius, and density
+- Every choice persists to localStorage and starts from your OS preference
+- Full `prefers-reduced-motion` support, in CSS and in antd's motion token
 
-A focused rebuild of the sidebar around a single geometric constraint, plus the correctness and accessibility fixes that surfaced along the way.
+**Application**
 
-### Layout & collapse
+- Sign in, sign up, forgot password, and a lock screen
+- Role based access control with route guards and role aware navigation
+- Service layer with loading, error, and empty states on every screen
+- Charts that follow the active theme, including the tooltip
+- English, Spanish, and Arabic, with right to left layout
+- Error boundaries so one broken page cannot blank the app
 
-- Icons now sit on one 40px axis in both states, so collapsing no longer shifts them 13px sideways. See [The 40px axis](#the-40px-axis)
-- The logo and account avatar are geometrically immobile during collapse instead of sliding right, then left
-- The whole collapse gesture runs on one curve and one duration; menu padding previously animated over 0.4s against the rail's 0.2s, which read as overshoot
-- Collapsed hover flyouts are titled panels painted with `Menu.darkPopupBg`, so they match the rail instead of Ant Design's stock navy
-- Logout stays reachable on the 80px rail, and section labels become hairline rules rather than clipped words
-- Sidebar widths are defined once in `theme-mode-context.js` instead of as three unsynchronised numbers
+**Engineering**
 
-### Responsive
+- 25 pages, all built from Ant Design components
+- Vitest and Testing Library, with `@testing-library/jest-dom`
+- ESLint including accessibility rules, plus Prettier
+- Bundle analysis with `npm run analyze`
+- Deploy configs for Vercel, Netlify, and Docker with nginx
 
-- Tablets (768–991px) get a persistent icon rail that overlays on demand, rather than dropping straight to a modal drawer
-- The mobile drawer no longer re-opens by itself after crossing a breakpoint
-- Viewport heights use `dvh`, so the footer is no longer trapped under mobile browser chrome
-- The collapse state persists across reloads, and the scroll position resets on navigation
+## Quick start
 
-### Fixes
+You need **Node 20.19 or newer**. The version is pinned in `.nvmrc` if you use
+`nvm`.
 
-- Collapsing and re-expanding no longer wipes the open group
-- `.ant-drawer-body { padding: 0 !important }` was global and stripped padding from the Invoices and Chat drawers; it is now scoped to the sidebar
-- Route matching uses full-path prefixes, so `/dashboard`, trailing slashes, and nested error routes all resolve correctly
-- The selected menu item met contrast at only 1.8:1; the pill is now tinted rather than solid
-- Keyboard focus is visible throughout, icon-only buttons are labelled, and `prefers-reduced-motion` is honoured in both CSS and Ant Design's motion token
+```bash
+git clone https://github.com/shehari007/vitedash-vite-antd-dashboard-template.git
+cd vitedash-vite-antd-dashboard-template
+npm install
+cp .env.example .env
+npm run dev
+```
 
-## Tech Stack
+Open <http://localhost:5173>. The dashboard opens straight away, no sign in
+needed, because `VITE_REQUIRE_AUTH` defaults to false.
 
-| Technology | Version | Description |
-|------------|---------|-------------|
-| [React](https://react.dev/) | 19.2 | UI Library |
-| [Vite](https://vitejs.dev/) | 8.1 | Build Tool |
-| [Ant Design](https://ant.design/) | 6.5 | UI Component Library |
-| [React Router](https://reactrouter.com/) | 7.18 | Client-side Routing |
+To start a fresh project without the git history:
 
-## Pages
+```bash
+npx degit shehari007/vitedash-vite-antd-dashboard-template my-dashboard
+```
 
-| Page | Route | Notes |
-|------|-------|-------|
-| Dashboard | `/dashboard/home` | Stat cards, gauges, orders table, activity, team, schedule |
-| Analytics | `/dashboard/analytics` | Traffic sources, device breakdown, funnel, top pages |
-| Calendar | `/dashboard/calendar` | Full calendar with upcoming events |
-| Users | `/dashboard/users` | Searchable, filterable user table |
-| Projects | `/dashboard/tables` | Rich, responsive table with avatars, ratings, and progress |
-| Kanban Board | `/dashboard/kanban` | Static drag-free board across four stages |
-| Invoices | `/dashboard/invoices` | Billing table with a detail drawer |
-| Forms | `/dashboard/forms` | Basic, advanced fields, and a multi-step wizard |
-| Pricing | `/dashboard/pricing` | Plan cards, comparison table, and a selection modal |
-| Chat | `/dashboard/chat` | Contacts, requests, resizable panels, mobile navigation |
-| Help Center | `/dashboard/faq` | Searchable FAQ with categories and a contact form |
-| Profile | `/dashboard/profile` | Cover banner, stats, skills, activity, and an edit form |
-| Settings | `/dashboard/settings` | General, appearance, security, and notification tabs |
-| Blank Page | `/dashboard/blank` | Starting point for new pages |
-| Error Pages | `/dashboard/errors/{400,403,404,500}` | Ready-made error states |
-| Auth Pages | `/signin`, `/signup`, `/forgot-password` | Full-page auth screens |
+### Scripts
 
-## Project Structure
+| Script                  | What it does                                |
+| ----------------------- | ------------------------------------------- |
+| `npm run dev`           | Start the dev server on port 5173           |
+| `npm run build`         | Production build into `dist/`               |
+| `npm run preview`       | Serve the production build locally          |
+| `npm run lint`          | ESLint, including accessibility rules       |
+| `npm run lint:fix`      | ESLint with autofix                         |
+| `npm run format`        | Rewrite files with Prettier                 |
+| `npm test`              | Run the tests once                          |
+| `npm run test:watch`    | Run the tests in watch mode                 |
+| `npm run test:coverage` | Tests with a coverage report                |
+| `npm run analyze`       | Build plus a bundle treemap in `stats.html` |
+| `npm run check`         | Lint, format check, and tests together      |
+
+## Project structure
 
 ```
 src/
-├── assets/
-│   └── logo/              # ViteDash logo assets (icon, horizontal lockups, light/dark)
-├── components/
-│   └── SectionLabel.jsx   # Quiet uppercase section heading used across dashboard pages
-├── config/
-│   └── appInfo.js         # App version, sourced from VITE_APP_VERSION
-├── context/                # App-wide context (theme mode / ConfigProvider)
-│   ├── ThemeModeContext.jsx   # Light/dark ConfigProvider setup + sidebar design tokens
-│   ├── theme-mode-context.js  # Context object, font, and the sidebar geometry constants
-│   └── useThemeMode.js        # Hook to read/toggle theme mode
-├── layout/                # Layout components
-│   ├── MainLayout.jsx      # Shell: responsive state, collapse persistence, open-key ownership
-│   ├── AuthLayout.jsx      # Split-screen layout for sign in / sign up / forgot password
-│   ├── LayoutHeader.jsx    # Top navigation header + quick actions
-│   ├── LayoutSidebar.jsx   # Sider on desktop/tablet, Drawer on mobile
-│   ├── navConfig.jsx       # Navigation tree, route matching, active-group derivation
-│   ├── LayoutMenu.jsx      # Renders the nav tree, incl. collapsed flyout panels
-│   ├── LayoutLogo.jsx      # ViteDash mark + wordmark, immobile during collapse
-│   ├── LayoutUserCard.jsx  # Account card; logout stays reachable when collapsed
-│   └── LayoutFooter.jsx    # Footer component
-├── pages/                 # Page components
-│   ├── auth/               # SignIn, SignUp, ForgotPassword
-│   ├── home/                # Dashboard home page
-│   ├── analytics/           # Analytics page
-│   ├── calendar/            # Calendar page
-│   ├── users/                # User management table
-│   ├── tables/               # Projects table example
-│   ├── kanban/               # Kanban board example
-│   ├── invoices/             # Invoices with detail drawer
-│   ├── forms/                 # Basic, advanced, and wizard form examples
-│   ├── pricing/               # Pricing plans and comparison table
-│   ├── chat/                  # Messaging UI
-│   ├── faq/                    # Help Center
-│   ├── profile/                # Profile overview and edit tabs
-│   ├── settings/               # Settings tabs
-│   ├── blank/                   # Blank page template
-│   ├── errors/                  # Shared ErrorPage used for 400/403/404/500
-│   └── not-found/               # Catch-all 404 shown outside the dashboard shell
-├── Utils/                 # Utility functions
-│   └── Auth/
-│       ├── SignIn.jsx      # Sign in logic
-│       └── Logout.jsx      # Logout logic
-├── App.jsx                # Root component with routes
-├── ProtectedRoute.jsx      # Route protection HOC
-├── main.jsx                # Application entry point
-├── App.css                 # Global app styles
-└── index.css                # Base styles + the sidebar design system
+├── assets/logo/          Brand assets
+├── components/           Shared building blocks used across pages
+│   ├── charts/            ChartCard, themed tooltip, useChartTheme
+│   ├── CommandPalette.jsx Ctrl+K search over the navigation tree
+│   ├── EmptyState.jsx     "Nothing here yet"
+│   ├── ErrorBoundary.jsx  Catches render errors, class component by necessity
+│   ├── ErrorState.jsx     Inline "this request failed"
+│   ├── PageHeader.jsx     Breadcrumb, title, subtitle, actions
+│   ├── PageLoader.jsx     Suspense fallback
+│   ├── RequireRole.jsx    Route level role gate
+│   ├── SectionLabel.jsx   Quiet uppercase heading
+│   ├── StatCard.jsx       Metric tile with a trend
+│   └── ThemeCustomizer.jsx Live theme controls
+├── config/appInfo.js     App name, version, links, env flags
+├── context/              App wide state
+│   ├── AuthContext.jsx    Session, sign in and out, lock, hasRole
+│   ├── auth-context.js    Context object, roles, demo users
+│   ├── useAuth.js         Hook
+│   ├── ThemeModeContext.jsx ConfigProvider, tokens, direction, locale
+│   ├── theme-mode-context.js Context object, sidebar geometry, presets
+│   └── useThemeMode.js    Hook
+├── data/                 Mock fixtures. Delete once your API is live
+├── hooks/                useAsync, useDebouncedValue
+├── i18n/                 i18next setup and locale JSON
+├── layout/               The application shell
+│   ├── DashboardLayout.jsx Auth gate, error boundary, Suspense
+│   ├── MainLayout.jsx      Responsive state and collapse persistence
+│   ├── AuthLayout.jsx      Split screen for the auth pages
+│   ├── LayoutHeader.jsx    Header, search, language, customizer, account
+│   ├── LayoutSidebar.jsx   Sider on desktop and tablet, Drawer on mobile
+│   ├── LayoutMenu.jsx      Renders the tree and the collapsed flyouts
+│   ├── LayoutLogo.jsx      Mark and wordmark, immobile during collapse
+│   ├── LayoutUserCard.jsx  Account card at the foot of the rail
+│   ├── LayoutFooter.jsx    Footer
+│   └── navConfig.jsx       The navigation tree and everything derived from it
+├── pages/                One folder per page
+├── services/             The API boundary. Replace these with real calls
+├── test/                 Vitest setup and render helpers
+├── App.jsx               Routes, with every page lazily imported
+├── main.jsx              Entry point and provider stack
+└── index.css             Base styles and the sidebar design system
 ```
 
-## Quick Start
+## Guides
 
-### Prerequisites
+### Adding a page
 
-- Node.js 18+
-- npm, yarn, or pnpm
+Four small steps:
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/shehari007/antd-vite-react-admin-dashboard-template.git
-   cd antd-vite-react-admin-dashboard-template
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
-
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:5173`
-
-### Build for Production
-
-```bash
-npm run build
-```
-
-### Preview Production Build
-
-```bash
-npm run preview
-```
-
-## Available Scripts
-
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-
-## Authentication
-
-The template includes a full front-end authentication flow:
-
-- **Sign In** - `/signin`
-- **Sign Up** - `/signup`
-- **Forgot Password** - `/forgot-password`
-- **Protected Routes** - Dashboard routes can require authentication
-- **Auth Storage** - Uses localStorage for demo purposes
-
-By default `REQUIRE_AUTH` in `src/ProtectedRoute.jsx` is set to `false` so the dashboard loads directly, which is useful when sharing a public preview. Set it to `true` to gate every `/dashboard` route behind sign in.
-
-To customize authentication:
-1. Modify `src/Utils/Auth/SignIn.jsx` for login logic
-2. Modify `src/Utils/Auth/Logout.jsx` for logout logic
-3. Update `src/ProtectedRoute.jsx` for route protection
-4. Edit `src/layout/AuthLayout.jsx` to change the shared branding panel for all auth screens
-
-## Light/Dark Theme System
-
-Theming is handled entirely through Ant Design's `ConfigProvider`. There are no dark-mode CSS classes or overrides. `src/context/ThemeModeContext.jsx` swaps between `theme.defaultAlgorithm` and `theme.darkAlgorithm` based on the current mode, so every Ant Design component re-themes itself automatically. The mode is stored in `localStorage` and initialized from the OS `prefers-color-scheme` on first visit.
-
-- Toggle from the header switch, or from **Settings > Appearance**
-- Read or update the mode anywhere with the `useThemeMode()` hook:
-  ```jsx
-  import { useThemeMode } from './context/useThemeMode';
-
-  const { mode, isDark, toggleMode, setMode } = useThemeMode();
-  ```
-- Card elevation (`boxShadowTertiary`), the global font (`Inter`), the sidebar geometry and colors (`siderBg`, `darkItemBg`, `darkPopupBg`, `itemMarginInline`, `iconSize`), and other design tokens are also configured here. Extend the `token` / `components` objects to customize further.
-- `token.motion` is bound to the user's `prefers-reduced-motion` setting, which disables Ant Design's JavaScript-driven animations. CSS alone cannot stop those.
-
-The sidebar deliberately stays dark in both light and dark mode. Its colors come from `Menu.dark*` tokens rather than the active algorithm, so re-theming the app does not re-theme the rail. Note that `darkItemBg`, `darkSubMenuItemBg`, and `darkPopupBg` are three independent tokens: the last one paints the collapsed hover flyouts, and leaving it unset is what makes flyouts render in Ant Design's stock navy instead of your rail color.
-
-## Sidebar Navigation
-
-The navigation tree lives in `src/layout/navConfig.jsx`, separately from the `LayoutMenu.jsx` component that renders it. Six groups (Overview, Management, Templates, Auth Pages, Error Pages, Account) sit under three uppercase section labels. Only one group stays open at a time, accordion-style, and the open group syncs to whichever page is active.
-
-**To add a page**, add an entry to the relevant group's `children` array in `navConfig.jsx`. Keys are full pathnames, which is what drives selection:
+**1.** Create `src/pages/reports/Reports.jsx`:
 
 ```jsx
-nav('/dashboard/reports', 'Reports')
+import PageHeader from '@/components/PageHeader';
+import { Card } from 'antd';
+
+const Reports = () => (
+  <>
+    <PageHeader title="Reports" subtitle="Everything worth knowing" />
+    <Card>Your content</Card>
+  </>
+);
+
+export default Reports;
 ```
 
-### The 40px axis
+**2.** Add the lazy import and the route in `src/App.jsx`:
 
-The rail's geometry is built on one number: the horizontal centre of every icon, identical whether the sidebar is 248px or 80px wide. Collapsing therefore clips the labels away instead of re-laying out the menu.
+```jsx
+const Reports = lazy(() => import('@/pages/reports/Reports'));
+// ...
+<Route path="reports" element={<Reports />} />;
+```
+
+**3.** Add it to a group in `src/layout/navConfig.jsx`:
+
+```jsx
+{ to: '/dashboard/reports', labelKey: 'nav.items.reports' },
+```
+
+**4.** Add `"reports": "Reports"` under `nav.items` in **every** file in
+`src/i18n/locales/`.
+
+The breadcrumb, the sidebar entry, and the command palette all pick it up
+automatically.
+
+To restrict it to a role, add `roles: ['admin']` to the nav entry and wrap the
+route:
+
+```jsx
+<Route element={<RequireRole roles={[ROLES.ADMIN]} />}>
+  <Route path="reports" element={<Reports />} />
+</Route>
+```
+
+### Theming
+
+Theming goes through Ant Design's `ConfigProvider`. There are no dark mode CSS
+classes anywhere in this project.
+
+Read or change the theme from any component:
+
+```jsx
+import { useThemeMode } from '@/context/useThemeMode';
+
+const { mode, isDark, toggleMode, primaryColor, setPrimaryColor, direction } = useThemeMode();
+```
+
+To change the defaults, edit the `token` and `components` objects in
+`src/context/ThemeModeContext.jsx`. To add a colour to the customizer, add one
+row to `PRIMARY_PRESETS` in `src/context/theme-mode-context.js` and it appears as
+a swatch.
+
+The sidebar deliberately stays dark in both modes. Its colours come from
+`Menu.dark*` tokens rather than the active algorithm, so re-theming the app does
+not re-theme the rail. Note that `darkItemBg`, `darkSubMenuItemBg`, and
+`darkPopupBg` are three independent tokens. The last one paints the collapsed
+hover flyouts, and leaving it unset is what makes flyouts render in Ant Design's
+stock navy instead of your rail colour.
+
+### Authentication and roles
+
+Sign in with any of these, and any password:
+
+| Email                 | Role   | What they see                               |
+| --------------------- | ------ | ------------------------------------------- |
+| `admin@vitedash.dev`  | admin  | Everything, including Roles and Permissions |
+| `editor@vitedash.dev` | editor | Everything except Roles and Permissions     |
+| `viewer@vitedash.dev` | viewer | Same as editor in this demo                 |
+
+Any other email signs in as a viewer, so the demo never dead ends on a typo.
+
+To require sign in, set `VITE_REQUIRE_AUTH=true` in `.env`. Every `/dashboard`
+route then redirects to `/signin`, and the page the visitor originally wanted is
+remembered and restored afterwards.
+
+Replace the fake implementation in `src/services/authService.js` with real
+calls. The shapes it returns are what the rest of the app already expects:
+
+```js
+export const signIn = async ({ email, password }) => {
+  const response = await apiClient.post('/auth/login', { email, password });
+  return { user: response.user, token: response.token };
+};
+```
+
+Two things to keep in mind. The role checks here run in the browser, so they
+stop honest users from wandering into the wrong page but stop nobody with the
+developer tools open. Enforce the same rules on your server. And a token in
+localStorage is readable by any script on the page, so prefer an httpOnly cookie
+in production. There is more detail in [SECURITY.md](SECURITY.md).
+
+### Connecting a real API
+
+Everything that touches data lives in `src/services/`. Each function returns
+mock data after a short delay, in the same shape a real endpoint would.
+
+```js
+// src/services/catalogService.js, before
+export const getProducts = async (params) => {
+  await delay(500);
+  return { items, total, page, pageSize };
+};
+
+// after
+import { apiClient } from './apiClient';
+
+export const getProducts = (params) => apiClient.get(`/products?${new URLSearchParams(params)}`);
+```
+
+Nothing in `src/pages/` changes, because the pages use the `useAsync` hook and
+never know where the data came from:
+
+```jsx
+const load = useCallback(() => getProducts({ search, page }), [search, page]);
+const { data, loading, error, refresh } = useAsync(load);
+```
+
+Wrap the function in `useCallback`. Without it a new function on every render
+makes the hook refetch forever.
+
+`src/services/apiClient.js` is a small `fetch` wrapper with a base URL, JSON
+handling, an auth header, and failed responses turned into thrown errors. Set
+`VITE_API_BASE_URL` in `.env` to point it somewhere.
+
+The Products page is the one to copy. It has search with debouncing, a category
+filter, sorting, paging, an empty state, and a switch that makes the request
+fail on purpose so you can see the error path.
+
+### Internationalisation and right to left
+
+Three languages ship: English, Spanish, and Arabic. Switch with the globe icon
+in the header, or from Settings.
+
+Use a translation in any component:
+
+```jsx
+import { useTranslation } from 'react-i18next';
+
+const { t } = useTranslation();
+<h1>{t('page.products.title')}</h1>;
+```
+
+To add a language, copy `src/i18n/locales/en.json`, translate the values, then
+import it in `src/i18n/index.js` and add a row to `LANGUAGES`:
+
+```js
+{ code: 'fr', label: 'Français', shortLabel: 'FR', dir: 'ltr' }
+```
+
+Setting `dir: 'rtl'` is all that right to left needs. It flows into Ant Design's
+`ConfigProvider`, which mirrors every component, and onto `<html dir>`, which
+flips the CSS logical properties the layout is written with.
+
+The application shell, the auth pages, and the newer pages are fully
+translated. The older demo pages still have English body copy, because
+translating placeholder marketing text into three languages would be a lot of
+noise for very little value. Use `t()` for your own content as you replace them.
+
+### Command palette
+
+Press **Ctrl+K**, or **Cmd+K** on macOS. It searches every page in the
+navigation tree, filtered by the current role, plus a few actions. Arrow keys
+move, Enter opens, Escape closes.
+
+New pages are indexed automatically. There is nothing to register.
+
+### Environment variables
+
+Copy `.env.example` to `.env`. Every variable exposed to the browser must start
+with `VITE_`.
+
+| Variable            | Default                | What it does                                |
+| ------------------- | ---------------------- | ------------------------------------------- |
+| `VITE_API_BASE_URL` | empty                  | Base URL for `apiClient`                    |
+| `VITE_APP_VERSION`  | `package.json` version | Overrides the version in the footer         |
+| `VITE_REQUIRE_AUTH` | `false`                | Set to `true` to gate every dashboard route |
+
+Anything prefixed `VITE_` is compiled into the JavaScript bundle and is public.
+Real secrets belong on your server, never here.
+
+## Pages
+
+| Page                  | Route                                 | Notes                                                |
+| --------------------- | ------------------------------------- | ---------------------------------------------------- |
+| Dashboard             | `/dashboard/home`                     | Stat cards, gauges, orders table, activity, team     |
+| Analytics             | `/dashboard/analytics`                | Traffic sources, device breakdown, funnel, top pages |
+| Charts                | `/dashboard/charts`                   | Recharts examples that follow the active theme       |
+| Calendar              | `/dashboard/calendar`                 | Full calendar with upcoming events                   |
+| Users                 | `/dashboard/users`                    | Searchable, filterable user table                    |
+| Roles and Permissions | `/dashboard/roles`                    | Permission matrix. Admin only                        |
+| Projects              | `/dashboard/tables`                   | Rich table with avatars, ratings, and progress       |
+| Products              | `/dashboard/products`                 | Service layer, paging, filters, real error states    |
+| Kanban Board          | `/dashboard/kanban`                   | Static board across four stages                      |
+| Invoices              | `/dashboard/invoices`                 | Billing table with a detail drawer                   |
+| Chat                  | `/dashboard/chat`                     | Contacts, requests, resizable panels                 |
+| Notifications         | `/dashboard/notifications`            | Notification centre with read and unread             |
+| Activity Log          | `/dashboard/activity`                 | Audit trail with filters and a timeline              |
+| Forms                 | `/dashboard/forms`                    | Basic, advanced fields, and a multi step wizard      |
+| Pricing               | `/dashboard/pricing`                  | Plan cards, comparison table, selection modal        |
+| Help Center           | `/dashboard/faq`                      | Searchable FAQ with categories and a contact form    |
+| Profile               | `/dashboard/profile`                  | Cover banner, stats, skills, activity, edit form     |
+| Settings              | `/dashboard/settings`                 | General, appearance, security, notifications         |
+| Blank Page            | `/dashboard/blank`                    | Starting point for new pages                         |
+| Error Pages           | `/dashboard/errors/{400,403,404,500}` | Ready made error states                              |
+| Sign In               | `/signin`                             | With demo accounts                                   |
+| Sign Up               | `/signup`                             | With validation and a confirm password rule          |
+| Forgot Password       | `/forgot-password`                    | With a success state                                 |
+| Lock Screen           | `/lock`                               | Keeps the session, blocks the app                    |
+| Maintenance           | `/maintenance`                        | Standalone page for planned downtime                 |
+
+## Deployment
+
+The build output in `dist/` is static files. Any host will serve it, as long as
+unknown URLs fall back to `index.html`, which is what makes a refresh on
+`/dashboard/products` work instead of 404ing.
+
+**Vercel.** Import the repository. `vercel.json` already has the rewrite and the
+cache headers.
+
+**Netlify.** Import the repository. `netlify.toml` sets the build command, the
+publish directory, the SPA redirect, and the headers.
+
+**Docker.**
+
+```bash
+docker build -t vitedash .
+docker run -p 8080:80 vitedash
+```
+
+A two stage build: Node compiles, then nginx serves. The final image is about
+50 MB and contains none of your source code. The nginx config in `nginx.conf`
+handles the SPA fallback, gzip, and caching.
+
+**Anything else.** Run `npm run build` and upload `dist/`. Configure the host to
+serve `index.html` for any path that is not a real file.
+
+## Performance
+
+The 2.2.0 build split every route out of the main bundle:
+
+|                          | Before                | After                       |
+| ------------------------ | --------------------- | --------------------------- |
+| First load, uncompressed | 1,620 kB in one file  | 1,004 kB across 13 files    |
+| First load, gzipped      | one chunk, everything | **324 kB**                  |
+| Chart library            | loaded on every page  | only on `/dashboard/charts` |
+| Total JavaScript         | 1,620 kB              | 2,182 kB across 83 chunks   |
+
+The total is larger because the template gained charts, three locales, and seven
+pages. What matters is that none of it loads until it is needed.
+
+There is a comment in `vite.config.js` explaining why there is no
+`manualChunks` configuration. In short: grouping all of antd into one chunk
+sounds right and doubles the first load, from 324 kB to 643 kB gzipped. Run
+`npm run analyze` before adding one back.
+
+## Accessibility
+
+- Visible keyboard focus everywhere, including the sidebar, where antd's own
+  ring targets a selector that never matches because the label is wrapped in a
+  link
+- Every icon only button is labelled
+- `aria-expanded` and `aria-controls` on the navigation toggle
+- The command palette is a proper listbox with arrow key navigation
+- `prefers-reduced-motion` honoured in both CSS and antd's `motion` token, since
+  CSS alone cannot stop antd's JavaScript driven animations
+- The selected menu item is tinted rather than solid, because on a solid primary
+  pill the pastel group glyphs measured 1.8:1
+- `eslint-plugin-jsx-a11y` runs as part of `npm run lint`, so the claims above
+  are checked rather than asserted
+
+## Testing
+
+```bash
+npm test
+npm run test:coverage
+```
+
+48 tests across route matching, role filtering, the auth provider, the service
+layer, `useAsync` race conditions, and the shared components. `src/test/setup.js`
+stubs the browser APIs jsdom lacks, and `src/test/utils.jsx` exports
+`renderWithProviders` for anything that needs the full provider stack.
+
+## The 40px axis
+
+The rail's geometry is built on one number: the horizontal centre of every icon,
+identical whether the sidebar is 248px or 80px wide. Collapsing therefore clips
+the labels away instead of re-laying out the menu.
 
 Ant Design positions menu icons by two unrelated formulas:
 
@@ -261,79 +526,45 @@ The constants in `src/context/theme-mode-context.js` are solved so both equal 40
 8 + 24 + 8  ===  80 / 2  ===  40
 ```
 
-Change any one of them and the icons will jump on collapse unless you re-solve the identity. Two things to know if you do:
+Change any one of them and the icons will jump on collapse unless you re-solve
+the identity. Two things to know if you do:
 
-- `inlineIndent` is a Menu **prop**, not a theme token. rc-menu writes `padding-left` as an inline style attribute, which beats every class rule, so `itemPaddingInline` cannot move the expanded icon.
-- Keep `collapsedIconSize >= iconSize`. Ant Design's collapsed rule overrides the icon's `font-size` but not its `min-width`, so a larger `iconSize` would widen the glyph box past what the centring calculation assumes.
+- `inlineIndent` is a Menu **prop**, not a theme token. rc-menu writes
+  `padding-left` as an inline style attribute, which beats every class rule, so
+  `itemPaddingInline` cannot move the expanded icon.
+- Keep `collapsedIconSize >= iconSize`. Ant Design's collapsed rule overrides the
+  icon's `font-size` but not its `min-width`, so a larger `iconSize` would widen
+  the glyph box past what the centring calculation assumes.
 
-### Collapsed behaviour
+There is a test in `src/context/theme-mode-context.test.js` that fails if the
+identity is broken.
 
-Groups become titled hover flyouts, styled through `Menu.darkPopupBg` — a separate token from `darkItemBg`, and the reason an unstyled flyout renders in Ant Design's stock navy rather than your rail colour. The group owning the current route keeps its accent bar and tinted pill, marked by a class derived in `navConfig.jsx` rather than Ant Design's `ant-menu-submenu-selected`, since a collapsed group's children are portaled out of the rail entirely.
+## Tech stack
 
-The collapse state persists to `localStorage` under `dashboard-sider-collapsed`, and the expanded tree's open group is remembered independently of the collapsed rail's hover state.
-
-## App Version
-
-The version shown in the footer comes from the `VITE_APP_VERSION` variable in `.env`:
-
-```bash
-VITE_APP_VERSION=2.1.0
-```
-
-Update that single value to bump the displayed version, no code changes required. If the variable is missing, `src/config/appInfo.js` falls back to the version in `package.json`.
-
-## Logo & Branding
-
-ViteDash's logo assets live in `src/assets/logo/`:
-
-| File | Use |
-|------|-----|
-| `logo-icon.png` | Transparent mark used in the sidebar, header, and auth branding panel |
-| `logo-icon-tile-light.png` / `logo-icon-tile-dark.png` | Square app-icon tiles |
-| `logo-horizontal-light.png` / `logo-horizontal-dark.png` | Full lockup (icon + wordmark) for docs/marketing |
-
-Favicons generated from the mark are in `public/` (`favicon-32.png`, `favicon-192.png`, `apple-touch-icon.png`) and wired up in `index.html`. Swap these files to rebrand, no code changes required.
-
-## Customization
-
-### Theming
-
-The color, radius, font, and shadow tokens live in `src/context/ThemeModeContext.jsx`:
-
-```jsx
-<ConfigProvider
-  card={{ variant: 'borderless' }}
-  theme={{
-    algorithm: mode === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
-    token: {
-      colorPrimary: '#1677ff',
-      borderRadius: 8,
-    },
-  }}
->
-  {/* Your app */}
-</ConfigProvider>
-```
-
-### Adding New Pages
-
-1. Create a new component in `src/pages/`
-2. Add the route in `src/App.jsx`
-3. Add a menu item in `src/layout/navConfig.jsx`
+| Technology                               | Version | Role              |
+| ---------------------------------------- | ------- | ----------------- |
+| [React](https://react.dev/)              | 19.2    | UI library        |
+| [Vite](https://vitejs.dev/)              | 8.1     | Build tool        |
+| [Ant Design](https://ant.design/)        | 6.5     | Component library |
+| [React Router](https://reactrouter.com/) | 7.18    | Routing           |
+| [Recharts](https://recharts.org/)        | 3.10    | Charts            |
+| [i18next](https://www.i18next.com/)      | 26      | Translations      |
+| [Vitest](https://vitest.dev/)            | 4.1     | Tests             |
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome, and small pull requests get merged fastest. Read
+[CONTRIBUTING.md](CONTRIBUTING.md) first, then:
 
 1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create your branch (`git checkout -b feature/thing`)
+3. Make the change and run `npm run check`
+4. Commit and push
+5. Open a pull request
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+MIT. See [LICENSE](LICENSE).
 
 ## Author
 
@@ -344,9 +575,9 @@ Muhammad Sheharyar Butt
 
 ## Acknowledgments
 
-- [Ant Design](https://ant.design/) - Amazing UI components
-- [Vite](https://vitejs.dev/) - Next generation frontend tooling
-- [React](https://react.dev/) - The library for web and native user interfaces
+- [Ant Design](https://ant.design/) for the component library
+- [Vite](https://vitejs.dev/) for the tooling
+- [React](https://react.dev/) for the library everything is built on
 
 <p align="center">
   Made with care by <a href="https://github.com/shehari007">Muhammad Sheharyar Butt</a>

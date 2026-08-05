@@ -1,5 +1,16 @@
 import { useState } from 'react';
-import { Card, Row, Col, Typography, Progress, Statistic, Space, Segmented, Table, Tag } from 'antd';
+import {
+  Card,
+  Row,
+  Col,
+  Typography,
+  Progress,
+  Statistic,
+  Space,
+  Segmented,
+  Table,
+  Tag,
+} from 'antd';
 import {
   ArrowUpOutlined,
   ArrowDownOutlined,
@@ -72,7 +83,10 @@ const topPageColumns = [
     key: 'trend',
     align: 'right',
     render: (trend) => (
-      <Tag color={trend >= 0 ? 'success' : 'error'} icon={trend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}>
+      <Tag
+        color={trend >= 0 ? 'success' : 'error'}
+        icon={trend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+      >
         {Math.abs(trend)}%
       </Tag>
     ),
@@ -90,7 +104,9 @@ const Analytics = () => {
           <Title level={4} style={{ marginBottom: 4 }}>
             Analytics
           </Title>
-          <Text type="secondary">{"Key metrics built with Ant Design's Progress and Statistic components."}</Text>
+          <Text type="secondary">
+            {"Key metrics built with Ant Design's Progress and Statistic components."}
+          </Text>
         </div>
         <Segmented
           value={range}
@@ -161,7 +177,7 @@ const Analytics = () => {
       <Row gutter={[16, 16]} align="stretch" style={{ marginTop: 24 }}>
         <Col xs={24} lg={12}>
           <Card title="Traffic Sources" style={{ height: '100%' }}>
-            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
               {trafficSources.map((source) => (
                 <div key={source.label}>
                   <Space style={{ width: '100%', justifyContent: 'space-between' }}>
@@ -185,7 +201,7 @@ const Analytics = () => {
                     size={88}
                     strokeColor={device.color}
                     format={(percent) => (
-                      <Space direction="vertical" size={0}>
+                      <Space orientation="vertical" size={0}>
                         <span style={{ color: device.color, fontSize: 16 }}>{device.icon}</span>
                         <span style={{ fontSize: 14 }}>{percent}%</span>
                       </Space>
@@ -212,7 +228,7 @@ const Analytics = () => {
               {weeklyVisitors.map((entry) => (
                 <Space
                   key={entry.day}
-                  direction="vertical"
+                  orientation="vertical"
                   align="center"
                   size={8}
                   style={{ height: '100%', justifyContent: 'flex-end' }}
@@ -238,7 +254,7 @@ const Analytics = () => {
         </Col>
         <Col xs={24} lg={12}>
           <Card title="Conversion Funnel" style={{ height: '100%' }}>
-            <Space direction="vertical" size={12} style={{ width: '100%' }}>
+            <Space orientation="vertical" size={12} style={{ width: '100%' }}>
               {funnelStages.map((stage) => (
                 <div key={stage.label}>
                   <Space style={{ width: '100%', justifyContent: 'space-between' }}>

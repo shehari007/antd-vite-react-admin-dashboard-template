@@ -205,8 +205,12 @@ const Home = () => {
       <Row gutter={[16, 16]} align="stretch">
         <Col xs={24} sm={8}>
           <Card style={{ height: '100%' }}>
-            <Space align="center" size="large" style={{ width: '100%', justifyContent: 'space-between' }}>
-              <Space direction="vertical" size={0}>
+            <Space
+              align="center"
+              size="large"
+              style={{ width: '100%', justifyContent: 'space-between' }}
+            >
+              <Space orientation="vertical" size={0}>
                 <Text type="secondary">Server Load</Text>
                 <Text strong style={{ fontSize: 20 }}>
                   Healthy
@@ -224,8 +228,12 @@ const Home = () => {
         </Col>
         <Col xs={24} sm={8}>
           <Card style={{ height: '100%' }}>
-            <Space align="center" size="large" style={{ width: '100%', justifyContent: 'space-between' }}>
-              <Space direction="vertical" size={0}>
+            <Space
+              align="center"
+              size="large"
+              style={{ width: '100%', justifyContent: 'space-between' }}
+            >
+              <Space orientation="vertical" size={0}>
                 <Text type="secondary">Storage Used</Text>
                 <Text strong style={{ fontSize: 20 }}>
                   <DatabaseOutlined /> 318 GB
@@ -243,8 +251,12 @@ const Home = () => {
         </Col>
         <Col xs={24} sm={8}>
           <Card style={{ height: '100%' }}>
-            <Space align="center" size="large" style={{ width: '100%', justifyContent: 'space-between' }}>
-              <Space direction="vertical" size={0}>
+            <Space
+              align="center"
+              size="large"
+              style={{ width: '100%', justifyContent: 'space-between' }}
+            >
+              <Space orientation="vertical" size={0}>
                 <Text type="secondary">API Uptime</Text>
                 <Text strong style={{ fontSize: 20 }}>
                   <ThunderboltOutlined /> 99.9%
@@ -266,7 +278,11 @@ const Home = () => {
 
       <Row gutter={[16, 16]} align="stretch">
         <Col xs={24} lg={16}>
-          <Card title="Recent Orders" extra={<a href="#recent-orders">View All</a>} style={{ height: '100%' }}>
+          <Card
+            title="Recent Orders"
+            extra={<a href="#recent-orders">View All</a>}
+            style={{ height: '100%' }}
+          >
             <Table
               columns={orderColumns}
               dataSource={recentOrders}
@@ -281,8 +297,8 @@ const Home = () => {
             <Timeline
               items={activityEvents.map((item) => ({
                 color: item.color,
-                children: (
-                  <Space direction="vertical" size={0}>
+                content: (
+                  <Space orientation="vertical" size={0}>
                     <Text>{item.event}</Text>
                     <Text type="secondary" style={{ fontSize: 12 }}>
                       {item.time}
@@ -299,7 +315,14 @@ const Home = () => {
 
       <Row gutter={[16, 16]} align="stretch">
         <Col xs={24} md={12} lg={8}>
-          <Card title={<Space><TeamOutlined /> Team Performance</Space>} style={{ height: '100%' }}>
+          <Card
+            title={
+              <Space>
+                <TeamOutlined /> Team Performance
+              </Space>
+            }
+            style={{ height: '100%' }}
+          >
             <List
               itemLayout="horizontal"
               dataSource={teamMembers}
@@ -323,7 +346,7 @@ const Home = () => {
               dataSource={taskList}
               renderItem={(task) => (
                 <List.Item style={{ padding: '10px 0' }}>
-                  <Space direction="vertical" size={4} style={{ width: '100%' }}>
+                  <Space orientation="vertical" size={4} style={{ width: '100%' }}>
                     <Space style={{ width: '100%', justifyContent: 'space-between' }}>
                       <Text strong>{task.title}</Text>
                       <Text type="secondary" style={{ fontSize: 12 }}>
@@ -338,7 +361,11 @@ const Home = () => {
           </Card>
         </Col>
         <Col xs={24} md={24} lg={8}>
-          <Card title="Schedule" style={{ height: '100%' }} styles={{ body: { padding: '0 12px 12px' } }}>
+          <Card
+            title="Schedule"
+            style={{ height: '100%' }}
+            styles={{ body: { padding: '0 12px 12px' } }}
+          >
             <Calendar fullscreen={false} />
           </Card>
         </Col>
@@ -347,7 +374,7 @@ const Home = () => {
       <Row style={{ marginTop: 24 }}>
         <Col span={24}>
           <Card>
-            <Space direction="vertical" size={8} style={{ width: '100%' }}>
+            <Space orientation="vertical" size={8} style={{ width: '100%' }}>
               <Title level={5} style={{ margin: 0 }}>
                 Welcome to ViteDash
               </Title>

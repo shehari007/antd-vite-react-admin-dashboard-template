@@ -9,79 +9,155 @@ import {
   Space,
   Divider,
   Radio,
+  Segmented,
   Select,
 } from 'antd';
-import { SunOutlined, MoonOutlined } from '@ant-design/icons';
-import { useThemeMode } from '../../context/useThemeMode';
+import { CheckOutlined, MoonOutlined, SunOutlined, UndoOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
+import PageHeader from '@/components/PageHeader';
+import { useThemeMode } from '@/context/useThemeMode';
+import { PRIMARY_PRESETS, RADIUS_PRESETS } from '@/context/theme-mode-context';
+import { LANGUAGES } from '@/i18n';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
-const GeneralSettings = () => (
-  <Card>
-    <Form layout="vertical" initialValues={{ language: 'en', timezone: 'utc' }}>
-      <Form.Item label="Workspace Name" name="workspace">
-        <Input placeholder="My Company" />
-      </Form.Item>
-      <Form.Item label="Language" name="language">
-        <Select
-          options={[
-            { value: 'en', label: 'English' },
-            { value: 'es', label: 'Spanish' },
-            { value: 'ur', label: 'Urdu' },
-          ]}
-        />
-      </Form.Item>
-      <Form.Item label="Timezone" name="timezone">
-        <Select
-          options={[
-            { value: 'utc', label: 'UTC' },
-            { value: 'pkt', label: 'Pakistan Standard Time' },
-            { value: 'est', label: 'Eastern Time' },
-          ]}
-        />
-      </Form.Item>
-      <Button type="primary">Save Changes</Button>
-    </Form>
-  </Card>
-);
-
-const AppearanceSettings = () => {
-  const { mode, setMode, isDark } = useThemeMode();
+const GeneralSettings = () => {
+  const { language, setLanguage } = useThemeMode();
 
   return (
     <Card>
-      <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Form layout="vertical" initialValues={{ timezone: 'utc' }}>
+        <Form.Item label="Workspace name" name="workspace">
+          <Input placeholder="My Company" />
+        </Form.Item>
+        <Form.Item label="Language" help="Switches the app language and the text direction.">
+          <Select
+            value={language}
+            onChange={setLanguage}
+            options={LANGUAGES.map((item) => ({ value: item.code, label: item.label }))}
+          />
+        </Form.Item>
+        <Form.Item label="Timezone" name="timezone">
+          <Select
+            options={[
+              { value: 'utc', label: 'UTC' },
+              { value: 'pkt', label: 'Pakistan Standard Time' },
+              { value: 'est', label: 'Eastern Time' },
+            ]}
+          />
+        </Form.Item>
+        <Button type="primary">Save changes</Button>
+      </Form>
+    </Card>
+  );
+};
+
+const AppearanceSettings = () => {
+  const {
+    mode,
+    setMode,
+    isDark,
+    primaryColor,
+    setPrimaryColor,
+    borderRadius,
+    setBorderRadius,
+    compact,
+    setCompact,
+    resetTheme,
+  } = useThemeMode();
+
+  return (
+    <Card>
+      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
         <div>
-          <Text strong>Theme Mode</Text>
+          <Text strong>Theme mode</Text>
           <div style={{ marginTop: 8 }}>
             <Radio.Group
               value={mode}
-              onChange={(e) => setMode(e.target.value)}
+              onChange={(event) => setMode(event.target.value)}
               optionType="button"
               buttonStyle="solid"
               options={[
-                { label: <><SunOutlined /> Light</>, value: 'light' },
-                { label: <><MoonOutlined /> Dark</>, value: 'dark' },
+                {
+                  label: (
+                    <>
+                      <SunOutlined /> Light
+                    </>
+                  ),
+                  value: 'light',
+                },
+                {
+                  label: (
+                    <>
+                      <MoonOutlined /> Dark
+                    </>
+                  ),
+                  value: 'dark',
+                },
               ]}
             />
           </div>
           <Text type="secondary" style={{ display: 'block', marginTop: 8 }}>
-            {"Applied instantly across the app via Ant Design's ConfigProvider. You're currently in "}
+            {
+              "Applied instantly across the app via Ant Design's ConfigProvider. You are currently in "
+            }
             <strong>{isDark ? 'dark' : 'light'}</strong> mode.
           </Text>
         </div>
+
         <Divider style={{ margin: 0 }} />
+
         <div>
-          <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-            <div>
-              <Text strong>Compact Sidebar</Text>
-              <div>
-                <Text type="secondary">Start with the sidebar collapsed on desktop</Text>
-              </div>
-            </div>
-            <Switch defaultChecked={false} />
+          <Text strong>Primary colour</Text>
+          <Space size={10} wrap style={{ marginTop: 10 }}>
+            {PRIMARY_PRESETS.map((preset) => {
+              const selected = preset.color.toLowerCase() === primaryColor.toLowerCase();
+              return (
+                <Button
+                  key={preset.key}
+                  onClick={() => setPrimaryColor(preset.color)}
+                  aria-label={preset.name}
+                  aria-pressed={selected}
+                  icon={selected ? <CheckOutlined /> : undefined}
+                  style={{
+                    width: 34,
+                    height: 34,
+                    background: preset.color,
+                    borderColor: preset.color,
+                    color: '#fff',
+                  }}
+                />
+              );
+            })}
           </Space>
         </div>
+
+        <div>
+          <Text strong>Corner radius</Text>
+          <div style={{ marginTop: 10 }}>
+            <Segmented
+              value={borderRadius}
+              onChange={setBorderRadius}
+              options={RADIUS_PRESETS.map((radius) => ({ value: radius, label: String(radius) }))}
+            />
+          </div>
+        </div>
+
+        <Divider style={{ margin: 0 }} />
+
+        <Space style={{ width: '100%', justifyContent: 'space-between' }}>
+          <div>
+            <Text strong>Compact density</Text>
+            <div>
+              <Text type="secondary">Tighter spacing across every component</Text>
+            </div>
+          </div>
+          <Switch checked={compact} onChange={setCompact} aria-label="Compact density" />
+        </Space>
+
+        <Button icon={<UndoOutlined />} onClick={resetTheme}>
+          Reset to defaults
+        </Button>
       </Space>
     </Card>
   );
@@ -117,10 +193,13 @@ const SecuritySettings = () => (
 
 const NotificationSettings = () => (
   <Card>
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       {[
         { title: 'Product Updates', description: 'News about product and feature updates' },
-        { title: 'Security Alerts', description: 'Important notifications about your account security' },
+        {
+          title: 'Security Alerts',
+          description: 'Important notifications about your account security',
+        },
         { title: 'Weekly Digest', description: 'A summary of activity from the past week' },
       ].map((item) => (
         <Space key={item.title} style={{ width: '100%', justifyContent: 'space-between' }}>
@@ -138,15 +217,16 @@ const NotificationSettings = () => (
 );
 
 const Settings = () => {
+  const { t } = useTranslation();
+
   return (
     <div>
-      <Title level={4} style={{ marginBottom: 4 }}>
-        Settings
-      </Title>
-      <Text type="secondary">Manage your workspace, appearance, and account preferences.</Text>
+      <PageHeader
+        title={t('nav.items.settings')}
+        subtitle="Manage your workspace, appearance, and account preferences."
+      />
 
       <Tabs
-        style={{ marginTop: 24 }}
         defaultActiveKey="general"
         items={[
           { key: 'general', label: 'General', children: <GeneralSettings /> },

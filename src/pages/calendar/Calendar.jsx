@@ -1,4 +1,15 @@
-import { Card, Calendar as AntCalendar, Badge, Typography, Row, Col, List, Tag, Space, Button } from 'antd';
+import {
+  Card,
+  Calendar as AntCalendar,
+  Badge,
+  Typography,
+  Row,
+  Col,
+  List,
+  Tag,
+  Space,
+  Button,
+} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
@@ -17,7 +28,12 @@ const upcomingEvents = [
   { title: 'Design review', date: 'Jul 5, 10:00 AM', tag: 'Design', color: 'green' },
   { title: 'Client contract renewal', date: 'Jul 12, 2:00 PM', tag: 'Sales', color: 'gold' },
   { title: 'Scheduled server maintenance', date: 'Jul 18, 11:00 PM', tag: 'Ops', color: 'red' },
-  { title: 'Sprint demo with stakeholders', date: 'Jul 18, 3:00 PM', tag: 'Product', color: 'green' },
+  {
+    title: 'Sprint demo with stakeholders',
+    date: 'Jul 18, 3:00 PM',
+    tag: 'Product',
+    color: 'green',
+  },
   { title: 'Q3 product launch', date: 'Jul 24, 9:00 AM', tag: 'Marketing', color: 'blue' },
 ];
 
@@ -44,7 +60,9 @@ const Calendar = () => {
           <Title level={4} style={{ marginBottom: 4 }}>
             Calendar
           </Title>
-          <Text type="secondary">{"Team schedule built with Ant Design's Calendar component."}</Text>
+          <Text type="secondary">
+            {"Team schedule built with Ant Design's Calendar component."}
+          </Text>
         </div>
         <Button type="primary" icon={<PlusOutlined />}>
           New Event
@@ -66,7 +84,7 @@ const Calendar = () => {
                   <List.Item.Meta
                     title={item.title}
                     description={
-                      <Space direction="vertical" size={4}>
+                      <Space orientation="vertical" size={4}>
                         <Text type="secondary" style={{ fontSize: 12 }}>
                           {item.date}
                         </Text>

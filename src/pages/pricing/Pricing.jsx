@@ -1,5 +1,19 @@
 import { useState } from 'react';
-import { Card, Row, Col, Typography, Button, Space, List, Segmented, Tag, Tooltip, Modal, Table, App } from 'antd';
+import {
+  Card,
+  Row,
+  Col,
+  Typography,
+  Button,
+  Space,
+  List,
+  Segmented,
+  Tag,
+  Tooltip,
+  Modal,
+  Table,
+  App,
+} from 'antd';
 import { CheckCircleFilled, CloseOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
@@ -39,7 +53,10 @@ const plans = [
     description: 'For organizations at scale.',
     features: [
       { label: 'Everything in Pro' },
-      { label: 'SSO & audit logs', tooltip: 'SAML/OIDC single sign-on plus exportable audit trails.' },
+      {
+        label: 'SSO & audit logs',
+        tooltip: 'SAML/OIDC single sign-on plus exportable audit trails.',
+      },
       { label: 'Dedicated support' },
       { label: 'Custom integrations' },
       { label: 'SLA guarantee' },
@@ -49,10 +66,28 @@ const plans = [
 ];
 
 const comparisonRows = [
-  { key: 'workspaces', feature: 'Workspaces', starter: '1', pro: 'Unlimited', enterprise: 'Unlimited' },
+  {
+    key: 'workspaces',
+    feature: 'Workspaces',
+    starter: '1',
+    pro: 'Unlimited',
+    enterprise: 'Unlimited',
+  },
   { key: 'pages', feature: 'Dashboard pages', starter: '5', pro: 'All', enterprise: 'All' },
-  { key: 'support', feature: 'Support', starter: 'Community', pro: 'Priority', enterprise: 'Dedicated' },
-  { key: 'analytics', feature: 'Analytics', starter: 'Basic', pro: 'Advanced', enterprise: 'Advanced' },
+  {
+    key: 'support',
+    feature: 'Support',
+    starter: 'Community',
+    pro: 'Priority',
+    enterprise: 'Dedicated',
+  },
+  {
+    key: 'analytics',
+    feature: 'Analytics',
+    starter: 'Basic',
+    pro: 'Advanced',
+    enterprise: 'Advanced',
+  },
   { key: 'theming', feature: 'Custom theming', starter: false, pro: true, enterprise: true },
   { key: 'sso', feature: 'SSO & audit logs', starter: false, pro: false, enterprise: true },
   { key: 'sla', feature: 'SLA guarantee', starter: false, pro: false, enterprise: true },
@@ -68,7 +103,13 @@ const comparisonColumns = [
   { title: 'Feature', dataIndex: 'feature', key: 'feature' },
   { title: 'Starter', dataIndex: 'starter', key: 'starter', align: 'center', render: renderCell },
   { title: 'Pro', dataIndex: 'pro', key: 'pro', align: 'center', render: renderCell },
-  { title: 'Enterprise', dataIndex: 'enterprise', key: 'enterprise', align: 'center', render: renderCell },
+  {
+    title: 'Enterprise',
+    dataIndex: 'enterprise',
+    key: 'enterprise',
+    align: 'center',
+    render: renderCell,
+  },
 ];
 
 const Pricing = () => {
@@ -83,11 +124,17 @@ const Pricing = () => {
 
   return (
     <div>
-      <Space direction="vertical" size={4} style={{ width: '100%', textAlign: 'center', marginBottom: 24 }}>
+      <Space
+        orientation="vertical"
+        size={4}
+        style={{ width: '100%', textAlign: 'center', marginBottom: 24 }}
+      >
         <Title level={4} style={{ marginBottom: 0 }}>
           Pricing Plans
         </Title>
-        <Text type="secondary">Simple, transparent pricing example built with Ant Design cards.</Text>
+        <Text type="secondary">
+          Simple, transparent pricing example built with Ant Design cards.
+        </Text>
         <Space style={{ marginTop: 12 }}>
           <Segmented
             value={cycle}
@@ -110,7 +157,7 @@ const Pricing = () => {
                 borderTop: plan.highlighted ? '3px solid #1677ff' : undefined,
               }}
             >
-              <Space direction="vertical" size={16} style={{ width: '100%' }}>
+              <Space orientation="vertical" size={16} style={{ width: '100%' }}>
                 <Space style={{ width: '100%', justifyContent: 'space-between' }}>
                   <Title level={5} style={{ margin: 0 }}>
                     {plan.name}
@@ -172,7 +219,7 @@ const Pricing = () => {
         okText="Proceed to Checkout"
       >
         {selectedPlan && (
-          <Space direction="vertical" size={8} style={{ width: '100%' }}>
+          <Space orientation="vertical" size={8} style={{ width: '100%' }}>
             <Text>
               You are about to select the <Text strong>{selectedPlan.name}</Text> plan, billed{' '}
               {cycle === 'monthly' ? 'monthly' : 'yearly'}.

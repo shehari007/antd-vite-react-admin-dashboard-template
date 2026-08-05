@@ -1,37 +1,88 @@
 {
   "name": "vitedash",
+  "version": "2.2.0",
+  "private": true,
+  "type": "module",
   "description": "ViteDash, a React 19 + Vite 8 + Ant Design 6 admin dashboard template",
+  "keywords": [
+    "react",
+    "react-19",
+    "vite",
+    "antd",
+    "ant-design",
+    "admin",
+    "dashboard",
+    "template",
+    "starter",
+    "boilerplate",
+    "rbac",
+    "dark-mode",
+    "rtl",
+    "i18n"
+  ],
+  "homepage": "https://vitedash.msyb.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shehari007/vitedash-vite-antd-dashboard-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shehari007/vitedash-vite-antd-dashboard-template/issues"
+  },
+  "license": "MIT",
   "author": {
     "name": "Muhammad Sheharyar Butt",
     "email": "shehariyar@gmail.com",
     "url": "https://github.com/shehari007"
   },
-  "homepage": "/dashboard/home",
-  "private": true,
-  "version": "2.1.0",
-  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "analyze": "vite build --mode analyze",
+    "check": "npm run lint && npm run format:check && npm run test"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.3.2",
+    "@fontsource-variable/inter": "^5.3.0",
     "antd": "^6.5.0",
+    "dayjs": "^1.11.21",
+    "i18next": "^26.3.6",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-router-dom": "^7.18.1"
+    "react-i18next": "^17.0.11",
+    "react-router-dom": "^7.18.1",
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
+    "@vitest/coverage-v8": "^4.1.10",
     "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^16.5.0",
-    "vite": "^8.1.2"
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.6",
+    "rollup-plugin-visualizer": "^7.0.1",
+    "vite": "^8.1.2",
+    "vitest": "^4.1.10"
   }
 }

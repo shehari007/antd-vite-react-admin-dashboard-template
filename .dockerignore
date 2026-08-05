@@ -1,0 +1,15 @@
+node_modules
+dist
+coverage
+stats.html
+.git
+.github
+.claude
+.vscode
+.env
+.env.*
+!.env.example
+*.log
+README.md
+CHANGELOG.md
+CONTRIBUTING.md

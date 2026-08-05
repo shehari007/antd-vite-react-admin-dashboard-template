@@ -1,0 +1,257 @@
+/**
+ * Notifications, the activity trail, and the permission matrix behind the
+ * Roles page. Timestamps are stored as "minutes ago" so the demo never looks
+ * stale, which is a small trick worth keeping in your own mock data.
+ */
+
+export const NOTIFICATIONS = [
+  {
+    id: 'n-1',
+    type: 'order',
+    title: 'New order received',
+    body: 'Order ORD-1043 for $1,280.00 is waiting for approval.',
+    minutesAgo: 2,
+    read: false,
+  },
+  {
+    id: 'n-2',
+    type: 'alert',
+    title: 'Server CPU above 80%',
+    body: 'api-eu-1 has been over threshold for 12 minutes.',
+    minutesAgo: 48,
+    read: false,
+  },
+  {
+    id: 'n-3',
+    type: 'report',
+    title: 'Weekly report is ready',
+    body: 'Your revenue summary for last week has finished generating.',
+    minutesAgo: 180,
+    read: false,
+  },
+  {
+    id: 'n-4',
+    type: 'member',
+    title: 'Emma Wilson joined the workspace',
+    body: 'Invited by you, assigned the editor role.',
+    minutesAgo: 420,
+    read: true,
+  },
+  {
+    id: 'n-5',
+    type: 'billing',
+    title: 'Invoice INV-2201 was paid',
+    body: 'Payment of $4,900.00 cleared successfully.',
+    minutesAgo: 1500,
+    read: true,
+  },
+  {
+    id: 'n-6',
+    type: 'alert',
+    title: 'Two failed sign in attempts',
+    body: 'From an unrecognised device in Berlin, Germany.',
+    minutesAgo: 2880,
+    read: true,
+  },
+];
+
+export const ACTIVITY_LOG = [
+  {
+    id: 'a-1',
+    actor: 'Sheharyar Butt',
+    action: 'updated',
+    target: 'Billing settings',
+    detail: 'Changed the invoice contact email',
+    ip: '203.0.113.24',
+    device: 'Chrome on Windows',
+    minutesAgo: 12,
+    severity: 'info',
+  },
+  {
+    id: 'a-2',
+    actor: 'Emma Wilson',
+    action: 'created',
+    target: 'Project: Q3 Redesign',
+    detail: 'Added 4 team members',
+    ip: '198.51.100.7',
+    device: 'Safari on macOS',
+    minutesAgo: 75,
+    severity: 'success',
+  },
+  {
+    id: 'a-3',
+    actor: 'System',
+    action: 'blocked',
+    target: 'Sign in attempt',
+    detail: 'Two failed attempts from an unrecognised device',
+    ip: '192.0.2.51',
+    device: 'Unknown',
+    minutesAgo: 190,
+    severity: 'warning',
+  },
+  {
+    id: 'a-4',
+    actor: 'Liam Carter',
+    action: 'exported',
+    target: 'Users report',
+    detail: 'CSV export, 1,284 rows',
+    ip: '203.0.113.88',
+    device: 'Firefox on Ubuntu',
+    minutesAgo: 340,
+    severity: 'info',
+  },
+  {
+    id: 'a-5',
+    actor: 'Olivia Chen',
+    action: 'deleted',
+    target: 'API key: staging-reader',
+    detail: 'Key was unused for 90 days',
+    ip: '198.51.100.19',
+    device: 'Chrome on macOS',
+    minutesAgo: 610,
+    severity: 'error',
+  },
+  {
+    id: 'a-6',
+    actor: 'Sheharyar Butt',
+    action: 'invited',
+    target: 'noah@example.com',
+    detail: 'Assigned the viewer role',
+    ip: '203.0.113.24',
+    device: 'Chrome on Windows',
+    minutesAgo: 1440,
+    severity: 'success',
+  },
+  {
+    id: 'a-7',
+    actor: 'System',
+    action: 'completed',
+    target: 'Nightly backup',
+    detail: 'Snapshot stored in eu-west-1',
+    ip: 'internal',
+    device: 'Scheduler',
+    minutesAgo: 1620,
+    severity: 'info',
+  },
+];
+
+/**
+ * The permission matrix rendered by the Roles page.
+ *
+ * This is deliberately data rather than code: a real app reads the same shape
+ * out of the database, and the page does not care where it came from.
+ */
+export const PERMISSION_MATRIX = [
+  {
+    id: 'perm-1',
+    group: 'Dashboards',
+    name: 'View dashboards',
+    admin: true,
+    editor: true,
+    viewer: true,
+  },
+  {
+    id: 'perm-2',
+    group: 'Dashboards',
+    name: 'Export reports',
+    admin: true,
+    editor: true,
+    viewer: false,
+  },
+  {
+    id: 'perm-3',
+    group: 'Content',
+    name: 'Create and edit content',
+    admin: true,
+    editor: true,
+    viewer: false,
+  },
+  {
+    id: 'perm-4',
+    group: 'Content',
+    name: 'Publish content',
+    admin: true,
+    editor: true,
+    viewer: false,
+  },
+  {
+    id: 'perm-5',
+    group: 'Content',
+    name: 'Delete content',
+    admin: true,
+    editor: false,
+    viewer: false,
+  },
+  {
+    id: 'perm-6',
+    group: 'People',
+    name: 'Invite members',
+    admin: true,
+    editor: false,
+    viewer: false,
+  },
+  {
+    id: 'perm-7',
+    group: 'People',
+    name: 'Change roles',
+    admin: true,
+    editor: false,
+    viewer: false,
+  },
+  {
+    id: 'perm-8',
+    group: 'Billing',
+    name: 'View invoices',
+    admin: true,
+    editor: true,
+    viewer: false,
+  },
+  {
+    id: 'perm-9',
+    group: 'Billing',
+    name: 'Update payment method',
+    admin: true,
+    editor: false,
+    viewer: false,
+  },
+  {
+    id: 'perm-10',
+    group: 'Security',
+    name: 'View the activity log',
+    admin: true,
+    editor: true,
+    viewer: false,
+  },
+  {
+    id: 'perm-11',
+    group: 'Security',
+    name: 'Manage API keys',
+    admin: true,
+    editor: false,
+    viewer: false,
+  },
+];
+
+export const ROLE_SUMMARY = [
+  {
+    key: 'admin',
+    name: 'Administrator',
+    description: 'Full access, including people, billing, and security.',
+    members: 3,
+    color: 'red',
+  },
+  {
+    key: 'editor',
+    name: 'Editor',
+    description: 'Creates and publishes content, reads reports and invoices.',
+    members: 12,
+    color: 'blue',
+  },
+  {
+    key: 'viewer',
+    name: 'Viewer',
+    description: 'Read only access to dashboards.',
+    members: 41,
+    color: 'default',
+  },
+];

@@ -1,10 +1,20 @@
 import { useMemo } from 'react';
 import { Menu } from 'antd';
-import { SIDER_INLINE_INDENT } from '../context/theme-mode-context';
-import { buildNavItems, SECTION_LABEL } from './navConfig';
+import { useTranslation } from 'react-i18next';
+import { SIDER_INLINE_INDENT } from '@/context/theme-mode-context';
+import { buildNavItems, getSectionLabels } from './navConfig';
+import { useAuth } from '@/context/useAuth';
 
 const LayoutMenu = ({ selectedKey, activeRootKey, openKeys, onOpenChange, onItemClick }) => {
-  const items = useMemo(() => buildNavItems(activeRootKey), [activeRootKey]);
+  const { t } = useTranslation();
+  const { hasRole } = useAuth();
+
+  // Rebuilt when the language or the role changes, not on every render.
+  const items = useMemo(
+    () => buildNavItems(t, { activeRootKey, hasRole }),
+    [t, activeRootKey, hasRole]
+  );
+  const sectionLabels = useMemo(() => getSectionLabels(t), [t]);
 
   return (
     <Menu
@@ -22,7 +32,7 @@ const LayoutMenu = ({ selectedKey, activeRootKey, openKeys, onOpenChange, onItem
       onClick={onItemClick}
       popupRender={(node, { keys }) => (
         <div className="app-flyout__panel">
-          <div className="app-flyout__title">{SECTION_LABEL[keys[keys.length - 1]]}</div>
+          <div className="app-flyout__title">{sectionLabels[keys[keys.length - 1]]}</div>
           {node}
         </div>
       )}

@@ -88,7 +88,7 @@ const faqItems = [
     category: 'troubleshooting',
     label: 'Lint is failing after I added a new page, what should I check?',
     children:
-      "Run npm run lint locally. The most common causes are unused imports, missing key props in lists, and unescaped apostrophes inside JSX text.",
+      'Run npm run lint locally. The most common causes are unused imports, missing key props in lists, and unescaped apostrophes inside JSX text.',
   },
   {
     key: '8',
@@ -130,7 +130,7 @@ const FAQ = () => {
     key: item.key,
     label: item.label,
     children: (
-      <Space direction="vertical" size={12} style={{ width: '100%' }}>
+      <Space orientation="vertical" size={12} style={{ width: '100%' }}>
         <Paragraph type="secondary" style={{ marginBottom: 0 }}>
           {item.children}
         </Paragraph>
@@ -162,7 +162,11 @@ const FAQ = () => {
 
   return (
     <div>
-      <Space direction="vertical" size={4} style={{ width: '100%', textAlign: 'center', marginBottom: 24 }}>
+      <Space
+        orientation="vertical"
+        size={4}
+        style={{ width: '100%', textAlign: 'center', marginBottom: 24 }}
+      >
         <Title level={4} style={{ marginBottom: 0 }}>
           Help Center
         </Title>
@@ -188,11 +192,14 @@ const FAQ = () => {
               style={{
                 height: '100%',
                 textAlign: 'center',
-                borderTop: activeCategory === category.key ? `2px solid ${category.color}` : undefined,
+                borderTop:
+                  activeCategory === category.key ? `2px solid ${category.color}` : undefined,
               }}
-              onClick={() => setActiveCategory((prev) => (prev === category.key ? null : category.key))}
+              onClick={() =>
+                setActiveCategory((prev) => (prev === category.key ? null : category.key))
+              }
             >
-              <Space direction="vertical" size={4}>
+              <Space orientation="vertical" size={4}>
                 <span style={{ fontSize: 22, color: category.color }}>{category.icon}</span>
                 <Text strong style={{ fontSize: 13 }}>
                   {category.label}
@@ -210,7 +217,11 @@ const FAQ = () => {
         <Col xs={24} lg={16}>
           <Card
             style={{ height: '100%' }}
-            title={activeCategory ? categories.find((c) => c.key === activeCategory)?.label : 'All Articles'}
+            title={
+              activeCategory
+                ? categories.find((c) => c.key === activeCategory)?.label
+                : 'All Articles'
+            }
             extra={
               activeCategory && (
                 <Button type="link" size="small" onClick={() => setActiveCategory(null)}>
@@ -220,14 +231,19 @@ const FAQ = () => {
             }
           >
             {collapseItems.length > 0 ? (
-              <Collapse defaultActiveKey={['1']} items={collapseItems} bordered={false} expandIconPosition="end" />
+              <Collapse
+                defaultActiveKey={['1']}
+                items={collapseItems}
+                bordered={false}
+                expandIconPosition="end"
+              />
             ) : (
               <Empty description="No articles match your search" />
             )}
           </Card>
         </Col>
         <Col xs={24} lg={8}>
-          <Space direction="vertical" size={16} style={{ width: '100%', height: '100%' }}>
+          <Space orientation="vertical" size={16} style={{ width: '100%', height: '100%' }}>
             <Card>
               <Row gutter={16}>
                 <Col span={12}>
@@ -251,7 +267,7 @@ const FAQ = () => {
             </Card>
 
             <Card title="Still need help?" style={{ flex: 1 }}>
-              <Space direction="vertical" size={16} style={{ width: '100%' }}>
+              <Space orientation="vertical" size={16} style={{ width: '100%' }}>
                 <Space wrap size={8}>
                   <Button icon={<MailOutlined />} href="mailto:shehariyar@gmail.com">
                     Email
@@ -261,7 +277,10 @@ const FAQ = () => {
                 </Space>
 
                 <Form form={form} layout="vertical" onFinish={handleContactSubmit}>
-                  <Form.Item name="name" rules={[{ required: true, message: 'Please enter your name' }]}>
+                  <Form.Item
+                    name="name"
+                    rules={[{ required: true, message: 'Please enter your name' }]}
+                  >
                     <Input placeholder="Your name" />
                   </Form.Item>
                   <Form.Item
@@ -273,7 +292,10 @@ const FAQ = () => {
                   >
                     <Input placeholder="Your email" />
                   </Form.Item>
-                  <Form.Item name="message" rules={[{ required: true, message: 'Please add a short message' }]}>
+                  <Form.Item
+                    name="message"
+                    rules={[{ required: true, message: 'Please add a short message' }]}
+                  >
                     <TextArea rows={3} placeholder="How can we help?" />
                   </Form.Item>
                   <Button type="primary" htmlType="submit" block>

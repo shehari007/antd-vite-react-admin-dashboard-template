@@ -1,15 +1,5 @@
 import { useState } from 'react';
-import {
-  Card,
-  Table,
-  Avatar,
-  Tag,
-  Space,
-  Button,
-  Input,
-  Dropdown,
-  Typography,
-} from 'antd';
+import { Card, Table, Avatar, Tag, Space, Button, Input, Dropdown, Typography } from 'antd';
 import {
   UserOutlined,
   SearchOutlined,
@@ -35,12 +25,54 @@ const statusColors = {
 };
 
 const initialUsers = [
-  { key: '1', name: 'Emma Wilson', email: 'emma@example.com', role: 'Admin', status: 'active', joined: '2025-01-12' },
-  { key: '2', name: 'Liam Carter', email: 'liam@example.com', role: 'Editor', status: 'active', joined: '2025-03-04' },
-  { key: '3', name: 'Olivia Chen', email: 'olivia@example.com', role: 'Viewer', status: 'invited', joined: '2025-05-19' },
-  { key: '4', name: 'Noah Patel', email: 'noah@example.com', role: 'Editor', status: 'active', joined: '2025-06-30' },
-  { key: '5', name: 'Ava Martinez', email: 'ava@example.com', role: 'Viewer', status: 'suspended', joined: '2025-09-08' },
-  { key: '6', name: 'William Turner', email: 'william@example.com', role: 'Admin', status: 'active', joined: '2025-11-21' },
+  {
+    key: '1',
+    name: 'Emma Wilson',
+    email: 'emma@example.com',
+    role: 'Admin',
+    status: 'active',
+    joined: '2025-01-12',
+  },
+  {
+    key: '2',
+    name: 'Liam Carter',
+    email: 'liam@example.com',
+    role: 'Editor',
+    status: 'active',
+    joined: '2025-03-04',
+  },
+  {
+    key: '3',
+    name: 'Olivia Chen',
+    email: 'olivia@example.com',
+    role: 'Viewer',
+    status: 'invited',
+    joined: '2025-05-19',
+  },
+  {
+    key: '4',
+    name: 'Noah Patel',
+    email: 'noah@example.com',
+    role: 'Editor',
+    status: 'active',
+    joined: '2025-06-30',
+  },
+  {
+    key: '5',
+    name: 'Ava Martinez',
+    email: 'ava@example.com',
+    role: 'Viewer',
+    status: 'suspended',
+    joined: '2025-09-08',
+  },
+  {
+    key: '6',
+    name: 'William Turner',
+    email: 'william@example.com',
+    role: 'Admin',
+    status: 'active',
+    joined: '2025-11-21',
+  },
 ];
 
 const Users = () => {
@@ -59,7 +91,7 @@ const Users = () => {
       render: (name, record) => (
         <Space>
           <Avatar icon={<UserOutlined />} />
-          <Space direction="vertical" size={0}>
+          <Space orientation="vertical" size={0}>
             <span>{name}</span>
             <Typography.Text type="secondary" style={{ fontSize: 12 }}>
               <MailOutlined /> {record.email}
@@ -112,10 +144,7 @@ const Users = () => {
 
   return (
     <div>
-      <Space
-        style={{ width: '100%', justifyContent: 'space-between', marginBottom: 24 }}
-        wrap
-      >
+      <Space style={{ width: '100%', justifyContent: 'space-between', marginBottom: 24 }} wrap>
         <div>
           <Title level={4} style={{ marginBottom: 4 }}>
             Users

@@ -67,9 +67,11 @@ const locationOptions = [
   },
 ];
 
-const companySuggestions = ['Acme Corp', 'Globex Inc', 'Initech', 'Umbrella LLC', 'Hooli'].map((name) => ({
-  value: name,
-}));
+const companySuggestions = ['Acme Corp', 'Globex Inc', 'Initech', 'Umbrella LLC', 'Hooli'].map(
+  (name) => ({
+    value: name,
+  })
+);
 
 const BasicDetailsForm = () => {
   const { message } = App.useApp();
@@ -240,7 +242,12 @@ const AdvancedFieldsForm = () => {
             </Form.Item>
           </Col>
           <Col xs={24} md={16}>
-            <Form.Item label="Attachments" name="attachments" valuePropName="fileList" getValueFromEvent={(e) => e?.fileList}>
+            <Form.Item
+              label="Attachments"
+              name="attachments"
+              valuePropName="fileList"
+              getValueFromEvent={(e) => e?.fileList}
+            >
               <Upload beforeUpload={() => false} multiple>
                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
               </Upload>
@@ -319,13 +326,21 @@ const MultiStepWizard = () => {
 
   return (
     <Card>
-      <Steps current={current} items={wizardSteps.map((title) => ({ title }))} style={{ marginBottom: 32 }} />
+      <Steps
+        current={current}
+        items={wizardSteps.map((title) => ({ title }))}
+        style={{ marginBottom: 32 }}
+      />
 
       <Form form={form} layout="vertical" onFinish={handleFinish}>
         <div style={{ display: current === 0 ? 'block' : 'none' }}>
           <Row gutter={16}>
             <Col xs={24} md={12}>
-              <Form.Item label="Full Name" name="fullName" rules={[{ required: true, message: 'Please enter your name' }]}>
+              <Form.Item
+                label="Full Name"
+                name="fullName"
+                rules={[{ required: true, message: 'Please enter your name' }]}
+              >
                 <Input placeholder="Jane Doe" />
               </Form.Item>
             </Col>
@@ -401,11 +416,19 @@ const MultiStepWizard = () => {
           <Form.Item shouldUpdate>
             {() => (
               <Descriptions column={1} bordered size="small" title="Review your details">
-                <Descriptions.Item label="Full Name">{form.getFieldValue('fullName')}</Descriptions.Item>
+                <Descriptions.Item label="Full Name">
+                  {form.getFieldValue('fullName')}
+                </Descriptions.Item>
                 <Descriptions.Item label="Email">{form.getFieldValue('email')}</Descriptions.Item>
-                <Descriptions.Item label="Company">{form.getFieldValue('companyName')}</Descriptions.Item>
-                <Descriptions.Item label="Team Size">{form.getFieldValue('teamSize')}</Descriptions.Item>
-                <Descriptions.Item label="Industry">{form.getFieldValue('industry')}</Descriptions.Item>
+                <Descriptions.Item label="Company">
+                  {form.getFieldValue('companyName')}
+                </Descriptions.Item>
+                <Descriptions.Item label="Team Size">
+                  {form.getFieldValue('teamSize')}
+                </Descriptions.Item>
+                <Descriptions.Item label="Industry">
+                  {form.getFieldValue('industry')}
+                </Descriptions.Item>
               </Descriptions>
             )}
           </Form.Item>

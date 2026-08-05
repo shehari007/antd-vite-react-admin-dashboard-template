@@ -79,10 +79,10 @@ const Kanban = () => {
                 </Space>
               }
             >
-              <Space direction="vertical" size={12} style={{ width: '100%' }}>
+              <Space orientation="vertical" size={12} style={{ width: '100%' }}>
                 {column.cards.map((card) => (
                   <Card key={card.title} size="small" hoverable>
-                    <Space direction="vertical" size={8} style={{ width: '100%' }}>
+                    <Space orientation="vertical" size={8} style={{ width: '100%' }}>
                       <Text strong>{card.title}</Text>
                       <Space style={{ width: '100%', justifyContent: 'space-between' }}>
                         <Tag color={tagColors[card.tag]}>{card.tag}</Tag>

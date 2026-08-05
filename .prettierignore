@@ -1,0 +1,7 @@
+dist
+coverage
+node_modules
+stats.html
+package-lock.json
+*.png
+*.svg

@@ -1,18 +1,27 @@
-import { Input, Form, Button, Space, Typography, Checkbox, theme } from 'antd';
+import { App, Input, Form, Button, Space, Typography, Checkbox, theme } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
-import { Link as RouterLink } from 'react-router-dom';
-import AuthLayout from '../../layout/AuthLayout';
-import handleSignIn from '../../Utils/Auth/SignIn';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import AuthLayout from '@/layout/AuthLayout';
+import { useAuth } from '@/context/useAuth';
 
 const { Text } = Typography;
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const { signUp, isPending } = useAuth();
+  const { message } = App.useApp();
   const {
     token: { colorPrimary },
   } = theme.useToken();
 
   const handleOnSubmit = async (values) => {
-    await handleSignIn(values);
+    try {
+      const user = await signUp(values);
+      message.success(`Welcome, ${user.name}`);
+      navigate('/dashboard/home', { replace: true });
+    } catch (error) {
+      message.error(error.message || 'Sign up failed. Please try again.');
+    }
   };
 
   return (
@@ -21,7 +30,7 @@ const SignUp = () => {
       title="Create your account"
       subtitle="Set up your workspace in less than a minute."
     >
-      <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
         <Form onFinish={handleOnSubmit} layout="vertical" style={{ width: '100%' }}>
           <Form.Item
             label="Full Name"
@@ -113,7 +122,7 @@ const SignUp = () => {
           </Form.Item>
 
           <Form.Item style={{ marginBottom: 0 }}>
-            <Button type="primary" htmlType="submit" size="large" block>
+            <Button type="primary" htmlType="submit" size="large" block loading={isPending}>
               Create Account
             </Button>
           </Form.Item>

@@ -52,10 +52,30 @@ const skills = [
 ];
 
 const activity = [
-  { text: 'Completed the Q2 roadmap review', icon: <CheckCircleFilled />, color: '#52c41a', time: '2 days ago' },
-  { text: 'Shipped the new onboarding flow', icon: <RocketOutlined />, color: '#1677ff', time: '5 days ago' },
-  { text: 'Led the design system workshop', icon: <TeamOutlined />, color: '#722ed1', time: '1 week ago' },
-  { text: 'Published the accessibility audit', icon: <SafetyCertificateOutlined />, color: '#faad14', time: '2 weeks ago' },
+  {
+    text: 'Completed the Q2 roadmap review',
+    icon: <CheckCircleFilled />,
+    color: '#52c41a',
+    time: '2 days ago',
+  },
+  {
+    text: 'Shipped the new onboarding flow',
+    icon: <RocketOutlined />,
+    color: '#1677ff',
+    time: '5 days ago',
+  },
+  {
+    text: 'Led the design system workshop',
+    icon: <TeamOutlined />,
+    color: '#722ed1',
+    time: '1 week ago',
+  },
+  {
+    text: 'Published the accessibility audit',
+    icon: <SafetyCertificateOutlined />,
+    color: '#faad14',
+    time: '2 weeks ago',
+  },
 ];
 
 const aboutItems = [
@@ -89,7 +109,7 @@ const ProfileOverview = () => (
     </Col>
     <Col xs={24} lg={12}>
       <Card title="Skills" style={{ height: '100%' }}>
-        <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
           {skills.map((skill) => (
             <div key={skill.name}>
               <Space style={{ width: '100%', justifyContent: 'space-between' }}>
@@ -113,7 +133,10 @@ const ProfileOverview = () => (
             <List.Item>
               <List.Item.Meta
                 avatar={
-                  <Avatar style={{ backgroundColor: `${item.color}1a`, color: item.color }} icon={item.icon} />
+                  <Avatar
+                    style={{ backgroundColor: `${item.color}1a`, color: item.color }}
+                    icon={item.icon}
+                  />
                 }
                 title={item.text}
                 description={
@@ -151,7 +174,7 @@ const ProfileEdit = () => {
           phone: '+92 300 0000000',
         }}
       >
-        <Space direction="vertical" size={4} style={{ marginBottom: 24 }}>
+        <Space orientation="vertical" size={4} style={{ marginBottom: 24 }}>
           <Text strong>Profile Photo</Text>
           <Space align="center" size={16}>
             <Avatar size={64} icon={<UserOutlined />} />
@@ -263,7 +286,10 @@ const Profile = () => {
               direction={screens.sm ? 'horizontal' : 'vertical'}
               align={screens.sm ? 'end' : 'center'}
               size={16}
-              style={{ width: screens.sm ? 'auto' : '100%', textAlign: screens.sm ? 'left' : 'center' }}
+              style={{
+                width: screens.sm ? 'auto' : '100%',
+                textAlign: screens.sm ? 'left' : 'center',
+              }}
             >
               <Avatar
                 size={96}
@@ -274,7 +300,10 @@ const Profile = () => {
                 <Title level={4} style={{ marginBottom: 4 }}>
                   Muhammad Sheharyar Butt
                 </Title>
-                <Space wrap style={{ justifyContent: screens.sm ? 'flex-start' : 'center', width: '100%' }}>
+                <Space
+                  wrap
+                  style={{ justifyContent: screens.sm ? 'flex-start' : 'center', width: '100%' }}
+                >
                   <Tag color="blue">Product Designer</Tag>
                   <Tag color="green">Active</Tag>
                   <Tag color="gold">Pro Member</Tag>
@@ -301,7 +330,7 @@ const Profile = () => {
                   borderInlineStart: index > 0 ? '1px solid rgba(128,128,128,0.15)' : undefined,
                 }}
               >
-                <Space direction="vertical" size={2}>
+                <Space orientation="vertical" size={2}>
                   <span style={{ color: stat.color, fontSize: 18 }}>{stat.icon}</span>
                   <Text strong style={{ fontSize: screens.sm ? 18 : 14 }}>
                     {stat.value}

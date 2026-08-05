@@ -1,38 +1,100 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { App as AntApp, ConfigProvider, theme as antdTheme } from 'antd';
+import { useTranslation } from 'react-i18next';
+import enUS from 'antd/locale/en_US';
+import esES from 'antd/locale/es_ES';
+import arEG from 'antd/locale/ar_EG';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+import 'dayjs/locale/ar';
+import { getLanguageMeta } from '@/i18n';
 import {
+  DEFAULT_THEME,
   FONT_FAMILY,
   SIDER_BG,
   SIDER_BG_ELEVATED,
   ThemeModeContext,
+  hexToRgba,
 } from './theme-mode-context';
 
-const STORAGE_KEY = 'dashboard-theme-mode';
+const MODE_KEY = 'dashboard-theme-mode';
+const TOKENS_KEY = 'dashboard-theme-tokens';
+
+const ANTD_LOCALES = { en: enUS, es: esES, ar: arEG };
 
 const getSystemPreference = () =>
   window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
 const getInitialMode = () => {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  return stored === 'light' || stored === 'dark' ? stored : getSystemPreference();
+  try {
+    const stored = localStorage.getItem(MODE_KEY);
+    if (stored === 'light' || stored === 'dark') return stored;
+  } catch {
+    /* private browsing, fall through to the OS preference */
+  }
+  return getSystemPreference();
+};
+
+const getInitialTokens = () => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(TOKENS_KEY) || 'null');
+    if (stored && typeof stored === 'object') return { ...DEFAULT_THEME, ...stored };
+  } catch {
+    /* corrupt or unavailable, fall back to the defaults */
+  }
+  return DEFAULT_THEME;
 };
 
 const prefersReducedMotion = () =>
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
 export const ThemeModeProvider = ({ children }) => {
+  const { i18n } = useTranslation();
   const [mode, setMode] = useState(getInitialMode);
+  const [tokens, setTokens] = useState(getInitialTokens);
   const [reducedMotion, setReducedMotion] = useState(prefersReducedMotion);
 
+  const language = i18n.resolvedLanguage || i18n.language || 'en';
+  const direction = getLanguageMeta(language).dir;
+  const { primaryColor, borderRadius, compact } = tokens;
+
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, mode);
-    // Drives the app-level scrollbar colours in index.css. The dashboard's dark
+    try {
+      localStorage.setItem(MODE_KEY, mode);
+    } catch {
+      /* the choice just will not survive a reload */
+    }
+    // Drives the app level scrollbar colours in index.css. The dashboard's dark
     // mode is explicit state, so it cannot be keyed off prefers-color-scheme.
     document.documentElement.dataset.theme = mode;
   }, [mode]);
 
-  // CSS alone cannot stop antd's JS-driven rc-motion animations (drawer slide,
-  // submenu expand) — the `motion` seed token is what disables those.
+  useEffect(() => {
+    try {
+      localStorage.setItem(TOKENS_KEY, JSON.stringify(tokens));
+    } catch {
+      /* same as above */
+    }
+    // The rail is painted from CSS custom properties rather than antd tokens,
+    // so the accent bar and focus ring have to be told about a colour change.
+    document.documentElement.style.setProperty('--rail-accent', tokens.primaryColor);
+    document.documentElement.style.setProperty(
+      '--rail-selected-bg',
+      hexToRgba(tokens.primaryColor, 0.16)
+    );
+  }, [tokens]);
+
+  // <html lang> and <html dir> are what make right to left work outside React:
+  // the CSS logical properties in index.css, text selection, and screen reader
+  // pronunciation all read them.
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.documentElement.dir = direction;
+    dayjs.locale(language === 'en' ? 'en' : language);
+  }, [language, direction]);
+
+  // CSS alone cannot stop antd's JS driven rc-motion animations (drawer slide,
+  // submenu expand). The `motion` seed token is what disables those.
   useEffect(() => {
     const query = window.matchMedia?.('(prefers-reduced-motion: reduce)');
     if (!query) return undefined;
@@ -41,30 +103,52 @@ export const ThemeModeProvider = ({ children }) => {
     return () => query.removeEventListener('change', onChange);
   }, []);
 
+  const updateTokens = useCallback((patch) => {
+    setTokens((previous) => ({ ...previous, ...patch }));
+  }, []);
+
   const contextValue = useMemo(
     () => ({
       mode,
       isDark: mode === 'dark',
       setMode,
-      toggleMode: () => setMode((prev) => (prev === 'dark' ? 'light' : 'dark')),
+      toggleMode: () => setMode((previous) => (previous === 'dark' ? 'light' : 'dark')),
+      primaryColor,
+      borderRadius,
+      compact,
+      direction,
+      language,
+      setPrimaryColor: (color) => updateTokens({ primaryColor: color }),
+      setBorderRadius: (radius) => updateTokens({ borderRadius: radius }),
+      setCompact: (value) => updateTokens({ compact: value }),
+      setLanguage: (code) => i18n.changeLanguage(code),
+      resetTheme: () => setTokens(DEFAULT_THEME),
     }),
-    [mode]
+    [mode, primaryColor, borderRadius, compact, direction, language, updateTokens, i18n]
   );
+
+  const algorithm = useMemo(() => {
+    const base = mode === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm;
+    return compact ? [base, antdTheme.compactAlgorithm] : base;
+  }, [mode, compact]);
 
   return (
     <ThemeModeContext.Provider value={contextValue}>
       <ConfigProvider
+        direction={direction}
+        locale={ANTD_LOCALES[language] || enUS}
         card={{ variant: 'borderless' }}
         theme={{
-          algorithm: mode === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+          algorithm,
           token: {
-            colorPrimary: '#1677ff',
-            borderRadius: 8,
+            colorPrimary: primaryColor,
+            borderRadius,
             fontFamily: FONT_FAMILY,
             motion: !reducedMotion,
-            boxShadowTertiary: mode === 'dark'
-              ? '0 2px 4px 0 rgba(0, 0, 0, 0.28), 0 4px 12px 0 rgba(0, 0, 0, 0.24)'
-              : '0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 4px 12px 0 rgba(0, 0, 0, 0.06)',
+            boxShadowTertiary:
+              mode === 'dark'
+                ? '0 2px 4px 0 rgba(0, 0, 0, 0.28), 0 4px 12px 0 rgba(0, 0, 0, 0.24)'
+                : '0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 4px 12px 0 rgba(0, 0, 0, 0.06)',
           },
           components: {
             Layout: {
@@ -76,7 +160,7 @@ export const ThemeModeProvider = ({ children }) => {
             },
             Menu: {
               /* -- Geometry. These four produce an icon centre of 40px in both
-                 states; see the identity in theme-mode-context.js. The fifth
+                 states, see the identity in theme-mode-context.js. The fifth
                  primitive is the Menu prop inlineIndent={24}. -------------- */
               itemMarginInline: 8,
               iconSize: 16,
@@ -109,10 +193,10 @@ export const ThemeModeProvider = ({ children }) => {
               darkItemHoverColor: '#ffffff',
               darkItemHoverBg: 'rgba(255, 255, 255, 0.06)',
               darkItemSelectedColor: '#ffffff',
-              // Tinted rather than solid #1677ff: on the solid pill a pastel
-              // glyph measured 1.8:1. This resolves to #112A54, where the
-              // dimmest accent still clears 7:1 and white text clears 14:1.
-              darkItemSelectedBg: 'rgba(22, 119, 255, 0.16)',
+              // Tinted rather than solid: on a solid pill a pastel glyph
+              // measured 1.8:1. At 16% over #101B34 the dimmest accent still
+              // clears 7:1 and white text clears 14:1.
+              darkItemSelectedBg: hexToRgba(primaryColor, 0.16),
               darkGroupTitleColor: 'rgba(255, 255, 255, 0.48)',
               darkItemDisabledColor: 'rgba(255, 255, 255, 0.28)',
             },

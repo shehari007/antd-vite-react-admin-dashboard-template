@@ -2,18 +2,26 @@ import { useState } from 'react';
 import { Input, Form, Button, Space, Typography, Result, theme } from 'antd';
 import { MailOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { Link as RouterLink } from 'react-router-dom';
-import AuthLayout from '../../layout/AuthLayout';
+import AuthLayout from '@/layout/AuthLayout';
+import { requestPasswordReset } from '@/services/authService';
 
 const { Text } = Typography;
 
 const ForgotPassword = () => {
   const [submittedEmail, setSubmittedEmail] = useState(null);
+  const [sending, setSending] = useState(false);
   const {
     token: { colorPrimary },
   } = theme.useToken();
 
-  const handleOnSubmit = (values) => {
-    setSubmittedEmail(values.email);
+  const handleOnSubmit = async (values) => {
+    setSending(true);
+    try {
+      const result = await requestPasswordReset(values);
+      setSubmittedEmail(result.sentTo);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -34,7 +42,7 @@ const ForgotPassword = () => {
           }
         />
       ) : (
-        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+        <Space orientation="vertical" size="large" style={{ width: '100%' }}>
           <Form onFinish={handleOnSubmit} layout="vertical" style={{ width: '100%' }}>
             <Form.Item
               label="Email"
@@ -52,7 +60,7 @@ const ForgotPassword = () => {
             </Form.Item>
 
             <Form.Item style={{ marginBottom: 0 }}>
-              <Button type="primary" htmlType="submit" size="large" block>
+              <Button type="primary" htmlType="submit" size="large" block loading={sending}>
                 Send Reset Link
               </Button>
             </Form.Item>

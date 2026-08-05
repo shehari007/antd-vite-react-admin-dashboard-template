@@ -1,14 +1,15 @@
 import { Row, Col, Typography, Space, Grid, theme } from 'antd';
 import { CheckCircleFilled, GithubOutlined, MailOutlined } from '@ant-design/icons';
-import logoIcon from '../assets/logo/logo-icon.png';
+import logoIcon from '@/assets/logo/logo-icon.png';
+import { APP_LINKS, APP_NAME } from '@/config/appInfo';
 
 const { Title, Text, Link } = Typography;
 const { useBreakpoint } = Grid;
 
 const highlights = [
   'Responsive layouts tuned for desktop, tablet, and mobile',
-  'System-wide light and dark mode via Ant Design theming',
-  'A growing library of ready-to-use dashboard pages',
+  'System wide light and dark mode via Ant Design theming',
+  'Role aware navigation, charts, and a searchable command palette',
 ];
 
 const AuthLayout = ({ eyebrow, title, subtitle, children }) => {
@@ -46,7 +47,13 @@ const AuthLayout = ({ eyebrow, title, subtitle, children }) => {
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
               }}
             >
-              <img src={logoIcon} alt="ViteDash" width={30} height={30} style={{ display: 'block' }} />
+              <img
+                src={logoIcon}
+                alt={APP_NAME}
+                width={30}
+                height={30}
+                style={{ display: 'block' }}
+              />
             </div>
             <Text style={{ color: '#fff', fontWeight: 600, fontSize: 20 }}>
               <span style={{ fontWeight: 700 }}>Vite</span>
@@ -58,7 +65,7 @@ const AuthLayout = ({ eyebrow, title, subtitle, children }) => {
             <Title level={2} style={{ color: '#fff', marginBottom: 16 }}>
               Manage your business from one clean dashboard.
             </Title>
-            <Space direction="vertical" size={12}>
+            <Space orientation="vertical" size={12}>
               {highlights.map((item) => (
                 <Space key={item} align="start" size={10}>
                   <CheckCircleFilled style={{ marginTop: 4, color: 'rgba(255,255,255,0.85)' }} />
@@ -91,7 +98,12 @@ const AuthLayout = ({ eyebrow, title, subtitle, children }) => {
               {eyebrow && (
                 <Text
                   type="secondary"
-                  style={{ fontSize: 12, fontWeight: 600, letterSpacing: 0.6, textTransform: 'uppercase' }}
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    letterSpacing: 0.6,
+                    textTransform: 'uppercase',
+                  }}
                 >
                   {eyebrow}
                 </Text>
@@ -105,17 +117,19 @@ const AuthLayout = ({ eyebrow, title, subtitle, children }) => {
           </div>
         </div>
 
-        <Space
-          size="middle"
-          style={{ justifyContent: 'center', width: '100%', paddingTop: 16 }}
-        >
+        <Space size="middle" style={{ justifyContent: 'center', width: '100%', paddingTop: 16 }}>
           <Text type="secondary" style={{ fontSize: 12 }}>
-            © {new Date().getFullYear()} ViteDash
+            © {new Date().getFullYear()} {APP_NAME}
           </Text>
-          <Link href="mailto:shehariyar@gmail.com" style={{ fontSize: 12 }}>
+          <Link href={APP_LINKS.email} style={{ fontSize: 12 }}>
             <MailOutlined /> Support
           </Link>
-          <Link href="https://github.com/shehari007" target="_blank" style={{ fontSize: 12 }}>
+          <Link
+            href={APP_LINKS.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontSize: 12 }}
+          >
             <GithubOutlined /> GitHub
           </Link>
         </Space>

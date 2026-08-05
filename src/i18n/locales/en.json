@@ -1,0 +1,175 @@
+{
+  "common": {
+    "search": "Search",
+    "cancel": "Cancel",
+    "save": "Save changes",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "retry": "Try again",
+    "loading": "Loading",
+    "loadFailed": "We could not load this data.",
+    "noData": "Nothing here yet",
+    "noDataHint": "Items will show up here as soon as there are any.",
+    "all": "All",
+    "actions": "Actions",
+    "status": "Status",
+    "refresh": "Refresh",
+    "markAllRead": "Mark all as read",
+    "seeAll": "See all"
+  },
+  "nav": {
+    "mainNav": "Main navigation",
+    "openNav": "Open navigation",
+    "closeNav": "Close navigation",
+    "newTab": "{{label}} (opens in a new tab)",
+    "sections": {
+      "workspace": "Workspace",
+      "library": "Page Library",
+      "account": "Account"
+    },
+    "groups": {
+      "overview": "Overview",
+      "management": "Management",
+      "communication": "Communication",
+      "templates": "Templates",
+      "authPages": "Auth Pages",
+      "errorPages": "Error Pages",
+      "account": "Account"
+    },
+    "items": {
+      "dashboard": "Dashboard",
+      "analytics": "Analytics",
+      "charts": "Charts",
+      "calendar": "Calendar",
+      "users": "Users",
+      "roles": "Roles and Permissions",
+      "projects": "Projects",
+      "products": "Products",
+      "kanban": "Kanban Board",
+      "invoices": "Invoices",
+      "chat": "Chat",
+      "notifications": "Notifications",
+      "activity": "Activity Log",
+      "forms": "Forms",
+      "pricing": "Pricing",
+      "faq": "Help Center",
+      "blank": "Blank Page",
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "forgotPassword": "Forgot Password",
+      "lock": "Lock Screen",
+      "error400": "400 Bad Request",
+      "error403": "403 Forbidden",
+      "error404": "404 Not Found",
+      "error500": "500 Server Error",
+      "maintenance": "Maintenance",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "header": {
+    "searchPlaceholder": "Search pages and actions",
+    "commandHint": "Ctrl K",
+    "quickActions": "Quick Actions",
+    "newPage": "New Page",
+    "inviteUser": "Invite User",
+    "viewRecords": "View Records",
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit fullscreen",
+    "notifications": "Notifications",
+    "notificationsUnread": "Notifications, {{count}} unread",
+    "lightMode": "Switch to light mode",
+    "darkMode": "Switch to dark mode",
+    "language": "Language",
+    "customize": "Customize theme",
+    "accountMenu": "Account menu",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "footer": {
+    "builtBy": "© {{year}} {{app}}. Built by Muhammad Sheharyar Butt.",
+    "email": "Email",
+    "docs": "Ant Design Docs",
+    "github": "GitHub"
+  },
+  "command": {
+    "title": "Command palette",
+    "placeholder": "Jump to a page or run an action",
+    "pages": "Pages",
+    "actions": "Actions",
+    "empty": "No matches",
+    "hint": "Press Enter to open, Esc to close",
+    "toggleTheme": "Toggle light and dark mode",
+    "openCustomizer": "Open theme customizer",
+    "signOut": "Sign out"
+  },
+  "customizer": {
+    "title": "Theme",
+    "subtitle": "Changes apply instantly and are remembered on this device.",
+    "mode": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "primary": "Primary colour",
+    "radius": "Corner radius",
+    "density": "Density",
+    "comfortable": "Comfortable",
+    "compact": "Compact",
+    "language": "Language",
+    "reset": "Reset to defaults"
+  },
+  "auth": {
+    "welcomeBack": "Welcome back",
+    "signInTitle": "Sign in to your account",
+    "signInSubtitle": "Enter your credentials to open the dashboard.",
+    "email": "Email",
+    "emailRequired": "Please enter your email.",
+    "emailInvalid": "Please enter a valid email address.",
+    "password": "Password",
+    "passwordRequired": "Please enter your password.",
+    "remember": "Remember me",
+    "forgot": "Forgot password?",
+    "signIn": "Sign In",
+    "noAccount": "Do not have an account?",
+    "signUpNow": "Sign up now",
+    "demoHint": "Demo accounts: admin@vitedash.dev or editor@vitedash.dev, any password.",
+    "lockTitle": "Screen locked",
+    "lockSubtitle": "Enter your password to pick up where you left off.",
+    "unlock": "Unlock",
+    "notYou": "Not you? Sign in with another account",
+    "signedInAs": "Signed in as"
+  },
+  "page": {
+    "charts": {
+      "title": "Charts",
+      "subtitle": "Recharts examples that follow the active Ant Design theme."
+    },
+    "products": {
+      "title": "Products",
+      "subtitle": "A catalogue loaded through the service layer, with real loading and error states."
+    },
+    "roles": {
+      "title": "Roles and Permissions",
+      "subtitle": "Who can see what. This page is restricted to the admin role."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "subtitle": "Everything the app wanted to tell you, in one place."
+    },
+    "activity": {
+      "title": "Activity Log",
+      "subtitle": "An audit trail of recent account activity."
+    },
+    "maintenance": {
+      "title": "Down for maintenance",
+      "subtitle": "We are making things better and will be back shortly.",
+      "back": "Back to dashboard"
+    },
+    "forbidden": {
+      "title": "You do not have access to this page",
+      "subtitle": "Your role does not include permission for this area. Ask an administrator if you think this is a mistake."
+    }
+  }
+}

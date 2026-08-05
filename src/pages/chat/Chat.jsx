@@ -54,9 +54,21 @@ const { Text, Title } = Typography;
 const { useBreakpoint } = Grid;
 
 const sharedFiles = [
-  { name: 'project-brief.pdf', size: '1.2 MB', icon: <FilePdfOutlined style={{ color: '#ff4d4f' }} /> },
-  { name: 'homepage-mockup.png', size: '3.4 MB', icon: <FileImageOutlined style={{ color: '#1677ff' }} /> },
-  { name: 'assets-export.zip', size: '8.7 MB', icon: <FileZipOutlined style={{ color: '#faad14' }} /> },
+  {
+    name: 'project-brief.pdf',
+    size: '1.2 MB',
+    icon: <FilePdfOutlined style={{ color: '#ff4d4f' }} />,
+  },
+  {
+    name: 'homepage-mockup.png',
+    size: '3.4 MB',
+    icon: <FileImageOutlined style={{ color: '#1677ff' }} />,
+  },
+  {
+    name: 'assets-export.zip',
+    size: '8.7 MB',
+    icon: <FileZipOutlined style={{ color: '#faad14' }} />,
+  },
 ];
 
 const avatarUrl = (id) => `https://i.pravatar.cc/150?img=${id}`;
@@ -143,7 +155,13 @@ const people = [
 ];
 
 const initialRequests = [
-  { key: 'sophia', name: 'Sophia Lee', role: 'Product Marketing', avatar: avatarUrl(31), mutual: 3 },
+  {
+    key: 'sophia',
+    name: 'Sophia Lee',
+    role: 'Product Marketing',
+    avatar: avatarUrl(31),
+    mutual: 3,
+  },
   { key: 'james', name: 'James Park', role: 'Sales', avatar: avatarUrl(15), mutual: 1 },
 ];
 
@@ -170,7 +188,12 @@ const initialThreads = [
     unread: 0,
     messages: [
       { from: 'them', text: 'Thanks for the quick turnaround!', time: 'Mon' },
-      { from: 'me', text: 'Anytime, let me know if anything else comes up.', time: 'Mon', read: true },
+      {
+        from: 'me',
+        text: 'Anytime, let me know if anything else comes up.',
+        time: 'Mon',
+        read: true,
+      },
     ],
   },
   {
@@ -210,7 +233,8 @@ const Chat = () => {
   const [newChatSearch, setNewChatSearch] = useState('');
   const messagesEndRef = useRef(null);
 
-  const getPerson = (key) => contacts.find((c) => c.key === key) || requests.find((c) => c.key === key);
+  const getPerson = (key) =>
+    contacts.find((c) => c.key === key) || requests.find((c) => c.key === key);
   const activeThread = threads.find((t) => t.key === activeKey);
   const activePerson = activeThread ? getPerson(activeThread.key) : null;
   const profilePerson = profileKey ? getPerson(profileKey) : null;
@@ -224,8 +248,12 @@ const Chat = () => {
     [threads, contacts, searchTerm]
   );
 
-  const visibleContacts = contacts.filter((c) => c.name.toLowerCase().includes(searchTerm.toLowerCase()));
-  const visibleRequests = requests.filter((r) => r.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  const visibleContacts = contacts.filter((c) =>
+    c.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const visibleRequests = requests.filter((r) =>
+    r.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -244,13 +272,17 @@ const Chat = () => {
   };
 
   const startChat = (key) => {
-    setThreads((prev) => (prev.some((t) => t.key === key) ? prev : [...prev, { key, unread: 0, messages: [] }]));
+    setThreads((prev) =>
+      prev.some((t) => t.key === key) ? prev : [...prev, { key, unread: 0, messages: [] }]
+    );
     closeNewChat();
     selectConversation(key);
   };
 
   const appendMessage = (key, msg) => {
-    setThreads((prev) => prev.map((t) => (t.key === key ? { ...t, messages: [...t.messages, msg] } : t)));
+    setThreads((prev) =>
+      prev.map((t) => (t.key === key ? { ...t, messages: [...t.messages, msg] } : t))
+    );
   };
 
   const sendMessage = () => {
@@ -265,7 +297,9 @@ const Chat = () => {
       appendMessage(key, { from: 'them', text: reply, time: formatNow() });
       setTypingKey(null);
       setThreads((prev) =>
-        prev.map((t) => (t.key === key ? { ...t, messages: t.messages.map((m) => ({ ...m, read: true })) } : t))
+        prev.map((t) =>
+          t.key === key ? { ...t, messages: t.messages.map((m) => ({ ...m, read: true })) } : t
+        )
       );
     }, 1400);
   };
@@ -379,7 +413,11 @@ const Chat = () => {
                 >
                   <List.Item.Meta
                     avatar={
-                      <Badge dot color={item.person.online ? '#52c41a' : '#d9d9d9'} offset={[-4, 32]}>
+                      <Badge
+                        dot
+                        color={item.person.online ? '#52c41a' : '#d9d9d9'}
+                        offset={[-4, 32]}
+                      >
                         <Avatar src={item.person.avatar} />
                       </Badge>
                     }
@@ -465,7 +503,12 @@ const Chat = () => {
                       onConfirm={() => acceptRequest(person)}
                     >
                       <Tooltip title="Accept">
-                        <Button type="primary" shape="circle" size="small" icon={<CheckOutlined />} />
+                        <Button
+                          type="primary"
+                          shape="circle"
+                          size="small"
+                          icon={<CheckOutlined />}
+                        />
                       </Tooltip>
                     </Popconfirm>
                     <Popconfirm
@@ -509,7 +552,7 @@ const Chat = () => {
                 <Badge dot color={activePerson.online ? '#52c41a' : '#d9d9d9'} offset={[-4, 32]}>
                   <Avatar src={activePerson.avatar} />
                 </Badge>
-                <Space direction="vertical" size={0}>
+                <Space orientation="vertical" size={0}>
                   <Text strong>{activePerson.name}</Text>
                   <Text type="secondary" style={{ fontSize: 12 }}>
                     {activePerson.online ? 'Online' : 'Offline'}
@@ -522,7 +565,11 @@ const Chat = () => {
                 <Button type="text" icon={<PhoneOutlined />} onClick={() => callDemo('Voice')} />
               </Tooltip>
               <Tooltip title="Video call">
-                <Button type="text" icon={<VideoCameraOutlined />} onClick={() => callDemo('Video')} />
+                <Button
+                  type="text"
+                  icon={<VideoCameraOutlined />}
+                  onClick={() => callDemo('Video')}
+                />
               </Tooltip>
               <Dropdown
                 trigger={['click']}
@@ -556,9 +603,12 @@ const Chat = () => {
           </Space>
           <Divider style={{ margin: 0 }} />
           <div style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
-            <Space direction="vertical" size={10} style={{ width: '100%' }}>
+            <Space orientation="vertical" size={10} style={{ width: '100%' }}>
               {activeThread.messages.length === 0 && (
-                <Empty description={`Say hello to ${activePerson.name}`} style={{ marginTop: 40 }} />
+                <Empty
+                  description={`Say hello to ${activePerson.name}`}
+                  style={{ marginTop: 40 }}
+                />
               )}
               {activeThread.messages.map((msg, idx) => (
                 <div
@@ -625,7 +675,10 @@ const Chat = () => {
 
   return (
     <>
-      <Card style={{ height: '100%', minHeight: 560 }} styles={{ body: { height: '100%', padding: 0 } }}>
+      <Card
+        style={{ height: '100%', minHeight: 560 }}
+        styles={{ body: { height: '100%', padding: 0 } }}
+      >
         {screens.sm ? (
           <Splitter style={{ height: '100%' }}>
             <Splitter.Panel defaultSize="32%" min="280" max="480">
@@ -640,13 +693,22 @@ const Chat = () => {
         )}
       </Card>
 
-      <Modal title="Start a new chat" open={newChatOpen} onCancel={closeNewChat} footer={<Button onClick={closeNewChat}>Cancel</Button>} width={440}>
-        <Space direction="vertical" size={16} style={{ width: '100%' }}>
+      <Modal
+        title="Start a new chat"
+        open={newChatOpen}
+        onCancel={closeNewChat}
+        footer={<Button onClick={closeNewChat}>Cancel</Button>}
+        width={440}
+      >
+        <Space orientation="vertical" size={16} style={{ width: '100%' }}>
           <Input
             prefix={<SearchOutlined />}
             placeholder="Search contacts"
             variant="filled"
             allowClear
+            /* Focus belongs inside a dialog the moment it opens, and this one
+               exists to be typed into. */
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             value={newChatSearch}
             onChange={(e) => setNewChatSearch(e.target.value)}
@@ -697,7 +759,11 @@ const Chat = () => {
                       >
                         <List.Item.Meta
                           avatar={
-                            <Badge dot color={person.online ? '#52c41a' : '#d9d9d9'} offset={[-4, 32]}>
+                            <Badge
+                              dot
+                              color={person.online ? '#52c41a' : '#d9d9d9'}
+                              offset={[-4, 32]}
+                            >
                               <Avatar src={person.avatar} />
                             </Badge>
                           }
@@ -714,8 +780,11 @@ const Chat = () => {
                 </div>
               );
             })}
-            {contacts.filter((person) => person.name.toLowerCase().includes(newChatSearch.toLowerCase())).length ===
-              0 && <Empty description="No contacts found" style={{ margin: '24px 0' }} />}
+            {contacts.filter((person) =>
+              person.name.toLowerCase().includes(newChatSearch.toLowerCase())
+            ).length === 0 && (
+              <Empty description="No contacts found" style={{ margin: '24px 0' }} />
+            )}
           </div>
         </Space>
       </Modal>
@@ -724,7 +793,7 @@ const Chat = () => {
         title="Profile"
         open={!!profilePerson}
         onClose={() => setProfileKey(null)}
-        width={screens.xs ? '100%' : 400}
+        size={screens.xs ? '100%' : 400}
         styles={{ body: { padding: 0 } }}
       >
         {profilePerson && (
@@ -744,7 +813,7 @@ const Chat = () => {
                 />
               </Badge>
 
-              <Space direction="vertical" size={2} style={{ marginTop: 12, marginBottom: 20 }}>
+              <Space orientation="vertical" size={2} style={{ marginTop: 12, marginBottom: 20 }}>
                 <Title level={4} style={{ margin: 0 }}>
                   {profilePerson.name}
                 </Title>
@@ -778,7 +847,11 @@ const Chat = () => {
                 </Col>
                 <Col span={6}>
                   <Tooltip title="Video call">
-                    <Button icon={<VideoCameraOutlined />} block onClick={() => callDemo('Video')} />
+                    <Button
+                      icon={<VideoCameraOutlined />}
+                      block
+                      onClick={() => callDemo('Video')}
+                    />
                   </Tooltip>
                 </Col>
               </Row>
@@ -793,7 +866,13 @@ const Chat = () => {
                       Mutual
                     </Text>
                   </Col>
-                  <Col span={8} style={{ textAlign: 'center', borderInline: '1px solid rgba(128,128,128,0.15)' }}>
+                  <Col
+                    span={8}
+                    style={{
+                      textAlign: 'center',
+                      borderInline: '1px solid rgba(128,128,128,0.15)',
+                    }}
+                  >
                     <Text strong style={{ display: 'block', fontSize: 16 }}>
                       {sharedFiles.length}
                     </Text>
@@ -810,7 +889,7 @@ const Chat = () => {
                 </Row>
               </Card>
 
-              <Space direction="vertical" size={24} style={{ width: '100%' }}>
+              <Space orientation="vertical" size={24} style={{ width: '100%' }}>
                 <div>
                   <Text strong style={{ display: 'block', marginBottom: 8 }}>
                     About
@@ -823,8 +902,12 @@ const Chat = () => {
                     Contact Info
                   </Text>
                   <Descriptions column={1} size="small" bordered>
-                    <Descriptions.Item label={<MailOutlined />}>{profilePerson.email}</Descriptions.Item>
-                    <Descriptions.Item label={<PhoneOutlined />}>{profilePerson.phone}</Descriptions.Item>
+                    <Descriptions.Item label={<MailOutlined />}>
+                      {profilePerson.email}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={<PhoneOutlined />}>
+                      {profilePerson.phone}
+                    </Descriptions.Item>
                     <Descriptions.Item label={<TeamOutlined />}>
                       {profilePerson.mutual} mutual contacts
                     </Descriptions.Item>
@@ -840,7 +923,9 @@ const Chat = () => {
                     size="small"
                     dataSource={sharedFiles}
                     renderItem={(file) => (
-                      <List.Item actions={[<DownloadOutlined key="download" style={{ color: '#8c8c8c' }} />]}>
+                      <List.Item
+                        actions={[<DownloadOutlined key="download" style={{ color: '#8c8c8c' }} />]}
+                      >
                         <List.Item.Meta
                           avatar={<span style={{ fontSize: 18 }}>{file.icon}</span>}
                           title={<Text style={{ fontSize: 13 }}>{file.name}</Text>}
@@ -861,13 +946,16 @@ const Chat = () => {
                   <Text strong style={{ display: 'block', marginBottom: 12 }}>
                     Privacy
                   </Text>
-                  <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                  <Space orientation="vertical" size={12} style={{ width: '100%' }}>
                     <Space style={{ width: '100%', justifyContent: 'space-between' }}>
                       <Space size={8}>
                         <BellOutlined style={{ color: '#8c8c8c' }} />
                         <Text>Mute notifications</Text>
                       </Space>
-                      <Button size="small" onClick={() => message.info('Notifications muted for this contact.')}>
+                      <Button
+                        size="small"
+                        onClick={() => message.info('Notifications muted for this contact.')}
+                      >
                         Mute
                       </Button>
                     </Space>

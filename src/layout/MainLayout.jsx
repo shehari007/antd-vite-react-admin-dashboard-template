@@ -5,7 +5,7 @@ import LayoutFooter from './LayoutFooter';
 import LayoutHeader from './LayoutHeader';
 import LayoutSidebar from './LayoutSidebar';
 import { findOpenPath, getSelectedKey, ROOT_KEYS } from './navConfig';
-import { SIDER_COLLAPSED_WIDTH, SIDER_WIDTH } from '../context/theme-mode-context';
+import { SIDER_COLLAPSED_WIDTH, SIDER_WIDTH } from '@/context/theme-mode-context';
 
 const { Content } = Layout;
 const { useBreakpoint } = Grid;
@@ -14,7 +14,7 @@ const COLLAPSE_KEY = 'dashboard-sider-collapsed';
 
 /* useBreakpoint starts from an empty screens object and only fills it in a
  * layout effect, so without a seed the first render of a 2560px desktop
- * evaluates as mobile — mounting and immediately tearing down the Drawer, and
+ * evaluates as mobile: mounting and immediately tearing down the Drawer, and
  * remounting the whole menu, on every page load. */
 const initialScreens =
   typeof window === 'undefined'
@@ -49,11 +49,11 @@ const MainLayout = ({ children }) => {
   const scrollRef = useRef(null);
 
   const isMobile = !screens.md; // < 768
-  const isTablet = !!screens.md && !screens.lg; // 768 – 991
+  const isTablet = !!screens.md && !screens.lg; // 768 to 991
   const isDesktop = !!screens.lg; // >= 992
 
   // Desktop intent, persisted. Read in the initializer so there is no
-  // post-mount layout jump.
+  // post mount layout jump.
   const [collapsed, setCollapsed] = useState(readCollapsed);
   // Ephemeral, covers both the mobile drawer and the tablet overlay.
   const [navOpen, setNavOpen] = useState(false);
@@ -67,7 +67,7 @@ const MainLayout = ({ children }) => {
   const [openKeys, setOpenKeys] = useState(() => findOpenPath(getSelectedKey(pathname)) || []);
   const [popupKeys, setPopupKeys] = useState([]);
   // Collapsed, the rail cannot see which section owns the route from the DOM
-  // alone — the children live in a portaled flyout.
+  // alone: the children live in a portaled flyout.
   const activeRootKey = findOpenPath(selectedKey)?.[0];
 
   const siderCollapsed = isDesktop ? collapsed : !navOpen;
@@ -81,7 +81,7 @@ const MainLayout = ({ children }) => {
     try {
       localStorage.setItem(COLLAPSE_KEY, String(collapsed));
     } catch {
-      /* private mode — the rail just won't remember */
+      /* private mode, the rail just will not remember */
     }
   }, [collapsed]);
 
@@ -101,7 +101,7 @@ const MainLayout = ({ children }) => {
   if (selectedKey !== trackedKey) {
     setTrackedKey(selectedKey);
     if (!isDesktop && navOpen) setNavOpen(false);
-    // Follow the route, but only ever open a group — never slam one shut.
+    // Follow the route, but only ever open a group, never slam one shut.
     const path = findOpenPath(selectedKey);
     if (path && !path.every((key) => openKeys.includes(key))) setOpenKeys(path);
   }
@@ -123,7 +123,7 @@ const MainLayout = ({ children }) => {
 
   const handleOpenChange = (keys) => {
     // Collapsed, these are hover events on the flyouts. They drive popupKeys
-    // only, so the expanded tree's openKeys is untouched — including by the
+    // only, so the expanded tree's openKeys is untouched, including by the
     // onOpenChange([]) that rc-menu fires when it flips inline to vertical,
     // which is what used to wipe the open group so it never came back.
     if (siderCollapsed) {
@@ -142,13 +142,13 @@ const MainLayout = ({ children }) => {
   const contentOffset = isMobile
     ? 0
     : isTablet
-      ? SIDER_COLLAPSED_WIDTH // the rail overlays when opened; content never reflows
+      ? SIDER_COLLAPSED_WIDTH // the rail overlays when opened, content never reflows
       : collapsed
         ? SIDER_COLLAPSED_WIDTH
         : SIDER_WIDTH;
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100dvh' }}>
       <LayoutSidebar
         collapsed={siderCollapsed}
         isMobile={isMobile}
@@ -164,7 +164,9 @@ const MainLayout = ({ children }) => {
         ref={scrollRef}
         className="app-shell app-content-shell"
         style={{
-          marginLeft: contentOffset,
+          // Logical, not marginLeft: in a right to left language the rail is on
+          // the right and the content has to be pushed the other way.
+          marginInlineStart: contentOffset,
           overflow: 'auto',
           background: colorBgLayout,
         }}

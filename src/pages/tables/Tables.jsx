@@ -136,7 +136,10 @@ const projects = [
     name: 'Customer Portal',
     description: 'Self-service billing and support',
     owner: { name: 'William Turner', color: '#13c2c2' },
-    team: [{ name: 'William Turner', color: '#13c2c2' }, { name: 'Olivia Chen', color: '#faad14' }],
+    team: [
+      { name: 'William Turner', color: '#13c2c2' },
+      { name: 'Olivia Chen', color: '#faad14' },
+    ],
     priority: 'High',
     status: 'at-risk',
     progress: 21,
@@ -172,7 +175,9 @@ const Tables = () => {
   );
 
   const totalBudget = projects.reduce((sum, p) => sum + p.budgetTotal, 0);
-  const avgProgress = Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length);
+  const avgProgress = Math.round(
+    projects.reduce((sum, p) => sum + p.progress, 0) / projects.length
+  );
   const atRiskCount = projects.filter((p) => p.status !== 'on-track').length;
 
   const columns = [
@@ -183,7 +188,7 @@ const Tables = () => {
       fixed: 'left',
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (name, record) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Text strong>{name}</Text>
           <Text type="secondary" style={{ fontSize: 12 }}>
             {record.description}
@@ -232,7 +237,10 @@ const Tables = () => {
       dataIndex: 'status',
       key: 'status',
       responsive: ['sm'],
-      filters: Object.entries(statusConfig).map(([value, config]) => ({ text: config.label, value })),
+      filters: Object.entries(statusConfig).map(([value, config]) => ({
+        text: config.label,
+        value,
+      })),
       onFilter: (value, record) => record.status === value,
       render: (status) => {
         const config = statusConfig[status];
@@ -257,7 +265,10 @@ const Tables = () => {
       responsive: ['lg'],
       sorter: (a, b) => a.trend - b.trend,
       render: (trend) => (
-        <Tag color={trend >= 0 ? 'success' : 'error'} icon={trend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}>
+        <Tag
+          color={trend >= 0 ? 'success' : 'error'}
+          icon={trend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+        >
           {Math.abs(trend)}%
         </Tag>
       ),
@@ -277,7 +288,7 @@ const Tables = () => {
       responsive: ['md'],
       sorter: (a, b) => a.budgetTotal - b.budgetTotal,
       render: (_, record) => (
-        <Space direction="vertical" size={2} style={{ minWidth: 110 }}>
+        <Space orientation="vertical" size={2} style={{ minWidth: 110 }}>
           <Text style={{ fontSize: 12 }}>
             ${record.budgetSpent.toLocaleString()} / ${record.budgetTotal.toLocaleString()}
           </Text>
@@ -322,7 +333,8 @@ const Tables = () => {
             Projects
           </Title>
           <Text type="secondary">
-            A richly-columned table example: avatars, tags, progress, ratings, trends, and row actions.
+            A richly-columned table example: avatars, tags, progress, ratings, trends, and row
+            actions.
           </Text>
         </div>
         <Button icon={<DownloadOutlined />}>Export CSV</Button>
@@ -380,7 +392,7 @@ const Tables = () => {
           scroll={{ x: 960 }}
           expandable={{
             expandedRowRender: (record) => (
-              <Space direction="vertical" size={4}>
+              <Space orientation="vertical" size={4}>
                 <Text type="secondary">{record.description}</Text>
                 <Text type="secondary">
                   Team: {record.team.map((member) => member.name).join(', ')}

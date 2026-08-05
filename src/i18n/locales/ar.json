@@ -1,0 +1,175 @@
+{
+  "common": {
+    "search": "بحث",
+    "cancel": "إلغاء",
+    "save": "حفظ التغييرات",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "view": "عرض",
+    "close": "إغلاق",
+    "retry": "إعادة المحاولة",
+    "loading": "جارٍ التحميل",
+    "loadFailed": "تعذر تحميل هذه البيانات.",
+    "noData": "لا يوجد شيء هنا بعد",
+    "noDataHint": "ستظهر العناصر هنا فور توفرها.",
+    "all": "الكل",
+    "actions": "إجراءات",
+    "status": "الحالة",
+    "refresh": "تحديث",
+    "markAllRead": "تعليم الكل كمقروء",
+    "seeAll": "عرض الكل"
+  },
+  "nav": {
+    "mainNav": "التنقل الرئيسي",
+    "openNav": "فتح القائمة",
+    "closeNav": "إغلاق القائمة",
+    "newTab": "{{label}} (يفتح في تبويب جديد)",
+    "sections": {
+      "workspace": "مساحة العمل",
+      "library": "مكتبة الصفحات",
+      "account": "الحساب"
+    },
+    "groups": {
+      "overview": "نظرة عامة",
+      "management": "الإدارة",
+      "communication": "التواصل",
+      "templates": "القوالب",
+      "authPages": "صفحات الدخول",
+      "errorPages": "صفحات الأخطاء",
+      "account": "الحساب"
+    },
+    "items": {
+      "dashboard": "لوحة التحكم",
+      "analytics": "التحليلات",
+      "charts": "الرسوم البيانية",
+      "calendar": "التقويم",
+      "users": "المستخدمون",
+      "roles": "الأدوار والصلاحيات",
+      "projects": "المشاريع",
+      "products": "المنتجات",
+      "kanban": "لوحة كانبان",
+      "invoices": "الفواتير",
+      "chat": "المحادثة",
+      "notifications": "الإشعارات",
+      "activity": "سجل النشاط",
+      "forms": "النماذج",
+      "pricing": "الأسعار",
+      "faq": "مركز المساعدة",
+      "blank": "صفحة فارغة",
+      "signIn": "تسجيل الدخول",
+      "signUp": "إنشاء حساب",
+      "forgotPassword": "نسيت كلمة المرور",
+      "lock": "شاشة القفل",
+      "error400": "400 طلب غير صالح",
+      "error403": "403 ممنوع",
+      "error404": "404 غير موجود",
+      "error500": "500 خطأ في الخادم",
+      "maintenance": "الصيانة",
+      "profile": "الملف الشخصي",
+      "settings": "الإعدادات"
+    }
+  },
+  "header": {
+    "searchPlaceholder": "ابحث عن الصفحات والإجراءات",
+    "commandHint": "Ctrl K",
+    "quickActions": "إجراءات سريعة",
+    "newPage": "صفحة جديدة",
+    "inviteUser": "دعوة مستخدم",
+    "viewRecords": "عرض السجلات",
+    "fullscreen": "ملء الشاشة",
+    "exitFullscreen": "إنهاء ملء الشاشة",
+    "notifications": "الإشعارات",
+    "notificationsUnread": "الإشعارات، {{count}} غير مقروءة",
+    "lightMode": "التبديل إلى الوضع الفاتح",
+    "darkMode": "التبديل إلى الوضع الداكن",
+    "language": "اللغة",
+    "customize": "تخصيص المظهر",
+    "accountMenu": "قائمة الحساب",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج"
+  },
+  "footer": {
+    "builtBy": "© {{year}} {{app}}. من إعداد محمد شهريار بت.",
+    "email": "البريد",
+    "docs": "توثيق Ant Design",
+    "github": "GitHub"
+  },
+  "command": {
+    "title": "لوحة الأوامر",
+    "placeholder": "انتقل إلى صفحة أو نفّذ إجراءً",
+    "pages": "الصفحات",
+    "actions": "الإجراءات",
+    "empty": "لا توجد نتائج",
+    "hint": "Enter للفتح، Esc للإغلاق",
+    "toggleTheme": "تبديل الوضع الفاتح والداكن",
+    "openCustomizer": "فتح تخصيص المظهر",
+    "signOut": "تسجيل الخروج"
+  },
+  "customizer": {
+    "title": "المظهر",
+    "subtitle": "تُطبق التغييرات فورًا وتُحفظ على هذا الجهاز.",
+    "mode": "الوضع",
+    "light": "فاتح",
+    "dark": "داكن",
+    "primary": "اللون الأساسي",
+    "radius": "استدارة الحواف",
+    "density": "الكثافة",
+    "comfortable": "مريحة",
+    "compact": "مضغوطة",
+    "language": "اللغة",
+    "reset": "إعادة الضبط"
+  },
+  "auth": {
+    "welcomeBack": "أهلًا بعودتك",
+    "signInTitle": "سجّل الدخول إلى حسابك",
+    "signInSubtitle": "أدخل بياناتك لفتح لوحة التحكم.",
+    "email": "البريد الإلكتروني",
+    "emailRequired": "يرجى إدخال بريدك الإلكتروني.",
+    "emailInvalid": "يرجى إدخال بريد إلكتروني صالح.",
+    "password": "كلمة المرور",
+    "passwordRequired": "يرجى إدخال كلمة المرور.",
+    "remember": "تذكرني",
+    "forgot": "نسيت كلمة المرور؟",
+    "signIn": "تسجيل الدخول",
+    "noAccount": "ليس لديك حساب؟",
+    "signUpNow": "أنشئ حسابًا الآن",
+    "demoHint": "حسابات تجريبية: admin@vitedash.dev أو editor@vitedash.dev، وأي كلمة مرور.",
+    "lockTitle": "الشاشة مقفلة",
+    "lockSubtitle": "أدخل كلمة المرور لمتابعة ما كنت تعمل عليه.",
+    "unlock": "إلغاء القفل",
+    "notYou": "لست أنت؟ سجّل الدخول بحساب آخر",
+    "signedInAs": "تم تسجيل الدخول باسم"
+  },
+  "page": {
+    "charts": {
+      "title": "الرسوم البيانية",
+      "subtitle": "أمثلة Recharts تتبع مظهر Ant Design النشط."
+    },
+    "products": {
+      "title": "المنتجات",
+      "subtitle": "كتالوج يُحمَّل عبر طبقة الخدمات، بحالات تحميل وخطأ حقيقية."
+    },
+    "roles": {
+      "title": "الأدوار والصلاحيات",
+      "subtitle": "من يرى ماذا. هذه الصفحة مقصورة على دور المدير."
+    },
+    "notifications": {
+      "title": "الإشعارات",
+      "subtitle": "كل ما أرادت المنصة إخبارك به، في مكان واحد."
+    },
+    "activity": {
+      "title": "سجل النشاط",
+      "subtitle": "سجل تدقيق لنشاط الحساب الأخير."
+    },
+    "maintenance": {
+      "title": "الموقع تحت الصيانة",
+      "subtitle": "نعمل على تحسين الأمور وسنعود قريبًا.",
+      "back": "العودة إلى لوحة التحكم"
+    },
+    "forbidden": {
+      "title": "لا تملك صلاحية الوصول إلى هذه الصفحة",
+      "subtitle": "دورك لا يتضمن صلاحية هذا القسم. تواصل مع المدير إذا كنت تعتقد أن هذا خطأ."
+    }
+  }
+}

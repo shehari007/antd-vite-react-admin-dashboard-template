@@ -12,7 +12,13 @@ import {
   Col,
   Statistic,
 } from 'antd';
-import { DownloadOutlined, EyeOutlined, DollarOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import {
+  DownloadOutlined,
+  EyeOutlined,
+  DollarOutlined,
+  FileTextOutlined,
+  ClockCircleOutlined,
+} from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
@@ -23,11 +29,46 @@ const statusColors = {
 };
 
 const invoices = [
-  { key: 'INV-1001', client: 'Acme Corp', issued: '2026-06-01', due: '2026-06-15', amount: 4200, status: 'paid' },
-  { key: 'INV-1002', client: 'Globex Inc', issued: '2026-06-04', due: '2026-06-18', amount: 1850, status: 'pending' },
-  { key: 'INV-1003', client: 'Initech', issued: '2026-06-08', due: '2026-06-22', amount: 3120, status: 'overdue' },
-  { key: 'INV-1004', client: 'Umbrella LLC', issued: '2026-06-12', due: '2026-06-26', amount: 960, status: 'paid' },
-  { key: 'INV-1005', client: 'Hooli', issued: '2026-06-20', due: '2026-07-04', amount: 5400, status: 'pending' },
+  {
+    key: 'INV-1001',
+    client: 'Acme Corp',
+    issued: '2026-06-01',
+    due: '2026-06-15',
+    amount: 4200,
+    status: 'paid',
+  },
+  {
+    key: 'INV-1002',
+    client: 'Globex Inc',
+    issued: '2026-06-04',
+    due: '2026-06-18',
+    amount: 1850,
+    status: 'pending',
+  },
+  {
+    key: 'INV-1003',
+    client: 'Initech',
+    issued: '2026-06-08',
+    due: '2026-06-22',
+    amount: 3120,
+    status: 'overdue',
+  },
+  {
+    key: 'INV-1004',
+    client: 'Umbrella LLC',
+    issued: '2026-06-12',
+    due: '2026-06-26',
+    amount: 960,
+    status: 'paid',
+  },
+  {
+    key: 'INV-1005',
+    client: 'Hooli',
+    issued: '2026-06-20',
+    due: '2026-07-04',
+    amount: 5400,
+    status: 'pending',
+  },
 ];
 
 const Invoices = () => {
@@ -65,9 +106,15 @@ const Invoices = () => {
     },
   ];
 
-  const totalPaid = invoices.filter((i) => i.status === 'paid').reduce((sum, i) => sum + i.amount, 0);
-  const totalPending = invoices.filter((i) => i.status === 'pending').reduce((sum, i) => sum + i.amount, 0);
-  const totalOverdue = invoices.filter((i) => i.status === 'overdue').reduce((sum, i) => sum + i.amount, 0);
+  const totalPaid = invoices
+    .filter((i) => i.status === 'paid')
+    .reduce((sum, i) => sum + i.amount, 0);
+  const totalPending = invoices
+    .filter((i) => i.status === 'pending')
+    .reduce((sum, i) => sum + i.amount, 0);
+  const totalOverdue = invoices
+    .filter((i) => i.status === 'overdue')
+    .reduce((sum, i) => sum + i.amount, 0);
 
   return (
     <div>
@@ -112,14 +159,19 @@ const Invoices = () => {
       </Row>
 
       <Card>
-        <Table columns={columns} dataSource={invoices} pagination={{ pageSize: 6 }} scroll={{ x: 600 }} />
+        <Table
+          columns={columns}
+          dataSource={invoices}
+          pagination={{ pageSize: 6 }}
+          scroll={{ x: 600 }}
+        />
       </Card>
 
       <Drawer
         title={selected?.key}
         open={!!selected}
         onClose={() => setSelected(null)}
-        width={400}
+        size={400}
         extra={
           <Button type="primary" icon={<DownloadOutlined />}>
             Download
@@ -131,7 +183,9 @@ const Invoices = () => {
             <Descriptions.Item label="Client">{selected.client}</Descriptions.Item>
             <Descriptions.Item label="Issued">{selected.issued}</Descriptions.Item>
             <Descriptions.Item label="Due">{selected.due}</Descriptions.Item>
-            <Descriptions.Item label="Amount">${selected.amount.toLocaleString()}</Descriptions.Item>
+            <Descriptions.Item label="Amount">
+              ${selected.amount.toLocaleString()}
+            </Descriptions.Item>
             <Descriptions.Item label="Status">
               <Tag color={statusColors[selected.status]}>{selected.status.toUpperCase()}</Tag>
             </Descriptions.Item>

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or help getting started
+    url: https://github.com/shehari007/vitedash-vite-antd-dashboard-template/discussions
+    about: Ask here rather than opening an issue. No question is too basic.
+  - name: Ant Design documentation
+    url: https://ant.design/components/overview
+    about: For questions about an antd component itself rather than this template.

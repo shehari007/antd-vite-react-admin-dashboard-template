@@ -1,0 +1,51 @@
+name: Feature or page request
+description: Suggest a new page, component, or capability
+title: '[Feature]: '
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to build?
+      description: >
+        Describe the thing you needed and could not find, rather than the
+        solution you have in mind. It often turns out there is a better fit.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like added?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of addition is this?
+      options:
+        - A new page
+        - A new shared component
+        - A new language
+        - Tooling or build
+        - Documentation
+        - Something else
+    validations:
+      required: true
+
+  - type: input
+    id: dependency
+    attributes:
+      label: Would this need a new dependency?
+      description: >
+        The template keeps its dependency list short on purpose. If one is
+        needed, say which and roughly how large it is.
+      placeholder: 'No, or: yes, package-name, about 20 kB gzipped'
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Would you like to build it?
+      options:
+        - label: I am happy to open a pull request for this
