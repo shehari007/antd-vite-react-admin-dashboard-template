@@ -1,5 +1,12 @@
-# Auto detect text files and normalise them to LF in the repository.
-* text=auto
+# Normalise text files to LF in the repository AND in the working tree on every
+# platform.
+#
+# The `eol=lf` half matters more than it looks. Without it, git checks files out
+# with CRLF on Windows, and `.prettierrc.json` sets `endOfLine: "lf"`, so
+# `npm run check` fails on a freshly cloned repository with a diff on every
+# single line of every file. Anyone on Windows would hit that within a minute of
+# their first `git clone`.
+* text=auto eol=lf
 
 # Shell scripts must keep LF endings on every platform. A hook checked out with
 # CRLF on Windows and then run on macOS or Linux fails with

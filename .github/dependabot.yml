@@ -19,11 +19,21 @@ updates:
       prefix: 'deps'
       prefix-development: 'deps-dev'
     groups:
-      # Tooling changes cannot break the app at runtime, so they travel together.
-      dev-dependencies:
+      # Both groups are restricted to minor and patch on purpose.
+      #
+      # The first version of this file grouped every development dependency
+      # regardless of update type, and the result was one pull request carrying
+      # four majors at once: eslint 10, @eslint/js 10, globals 17, jsdom 30.
+      # ESLint 10 is outside the peer range of eslint-plugin-jsx-a11y, so
+      # `npm install` failed outright and the whole batch was unmergeable.
+      #
+      # Majors now arrive as their own pull request, one library at a time,
+      # which is the only way to read them properly.
+      dev-minor-and-patch:
         dependency-type: 'development'
-      # Safe runtime bumps in one pull request. Majors stay separate so a React
-      # or Ant Design upgrade gets read properly instead of rubber stamped.
+        update-types:
+          - 'minor'
+          - 'patch'
       runtime-minor-and-patch:
         dependency-type: 'production'
         update-types:
