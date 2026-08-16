@@ -12,10 +12,10 @@
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" />
   <img src="https://img.shields.io/badge/React-19.2-61DAFB?logo=react" alt="React" />
-  <img src="https://img.shields.io/badge/Vite-8.1-646CFF?logo=vite" alt="Vite" />
-  <img src="https://img.shields.io/badge/Ant%20Design-6.5-0170FE?logo=antdesign" alt="Ant Design" />
+  <img src="https://img.shields.io/badge/Vite-8.2-646CFF?logo=vite" alt="Vite" />
+  <img src="https://img.shields.io/badge/Ant%20Design-6.6-0170FE?logo=antdesign" alt="Ant Design" />
   <img src="https://img.shields.io/badge/tests-51%20passing-brightgreen" alt="Tests" />
-  <img src="https://img.shields.io/badge/first%20load-324%20kB%20gzip-brightgreen" alt="Bundle size" />
+  <img src="https://img.shields.io/badge/first%20load-336%20kB%20gzip-brightgreen" alt="Bundle size" />
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@
 Most free dashboard templates give you pages. This one also gives you the
 plumbing every admin app needs on day two:
 
-- **It loads fast.** Every route is code split. First load is 324 kB gzipped,
+- **It loads fast.** Every route is code split. First load is 336 kB gzipped,
   and the chart library only downloads when you open a chart page.
 - **It has roles.** Route guards, a sidebar that hides what the current user
   cannot open, and a permission matrix page to show how it fits together.
@@ -81,7 +81,7 @@ plumbing every admin app needs on day two:
   swapping in `fetch` changes one file and no components.
 - **It speaks three languages,** including a right to left one, and the whole
   layout mirrors properly.
-- **It is tested.** 48 tests, and `npm run check` runs lint, format, and tests
+- **It is tested.** 51 tests, and `npm run check` runs lint, format, and tests
   in one command.
 - **It stays readable.** Plain JavaScript and JSX, no TypeScript, no state
   management library, no build magic. If this is your first React project you
@@ -467,18 +467,18 @@ The 2.2.0 build split every route out of the main bundle:
 
 |                          | Before                | After                       |
 | ------------------------ | --------------------- | --------------------------- |
-| First load, uncompressed | 1,620 kB in one file  | 1,004 kB across 13 files    |
-| First load, gzipped      | one chunk, everything | **324 kB**                  |
+| First load, uncompressed | 1,620 kB in one file  | 1,011 kB across 36 files    |
+| First load, gzipped      | one chunk, everything | **336 kB**                  |
 | Chart library            | loaded on every page  | only on `/dashboard/charts` |
-| Total JavaScript         | 1,620 kB              | 2,182 kB across 83 chunks   |
+| Total JavaScript         | 1,620 kB              | 2,205 kB across 109 chunks  |
 
 The total is larger because the template gained charts, three locales, and seven
 pages. What matters is that none of it loads until it is needed.
 
 There is a comment in `vite.config.js` explaining why there is no
 `manualChunks` configuration. In short: grouping all of antd into one chunk
-sounds right and doubles the first load, from 324 kB to 643 kB gzipped. Run
-`npm run analyze` before adding one back.
+sounds right and nearly doubles the first load, from 336 kB to 627 kB gzipped.
+Run `npm run analyze` before adding one back.
 
 ## Accessibility
 
@@ -502,7 +502,7 @@ npm test
 npm run test:coverage
 ```
 
-48 tests across route matching, role filtering, the auth provider, the service
+51 tests across route matching, role filtering, the auth provider, the service
 layer, `useAsync` race conditions, and the shared components. `src/test/setup.js`
 stubs the browser APIs jsdom lacks, and `src/test/utils.jsx` exports
 `renderWithProviders` for anything that needs the full provider stack.
@@ -544,8 +544,8 @@ identity is broken.
 | Technology                               | Version | Role              |
 | ---------------------------------------- | ------- | ----------------- |
 | [React](https://react.dev/)              | 19.2    | UI library        |
-| [Vite](https://vitejs.dev/)              | 8.1     | Build tool        |
-| [Ant Design](https://ant.design/)        | 6.5     | Component library |
+| [Vite](https://vitejs.dev/)              | 8.2     | Build tool        |
+| [Ant Design](https://ant.design/)        | 6.6     | Component library |
 | [React Router](https://reactrouter.com/) | 7.18    | Routing           |
 | [Recharts](https://recharts.org/)        | 3.10    | Charts            |
 | [i18next](https://www.i18next.com/)      | 26      | Translations      |

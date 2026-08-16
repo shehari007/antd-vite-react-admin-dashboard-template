@@ -4,6 +4,28 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Dependency bumps: `antd` 6.6, `react` and `react-dom` 19.2.8, `vite` 8.2.1,
+  `@vitejs/plugin-react` 6.0.5, `jsdom` 30, `globals` 17, and patch level moves
+  on the Testing Library packages and `eslint-plugin-react-refresh`.
+- **First load moved from 324 kB to 336 kB gzipped.** Vite 8.2 uses Rolldown
+  1.2, which splits the app into 36 eager files where 8.1 produced 12. The code
+  is identical and the raw total barely changes, but many small files compress
+  worse than a few large ones. The trade is finer cache granularity, so a
+  release only invalidates the chunks it actually touched.
+- The `manualChunks` comparison in `vite.config.js` and the README was
+  re-measured on the current toolchain: 627 kB grouped against 336 kB letting
+  the bundler decide. The gap narrowed slightly, the conclusion did not change.
+
+### Known issues
+
+- `eslint` 10 and `@eslint/js` 10 cannot be adopted yet.
+  `eslint-plugin-jsx-a11y@6.10.2` still declares a peer range that stops at
+  ESLint 9, so `npm install` fails outright. Waiting on an upstream release.
+
 ## [2.2.0]
 
 The release that turns the template from a good looking set of pages into a
@@ -64,7 +86,7 @@ roles, a data layer, charts, tests, and a second and third language.
 - **Shared components:** `PageHeader` with an automatic breadcrumb, `StatCard`,
   `EmptyState`, `ErrorState`, `PageLoader`, `ErrorBoundary`, `RequireRole`,
   `ChartCard`, and `CommandPalette`.
-- **Tests.** Vitest and Testing Library with 48 tests covering route matching,
+- **Tests.** Vitest and Testing Library with 51 tests covering route matching,
   role filtering, the auth provider, the service layer, `useAsync` race
   conditions, and the shared components.
 - **`@/` path alias** for imports, configured in Vite and `jsconfig.json`.

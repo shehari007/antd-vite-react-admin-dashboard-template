@@ -53,13 +53,21 @@ export default defineConfig(({ mode }) => ({
      * the whole thing eager the moment the app shell touches any part of it, so
      * the Table, the Kanban board's drag styles, and the Chat page's drawer all
      * load before the sign in screen paints. Measured on this app that grouping
-     * costs 643 kB gzipped on first load. Letting the bundler decide, which is
+     * costs 627 kB gzipped on first load. Letting the bundler decide, which is
      * what happens with no `output.manualChunks` at all, splits by actual usage
-     * and brings it down to 324 kB.
+     * and brings it down to 336 kB.
      *
      * Run `npm run analyze` before you add one back. If the treemap shows a
      * genuinely shared dependency being duplicated across many chunks, group
      * that one library and measure again.
+     *
+     * One note on reading those numbers over time. Vite 8.2 moved to Rolldown
+     * 1.2, which splits this app into 36 eager files where 8.1 produced 12. The
+     * code is identical and the raw total barely moves, but many small files
+     * compress worse than a few large ones, so first load went from 326 kB to
+     * 336 kB while cache granularity improved. Rolldown's `minChunkSize` had no
+     * effect on it. Re-measure after a bundler upgrade rather than assuming the
+     * number above still holds.
      */
   },
 

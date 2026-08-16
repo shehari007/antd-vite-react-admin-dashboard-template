@@ -131,7 +131,7 @@ const ogCardHtml = () => `
   <h1>Admin dashboard<br />template for<br /><em>React 19</em></h1>
   <p>Vite 8 and Ant Design 6.<br />Free, open source, MIT licensed.</p>
   <div class="pills">
-    <span>324 kB first load</span>
+    <span>336 kB first load</span>
     <span>Roles built in</span>
     <span>Light, dark, and RTL</span>
   </div>

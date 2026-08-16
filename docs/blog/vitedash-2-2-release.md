@@ -91,8 +91,8 @@ It looks tidy. It builds. The chunk list looks like a job well done.
 Then I measured what the browser actually downloads before first paint, by reading the modulepreload tags out of the built `index.html` and adding up the files:
 
 ```
-eager raw   : 2,086 kB
-eager gzip  : 643 kB
+eager raw   : 2,057 kB
+eager gzip  : 627 kB
 ```
 
 Worse than shipping nothing at all. My route splitting had done its job, and my chunking config had undone it.
@@ -104,26 +104,26 @@ Same story with Recharts. Only the Charts page imports it. Naming it as a chunk 
 I deleted the whole thing and let the bundler decide:
 
 ```
-eager raw   : 1,004 kB across 12 files
-eager gzip  : 324 kB
+eager raw   : 1,011 kB across 36 files
+eager gzip  : 336 kB
 ```
 
-Half. From deleting configuration.
+Nearly half. From deleting configuration.
 
 Automatic code splitting already knows what it is doing. A module reachable from the entry lands in the entry chunk. A module used by two lazy routes lands in a shared chunk that loads when either one does. A module used by one lazy route lands in that route's chunk. That is the behaviour you want, and `manualChunks` overrides it with your guess.
 
 There are still good reasons to reach for it. If the analyzer shows one library genuinely duplicated across many chunks, group that library. But group it because you measured, not because a blog post said vendor splitting is good practice. I left this comment in `vite.config.js` so future me does not repeat it:
 
-> The obvious move is to group node_modules by library ("all of antd in one chunk"), and it is a trap. Measured on this app that grouping costs 643 kB gzipped on first load. Letting the bundler decide brings it down to 324 kB.
+> The obvious move is to group node_modules by library ("all of antd in one chunk"), and it is a trap. Measured on this app that grouping costs 627 kB gzipped on first load. Letting the bundler decide brings it down to 336 kB.
 
 Final numbers:
 
 |                          | Before 2.2            | After 2.2                   |
 | ------------------------ | --------------------- | --------------------------- |
-| First load, uncompressed | 1,620 kB in one file  | 1,004 kB across 12 files    |
-| First load, gzipped      | one chunk, everything | **324 kB**                  |
+| First load, uncompressed | 1,620 kB in one file  | 1,011 kB across 36 files    |
+| First load, gzipped      | one chunk, everything | **336 kB**                  |
 | Chart library            | n/a                   | only on `/dashboard/charts` |
-| Total JavaScript         | 1,620 kB              | 2,183 kB across 83 chunks   |
+| Total JavaScript         | 1,620 kB              | 2,205 kB across 109 chunks  |
 
 The total went up because the template gained charts, three locales, and seven pages. That is fine. What matters is that none of it loads until someone asks for it.
 
