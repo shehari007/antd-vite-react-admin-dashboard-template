@@ -1,0 +1,31 @@
+# Dependabot runs on GitHub's own infrastructure, not on GitHub Actions, so this
+# keeps working even with Actions disabled for this repository.
+#
+# Monthly rather than weekly, and grouped rather than one pull request per
+# package, because a template that opens fifteen dependency PRs a week reads as
+# noisy rather than maintained.
+version: 2
+
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+      day: 'monday'
+    open-pull-requests-limit: 5
+    labels:
+      - 'dependencies'
+    commit-message:
+      prefix: 'deps'
+      prefix-development: 'deps-dev'
+    groups:
+      # Tooling changes cannot break the app at runtime, so they travel together.
+      dev-dependencies:
+        dependency-type: 'development'
+      # Safe runtime bumps in one pull request. Majors stay separate so a React
+      # or Ant Design upgrade gets read properly instead of rubber stamped.
+      runtime-minor-and-patch:
+        dependency-type: 'production'
+        update-types:
+          - 'minor'
+          - 'patch'

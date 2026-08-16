@@ -24,7 +24,11 @@ Run the same three checks the project uses:
 npm run check
 ```
 
-That is lint, format check, and tests together. To run them one at a time:
+That is lint, format check, and tests together, and `npm install` already wired
+it into a `pre-push` git hook, so it runs before anything reaches the remote.
+Use `git push --no-verify` to skip it on a work in progress branch.
+
+To run the checks one at a time:
 
 | Command              | What it does                                                      |
 | -------------------- | ----------------------------------------------------------------- |

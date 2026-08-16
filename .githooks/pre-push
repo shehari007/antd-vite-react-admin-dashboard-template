@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# Runs lint, format check, and tests before anything reaches the remote.
+#
+# This is the stand in for continuous integration. It is a plain git hook with
+# no dependency behind it: `npm install` points git at this folder through the
+# "prepare" script in package.json, so contributors get it without installing
+# anything extra.
+#
+# To skip it once, for a work in progress branch:  git push --no-verify
+
+echo "pre-push: running npm run check"
+
+if ! npm run check; then
+  echo ""
+  echo "pre-push: checks failed, push aborted."
+  echo "Fix the errors above, or use 'git push --no-verify' to skip this."
+  exit 1
+fi
+
+echo "pre-push: all checks passed"
+exit 0

@@ -42,12 +42,20 @@ before first paint and there is no flash of the wrong mode in the capture. It
 also fails the run if the console logged an error, which means a screenshot
 never quietly documents a broken page.
 
-## Still worth adding by hand
+## The social card
 
-**`public/og-image.png`**, 1200 x 630. This is what appears when the demo link
-is shared on social media, and `index.html` already points at it. The dark
-dashboard shot cropped to that ratio works well. Upload the same image under
-Settings, General, Social preview on GitHub.
+The same script also writes **`public/og-image.png`** at 1200 x 630, which is
+what appears when the demo link is shared. It is composed in the browser from
+the dark mode screenshot taken moments earlier in the same run, so the card can
+never advertise a version of the app that no longer exists.
+
+Edit the headline and the three pills in the `ogCardHtml` template inside
+[`capture.mjs`](capture.mjs).
+
+GitHub keeps its own copy for repository link previews, so upload the same file
+under Settings, General, Social preview after a redesign.
+
+## Still worth adding by hand
 
 **`demo.gif`**, showing the sidebar collapsing and expanding. Record at 1280
 wide, keep it to four to six seconds, and keep it under about 2 MB or it will

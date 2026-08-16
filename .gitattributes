@@ -1,2 +1,22 @@
-# Auto detect text files and perform LF normalization
+# Auto detect text files and normalise them to LF in the repository.
 * text=auto
+
+# Shell scripts must keep LF endings on every platform. A hook checked out with
+# CRLF on Windows and then run on macOS or Linux fails with
+# "bad interpreter: /bin/sh^M", which is a confusing way to discover this.
+.githooks/** text eol=lf
+*.sh text eol=lf
+
+# Config formats that are read by tools rather than by Windows editors.
+*.yml text eol=lf
+*.yaml text eol=lf
+Dockerfile text eol=lf
+nginx.conf text eol=lf
+
+# Binary, so git never tries to diff or convert them.
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary

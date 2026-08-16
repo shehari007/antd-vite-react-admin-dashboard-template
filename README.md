@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/React-19.2-61DAFB?logo=react" alt="React" />
   <img src="https://img.shields.io/badge/Vite-8.1-646CFF?logo=vite" alt="Vite" />
   <img src="https://img.shields.io/badge/Ant%20Design-6.5-0170FE?logo=antdesign" alt="Ant Design" />
-  <img src="https://img.shields.io/badge/tests-48%20passing-brightgreen" alt="Tests" />
+  <img src="https://img.shields.io/badge/tests-51%20passing-brightgreen" alt="Tests" />
   <img src="https://img.shields.io/badge/first%20load-324%20kB%20gzip-brightgreen" alt="Bundle size" />
 </p>
 
@@ -554,7 +554,8 @@ identity is broken.
 ## Contributing
 
 Contributions are welcome, and small pull requests get merged fastest. Read
-[CONTRIBUTING.md](CONTRIBUTING.md) first, then:
+[CONTRIBUTING.md](CONTRIBUTING.md) first, and [RELEASING.md](RELEASING.md) if
+you are cutting a version. Then:
 
 1. Fork the project
 2. Create your branch (`git checkout -b feature/thing`)

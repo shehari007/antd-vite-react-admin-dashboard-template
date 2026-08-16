@@ -38,6 +38,7 @@
     "node": ">=20.19.0"
   },
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || exit 0",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
